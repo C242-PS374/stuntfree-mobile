@@ -27,7 +27,6 @@ class CustomIndicator @JvmOverloads constructor(
     fun setActivePosition(position: Int) {
         indicators.forEachIndexed { index, view ->
             view.isSelected = index == position
-            // Tambahkan animasi scaling
             view.animate()
                 .scaleX(if (index == position) 1.2f else 1.0f)
                 .scaleY(if (index == position) 1.2f else 1.0f)
