@@ -9,4 +9,8 @@
     <string name="title_service">Service</string>
     <string name="title_forum">Forum</string>
     <string name="title_profile">Profile</string>
+    <string name="error_invalid_email">Format email tidak valid</string>
+    <string name="error_password_length">Password harus minimal 8 karakter</string>
+    <string name="error_password_not_same">Password harus sama dengan sebelumnya</string>
+    <string name="error_empty_name">Nama tidak boleh kosong</string>
 </resources>
