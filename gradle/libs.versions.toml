@@ -5,6 +5,7 @@ converterGson = "2.9.0"
 glide = "4.16.0"
 gradle = "8.1.4"
 gson = "2.10.1"
+hiltAndroidVersion = "2.48"
 hiltCompiler = "2.50"
 hiltAndroid = "2.50"
 kotlin = "1.9.24"
@@ -52,6 +53,7 @@ glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
+hilt-android-v248 = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroidVersion" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltCompiler" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

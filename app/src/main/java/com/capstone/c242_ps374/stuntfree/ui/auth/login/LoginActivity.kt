@@ -16,6 +16,7 @@ import com.capstone.c242_ps374.stuntfree.ui.auth.password.ForgotPasswordActivity
 import com.capstone.c242_ps374.stuntfree.ui.auth.register.RegisterActivity
 import com.capstone.c242_ps374.stuntfree.ui.utils.Resource
 import com.capstone.c242_ps374.stuntfree.data.auth.LoginResponse
+import com.capstone.c242_ps374.stuntfree.ui.quiz.QuizActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -131,13 +132,21 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+//    private fun navigateToMain() {
+//        Intent(this, MainActivity::class.java).apply {
+//            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//            startActivity(this)
+//            finish()
+//        }
+//    }
     private fun navigateToMain() {
-        Intent(this, MainActivity::class.java).apply {
+        Intent(this, QuizActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(this)
             finish()
         }
     }
+
 
     private fun showError(message: String?) {
         Toast.makeText(this, message ?: "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
