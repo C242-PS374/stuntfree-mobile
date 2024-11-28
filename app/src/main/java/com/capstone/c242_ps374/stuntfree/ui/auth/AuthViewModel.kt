@@ -88,8 +88,8 @@ class AuthViewModel @Inject constructor(
 
     fun logout() {
         viewModelScope.launch {
+            _authState.value = Resource.Loading()
             try {
-                _authState.value = Resource.Loading()
                 sessionManager.clearSession()
                 _authState.value = Resource.Success(null)
             } catch (e: Exception) {

@@ -14,7 +14,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.capstone.c242_ps374.stuntfree.MainActivity
 import com.capstone.c242_ps374.stuntfree.R
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class NewBornActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

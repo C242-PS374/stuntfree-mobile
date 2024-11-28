@@ -8,7 +8,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.capstone.c242_ps374.stuntfree.databinding.ActivityGetStartedBinding
-import com.capstone.c242_ps374.stuntfree.ui.adapter.CustomPageTransformer
+import com.capstone.c242_ps374.stuntfree.ui.custom.CustomPageTransformer
 import com.capstone.c242_ps374.stuntfree.ui.adapter.OnBoardingAdapter
 import com.capstone.c242_ps374.stuntfree.ui.auth.login.LoginActivity
 import com.capstone.c242_ps374.stuntfree.ui.fragment.OnBoardingViewModel
@@ -24,6 +24,8 @@ class GetStartedActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityGetStartedBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        supportActionBar?.hide()
 
         val adapter = OnBoardingAdapter(this)
         binding.viewPager.adapter = adapter

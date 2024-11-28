@@ -1,4 +1,4 @@
-package com.capstone.c242_ps374.stuntfree.ui.adapter
+package com.capstone.c242_ps374.stuntfree.ui.custom
 
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2

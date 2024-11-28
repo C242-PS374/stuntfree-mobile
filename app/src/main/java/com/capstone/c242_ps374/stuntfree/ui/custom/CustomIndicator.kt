@@ -1,4 +1,4 @@
-package com.capstone.c242_ps374.stuntfree.ui.adapter
+package com.capstone.c242_ps374.stuntfree.ui.custom
 
 import android.content.Context
 import android.util.AttributeSet
@@ -22,9 +22,10 @@ class CustomIndicator @JvmOverloads constructor(
             findViewById(R.id.indicator2),
             findViewById(R.id.indicator3)
         )
+        setActivePosition(0)
     }
 
-    fun setActivePosition(position: Int) {
+    private fun setActivePosition(position: Int) {
         indicators.forEachIndexed { index, view ->
             view.isSelected = index == position
             view.animate()

@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("kotlin-kapt")
+    id("kotlin-parcelize")
     alias(libs.plugins.dagger.hilt)
 }
 
@@ -54,6 +55,8 @@ dependencies {
     implementation(libs.androidx.room.paging)
     implementation(libs.androidx.room.ktx)
     kapt(libs.androidx.room.compiler)
+
+    implementation(libs.play.services.location)
 
     implementation(libs.androidx.paging.runtime)
 

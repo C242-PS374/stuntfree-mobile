@@ -29,6 +29,7 @@ legacySupportV4 = "1.0.0"
 fragmentKtx = "1.8.5"
 activity = "1.8.0"
 pagingRuntime = "3.3.4"
+playServicesLocation = "21.3.0"
 retrofit = "2.9.0"
 securityCrypto = "1.0.0"
 roomRuntime = "2.6.1"
@@ -73,6 +74,7 @@ androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation
 androidx-legacy-support-v4 = { group = "androidx.legacy", name = "legacy-support-v4", version.ref = "legacySupportV4" }
 androidx-fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragmentKtx" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 retrofit2-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 androidx-hilt-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hiltWork" }
 
