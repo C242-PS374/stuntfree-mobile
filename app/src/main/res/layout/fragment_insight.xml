@@ -32,7 +32,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             tools:listitem="@layout/item_button" />
 
-        <!-- RecyclerView for Insight Items -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_insight"
             android:layout_width="0dp"
@@ -65,6 +64,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <Button
+            android:id="@+id/actionLogout"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_margin="16dp"
+            android:backgroundTint="@color/white"
+            android:elevation="4dp"
+            android:text="Logout"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/recycler_insight"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:ignore="TextContrastCheck,VisualLintButtonSize"
+            tools:layout_editor_absoluteX="16dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

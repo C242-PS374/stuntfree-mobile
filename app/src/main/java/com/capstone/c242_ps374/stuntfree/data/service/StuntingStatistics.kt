@@ -1,4 +1,6 @@
 package com.capstone.c242_ps374.stuntfree.data.service
 
-class StuntingStatistics {
-}
+data class StuntingStatistics(
+    val title: String,
+    val data: String
+)

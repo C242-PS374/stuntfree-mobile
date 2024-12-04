@@ -9,9 +9,12 @@ import com.capstone.c242_ps374.stuntfree.data.repository.AuthRepository
 import com.capstone.c242_ps374.stuntfree.ui.utils.Resource
 import com.capstone.c242_ps374.stuntfree.data.auth.LoginRequest
 import com.capstone.c242_ps374.stuntfree.data.auth.LoginResponse
+import com.capstone.c242_ps374.stuntfree.data.auth.ProfileResponse
+import com.capstone.c242_ps374.stuntfree.data.auth.ProfileResult
 import com.capstone.c242_ps374.stuntfree.data.auth.RegisterRequest
 import com.capstone.c242_ps374.stuntfree.data.auth.RegisterResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,6 +23,9 @@ class AuthViewModel @Inject constructor(
     private val repository: AuthRepository,
     private val sessionManager: SessionManager
 ) : ViewModel() {
+
+    private val _profileData = MutableLiveData<Resource<ProfileResponse>>()
+    val profileData: LiveData<Resource<ProfileResponse>> = _profileData
 
     private val _loginStatus = MutableLiveData<Resource<LoginResponse>>()
     val loginStatus: LiveData<Resource<LoginResponse>> get() = _loginStatus
@@ -67,7 +73,7 @@ class AuthViewModel @Inject constructor(
         viewModelScope.launch {
             _registrationStatus.value = Resource.Loading()
             try {
-                val registerData = RegisterRequest(name, email, password)
+                val registerData = RegisterRequest(name, email, password,)
                 when (val response = repository.registerUser(registerData)){
                     is Resource.Error ->
                         _registrationStatus.value = Resource.Error(response.message ?: "Register failed")
@@ -83,6 +89,24 @@ class AuthViewModel @Inject constructor(
             } catch (e: Exception) {
                 _registrationStatus.value = Resource.Error("Register failed: ${e.message}")
             }
+        }
+    }
+
+    fun fetchProfile() {
+        viewModelScope.launch {
+            _profileData.value = Resource.Loading()
+
+            delay(1000)
+            val dummyProfile = ProfileResponse(
+                error = false,
+                message = "Profile fetched successfully",
+                profileResult = ProfileResult(
+                    name = "John Doe",
+                    email = "johndoe@example.com"
+                )
+            )
+
+            _profileData.value = Resource.Success(dummyProfile)
         }
     }
 

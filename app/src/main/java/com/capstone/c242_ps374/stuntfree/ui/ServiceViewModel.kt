@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.capstone.c242_ps374.stuntfree.data.auth.ProfileResponse
 import com.capstone.c242_ps374.stuntfree.data.model.DayItem
 import com.capstone.c242_ps374.stuntfree.data.service.Service
 import com.capstone.c242_ps374.stuntfree.data.repository.ServiceRepository
@@ -46,12 +47,8 @@ class ServiceViewModel @Inject constructor(
 
     private var allServices: List<Service> = listOf()
 
-    private var lastClickedButton: String? = null // Tombol terakhir yang diklik
+    private var lastClickedButton: String? = null
 
-    /**
-     * Mengambil semua layanan dari repository.
-     * Data utama disimpan di [allServices] dan ditampilkan di [_services].
-     */
     fun fetchServices() {
         _isLoading.postValue(true)
         _error.postValue(null)
@@ -68,9 +65,6 @@ class ServiceViewModel @Inject constructor(
         }
     }
 
-    /**
-     * Mengambil semua layanan sekaligus mengisi data untuk tombol.
-     */
     fun fetchServicesWithButton() {
         _isLoading.postValue(true)
         _error.postValue(null)
@@ -79,10 +73,8 @@ class ServiceViewModel @Inject constructor(
             result.onSuccess { response ->
                 allServices = response.listStory
 
-                // Data utama
                 _services.postValue(allServices)
 
-                // Data tombol: Hanya item unik berdasarkan nama (aman untuk null)
                 val buttonList = allServices.filter { !it.name.isNullOrEmpty() }.distinctBy { it.name }
                 _buttonServices.postValue(buttonList)
             }.onFailure { exception ->
@@ -93,32 +85,21 @@ class ServiceViewModel @Inject constructor(
         }
     }
 
-    /**
-     * Memfilter daftar layanan berdasarkan nama tombol yang diklik.
-     */
     fun filterServicesByButton(buttonName: String) {
         if (lastClickedButton == buttonName) {
-            // Jika tombol yang sama diklik, reset filter
             lastClickedButton = null
             _services.postValue(allServices)
         } else {
-            // Terapkan filter
             lastClickedButton = buttonName
             val filteredList = allServices.filter { it.name == buttonName }
             _services.postValue(filteredList)
         }
     }
 
-    /**
-     * Mengembalikan daftar layanan ke semua data.
-     */
     private fun resetFilter() {
         _services.postValue(allServices)
     }
 
-    /**
-     * Mencari layanan berdasarkan query.
-     */
     fun searchServices(query: String) {
         if (query.isEmpty()) {
             resetFilter()

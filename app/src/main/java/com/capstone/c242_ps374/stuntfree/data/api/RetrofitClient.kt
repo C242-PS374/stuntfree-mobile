@@ -43,7 +43,7 @@ object RetrofitClient {
                 .build()
 
             instance = Retrofit.Builder()
-                .baseUrl("https://story-api.dicoding.dev/v1/")
+                .baseUrl("https://stuntfree-api-788458290127.asia-southeast2.run.app/api/v1\n")
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()

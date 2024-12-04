@@ -89,14 +89,14 @@ class ServiceFragment : Fragment() {
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 query?.let {
-                    viewModel.searchServices(it) // Panggil viewModel untuk mencari berdasarkan nama
+                    viewModel.searchServices(it)
                 }
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 newText?.let {
-                    viewModel.searchServices(it) // Panggil viewModel untuk mencari berdasarkan nama
+                    viewModel.searchServices(it)
                 }
                 return true
             }

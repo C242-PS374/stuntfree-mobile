@@ -45,7 +45,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupLogoutButton()
+        setupButton()
         setupWeekRecyclerView()
         observeWeekData()
         setupBinding()
@@ -54,13 +54,7 @@ class HomeFragment : Fragment() {
         serviceViewModel.generateDummyData()
     }
 
-    private fun setupLogoutButton() {
-        binding.actionLogout.setOnClickListener {
-            Log.d("HomeFragment", "Logout button clicked")
-            authViewModel.logout()
-            Toast.makeText(requireContext(), "Logout berhasil", Toast.LENGTH_SHORT).show()
-            navigateToLogin()
-        }
+    private fun setupButton() {
 
         binding.btnEditNewbornData.setOnClickListener {
             Toast.makeText(requireContext(), "Edit Newborn Data clicked!", Toast.LENGTH_SHORT).show()
@@ -86,7 +80,6 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_homeFragment_to_profileFragment)
         }
 
-        // Navigasi ikon Kalender
         binding.ivCalendar.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_calendarFragment)
         }
@@ -123,12 +116,6 @@ class HomeFragment : Fragment() {
             binding.tvChildAgeTitle.text = "Child Age:"
             binding.tvDayCount.text = childAge
         }
-    }
-
-    private fun navigateToLogin() {
-        val intent = Intent(requireContext(), LoginActivity::class.java) // Arahkan ke LoginActivity
-        startActivity(intent)
-        activity?.finish()
     }
 
     override fun onDestroyView() {

@@ -21,7 +21,6 @@
             android:padding="16dp"
             tools:ignore="MissingConstraints">
 
-            <!-- Ikon Profil -->
             <ImageView
                 android:id="@+id/iv_profile"
                 android:layout_width="40dp"
@@ -30,7 +29,6 @@
                 android:contentDescription="Profile"
                 android:layout_marginEnd="16dp" />
 
-            <!-- Tanggal Lengkap -->
             <TextView
                 android:id="@+id/tv_today_date"
                 android:layout_width="0dp"
@@ -42,7 +40,6 @@
                 android:textStyle="bold"
                 android:gravity="center" />
 
-            <!-- Ikon Kalender -->
             <ImageView
                 android:id="@+id/iv_calendar"
                 android:layout_width="40dp"
@@ -73,7 +70,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             tools:ignore="MissingConstraints">
 
-            <!-- Judul Child Age -->
             <TextView
                 android:id="@+id/tv_child_age_title"
                 android:layout_width="match_parent"
@@ -85,7 +81,6 @@
                 android:layout_gravity="start"
                 android:layout_marginBottom="4dp" />
 
-            <!-- Detail Hari -->
             <TextView
                 android:id="@+id/tv_day_count"
                 android:layout_width="match_parent"
@@ -98,7 +93,6 @@
                 android:layout_gravity="start"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Tombol Edit -->
             <Button
                 android:id="@+id/btn_edit_newborn_data"
                 android:layout_width="match_parent"
@@ -110,7 +104,6 @@
                 android:textSize="16sp" />
         </LinearLayout>
 
-        <!-- My Daily Routines Section -->
         <TextView
             android:id="@+id/tv_my_daily_routines"
             android:layout_width="match_parent"
@@ -123,7 +116,6 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="16dp" />
 
-        <!-- Card Container -->
         <LinearLayout
             android:id="@+id/linear2"
             android:layout_width="match_parent"
@@ -171,7 +163,6 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Card 2: Camera for scanning -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_camera_scan"
                 android:layout_width="0dp"
@@ -206,7 +197,6 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Card 3: Quick call emergency -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_quick_call"
                 android:layout_width="0dp"
@@ -277,7 +267,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_margin="16dp"
-            android:backgroundTint="@color/black"
+            android:backgroundTint="@color/white"
             android:elevation="4dp"
             android:text="Logout"
             android:textColor="@android:color/white"

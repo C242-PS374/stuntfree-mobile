@@ -6,11 +6,6 @@ import javax.inject.Inject
 class SessionManager @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ) {
-    companion object {
-        private const val KEY_TOKEN = "auth_token"
-        private const val KEY_IS_LOGGED_IN = "key_is_logged_in"
-        private const val KEY_FIRST_TIME = "key_first_time" // Tambahkan key baru
-    }
 
     init {
         if (!sharedPreferences.contains(KEY_FIRST_TIME)) {
@@ -50,5 +45,11 @@ class SessionManager @Inject constructor(
                 .apply()
         }
         return isFirst
+    }
+
+    companion object {
+        private const val KEY_TOKEN = "auth_token"
+        private const val KEY_IS_LOGGED_IN = "key_is_logged_in"
+        private const val KEY_FIRST_TIME = "key_first_time" // Tambahkan key baru
     }
 }

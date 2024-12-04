@@ -14,4 +14,10 @@
     <string name="error_password_length">Password harus minimal 8 karakter</string>
     <string name="error_password_not_same">Password harus sama dengan sebelumnya</string>
     <string name="error_empty_name">Nama tidak boleh kosong</string>
+    <string-array name="language_options">
+        <item>English</item>
+        <item>Bahasa Indonesia</item>
+        <item>Español</item>
+    </string-array>
+
 </resources>

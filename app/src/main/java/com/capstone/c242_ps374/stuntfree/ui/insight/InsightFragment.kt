@@ -44,12 +44,10 @@ class InsightFragment : Fragment() {
         setupSearchView()
         observeViewModel()
 
-        // Mulai memuat data dari ViewModel
         viewModel.fetchServicesWithButton()
     }
 
     private fun setupRecyclerView() {
-        // RecyclerView untuk Button
         adapterButton = ButtonAdapter { service ->
             viewModel.filterServicesByButton(service.name ?: "Unknown")
         }
@@ -60,7 +58,6 @@ class InsightFragment : Fragment() {
             setHasFixedSize(true)
         }
 
-        // RecyclerView untuk Insight
         adapter = InsightAdapter()
         binding.recyclerInsight.apply {
             adapter = this@InsightFragment.adapter
@@ -88,7 +85,6 @@ class InsightFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        // Mengamati LiveData untuk RecyclerView Insight
         viewModel.services.observe(viewLifecycleOwner) { services ->
             setLoading(false)
             if (!services.isNullOrEmpty()) {
@@ -101,7 +97,6 @@ class InsightFragment : Fragment() {
             }
         }
 
-        // Mengamati LiveData untuk RecyclerView Button
         viewModel.buttonServices.observe(viewLifecycleOwner) { buttonServices ->
             if (!buttonServices.isNullOrEmpty()) {
                 adapterButton.submitList(buttonServices)
@@ -111,7 +106,6 @@ class InsightFragment : Fragment() {
             }
         }
 
-        // Mengamati error jika ada
         viewModel.error.observe(viewLifecycleOwner) { errorMessage ->
             setLoading(false)
             errorMessage?.let {
@@ -119,7 +113,6 @@ class InsightFragment : Fragment() {
             }
         }
 
-        // Mengamati status loading
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             setLoading(isLoading)
         }
