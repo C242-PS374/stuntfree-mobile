@@ -14,12 +14,12 @@ import retrofit2.http.Query
 
 interface ApiService {
 
-    @POST("register")
+    @POST("auth/signup")
     suspend fun registerUser(
         @Body registerData: RegisterRequest
     ): Response<RegisterResponse>
 
-    @POST("login")
+    @POST("auth/login")
     suspend fun loginUser(
         @Body loginData: LoginRequest
     ): Response<LoginResponse>

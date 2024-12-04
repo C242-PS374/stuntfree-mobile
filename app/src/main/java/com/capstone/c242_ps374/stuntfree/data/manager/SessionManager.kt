@@ -50,6 +50,6 @@ class SessionManager @Inject constructor(
     companion object {
         private const val KEY_TOKEN = "auth_token"
         private const val KEY_IS_LOGGED_IN = "key_is_logged_in"
-        private const val KEY_FIRST_TIME = "key_first_time" // Tambahkan key baru
+        private const val KEY_FIRST_TIME = "key_first_time"
     }
 }

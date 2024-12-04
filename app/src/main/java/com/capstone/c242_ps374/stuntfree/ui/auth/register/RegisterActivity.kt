@@ -24,6 +24,7 @@ class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
+        supportActionBar?.hide()
         setContentView(binding.root)
 
         setupViews()
@@ -32,38 +33,6 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun setupViews() {
         binding.logoImageView.setImageResource(R.drawable.dicoding_logo)
-
-        binding.edRegisterName.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                validateName(s.toString())
-            }
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
-
-        binding.edRegisterEmail.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                validateEmail(s.toString())
-            }
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
-
-        binding.edRegisterPassword.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                validatePassword(s.toString())
-            }
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
-
-        binding.edRegisterPasswordConfirm.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                validatePassword(s.toString())
-            }
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
 
         binding.btnRegister.setOnClickListener { attemptRegister() }
         binding.btnLogin.setOnClickListener {
@@ -126,7 +95,7 @@ class RegisterActivity : AppCompatActivity() {
 
         if (validateName(name) && validateEmail(email)) {
             if (validatePassword(password) && validatePasswordConfirmation(password, confirmPassword)) {
-                authViewModel.registerUser(name, email, password)
+                authViewModel.registerUser(name, email, password, confirmPassword)
             }
         }
     }

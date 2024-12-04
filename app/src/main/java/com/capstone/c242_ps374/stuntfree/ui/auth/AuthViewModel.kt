@@ -69,11 +69,11 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    fun registerUser(name: String, email: String, password: String) {
+    fun registerUser(name: String, email: String, password: String, confirmPassword: String) {
         viewModelScope.launch {
             _registrationStatus.value = Resource.Loading()
             try {
-                val registerData = RegisterRequest(name, email, password,)
+                val registerData = RegisterRequest(name, email, password, confirmPassword)
                 when (val response = repository.registerUser(registerData)){
                     is Resource.Error ->
                         _registrationStatus.value = Resource.Error(response.message ?: "Register failed")

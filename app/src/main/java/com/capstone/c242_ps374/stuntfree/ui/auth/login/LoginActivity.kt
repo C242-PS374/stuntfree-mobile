@@ -27,6 +27,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
+        supportActionBar?.hide()
         setContentView(binding.root)
 
         setupViews()
@@ -35,22 +36,6 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setupViews() {
         binding.logoImageView.setImageResource(R.drawable.dicoding_logo)
-
-//        binding.edLoginEmail.addTextChangedListener(object : TextWatcher {
-//            override fun afterTextChanged(s: Editable?) {
-//                validateEmail(s.toString())
-//            }
-//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-//        })
-
-//        binding.edLoginPassword.addTextChangedListener(object : TextWatcher {
-//            override fun afterTextChanged(s: Editable?) {
-//                validatePassword(s.toString())
-//            }
-//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-//        })
 
         binding.btnLogin.setOnClickListener { attemptLogin() }
         binding.btnRegister.setOnClickListener {
@@ -71,7 +56,6 @@ class LoginActivity : AppCompatActivity() {
                 navigateToMain()
             }
         }
-        Toast.makeText(this, "Please log in", Toast.LENGTH_SHORT).show()
     }
 
     private fun validateEmail(email: String): Boolean {
@@ -132,19 +116,9 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-//    private fun navigateToMain() {
-//        Intent(this, MainActivity::class.java).apply {
-//            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-//            startActivity(this)
-//            finish()
-//        }
-//    }
     private fun navigateToMain() {
-        Intent(this, QuizActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(this)
-            finish()
-        }
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 
 

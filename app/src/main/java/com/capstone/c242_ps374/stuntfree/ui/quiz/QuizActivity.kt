@@ -18,17 +18,14 @@ class QuizActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val btnIbuHamil: Button = findViewById(R.id.optionHamil)
-        val btnBalita: Button = findViewById(R.id.optionBaruMelahirkan)
-
-        btnIbuHamil.setOnClickListener {
-            val intent = Intent(this, PregnancyActivity::class.java)
-            startActivity(intent)
-        }
-
-        btnBalita.setOnClickListener {
-            val intent = Intent(this, NewBornActivity::class.java)
-            startActivity(intent)
+        binding.btnSubmit.setOnClickListener {
+            if (binding.radioGroup.checkedRadioButtonId == R.id.optionHamil) {
+                val intent = Intent(this, PregnancyActivity::class.java)
+                startActivity(intent)
+            } else {
+                val intent = Intent(this, NewBornActivity::class.java)
+                startActivity(intent)
+            }
         }
 
     }
