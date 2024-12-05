@@ -2,6 +2,7 @@ package com.capstone.c242_ps374.stuntfree.ui.custom
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.DialogFragment
 import com.capstone.c242_ps374.stuntfree.R
+import com.capstone.c242_ps374.stuntfree.ui.maps.MapsActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -35,9 +37,13 @@ class CustomDialogRedirectMapsFragment : DialogFragment() {
         val btnNo = dialogView.findViewById<Button>(R.id.btnCancel)
 
         btnYes.setOnClickListener {
-            onYesClick?.invoke()
+            onYesClick?.invoke() ?: run {
+                val intent = Intent(requireContext(), MapsActivity::class.java)
+                startActivity(intent)
+            }
             dialog.dismiss()
         }
+
 
         btnNo.setOnClickListener {
             onNoClick?.invoke()
