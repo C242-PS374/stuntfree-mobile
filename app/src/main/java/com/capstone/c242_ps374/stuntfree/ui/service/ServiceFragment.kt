@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.c242_ps374.stuntfree.databinding.FragmentServiceBinding
 import com.capstone.c242_ps374.stuntfree.ui.ServiceViewModel
 import com.capstone.c242_ps374.stuntfree.ui.adapter.ServiceAdapter
+import com.capstone.c242_ps374.stuntfree.ui.custom.CustomDialogEmergencyCallFragment
 import com.capstone.c242_ps374.stuntfree.ui.custom.CustomDialogFragment
+import com.capstone.c242_ps374.stuntfree.ui.custom.CustomDialogRedirectMapsFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -61,7 +63,7 @@ class ServiceFragment : Fragment() {
     private fun setupAdapter() {
         adapter = ServiceAdapter(
             onCallClick = { service ->
-                val dialog = CustomDialogFragment().apply {
+                val dialog = CustomDialogEmergencyCallFragment().apply {
                     onYesClick = {
                         Toast.makeText(context, "Memanggil ${service.name}", Toast.LENGTH_SHORT).show()
                     }
@@ -72,7 +74,7 @@ class ServiceFragment : Fragment() {
                 dialog.show(parentFragmentManager, "CustomDialog")
             },
             onLocationClick = { service ->
-                val dialog = CustomDialogFragment().apply {
+                val dialog = CustomDialogRedirectMapsFragment().apply {
                     onYesClick = {
                         Toast.makeText(context, "Menampilkan lokasi ${service.name}", Toast.LENGTH_SHORT).show()
                     }

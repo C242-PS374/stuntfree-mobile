@@ -9,19 +9,6 @@ import android.view.ViewGroup
 import com.capstone.c242_ps374.stuntfree.R
 
 class ForumFragment : Fragment() {
-
-    companion object {
-        fun newInstance() = ForumFragment()
-    }
-
-    private val viewModel: ForumViewModel by viewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        // TODO: Use the ViewModel
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

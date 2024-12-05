@@ -36,6 +36,8 @@ roomRuntime = "2.6.1"
 viewpager2 = "1.1.0"
 hiltWork = "1.2.0"
 workRuntimeKtx = "2.10.0"
+cameraView = "1.4.0"
+cameraLifecycle = "1.4.0"
 
 [libraries]
 androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "cardview" }
@@ -77,6 +79,8 @@ androidx-activity = { group = "androidx.activity", name = "activity", version.re
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 retrofit2-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 androidx-hilt-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hiltWork" }
+androidx-camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "cameraView" }
+androidx-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "cameraLifecycle" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -7,7 +7,6 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.capstone.c242_ps374.stuntfree.R
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,7 +18,7 @@ class CustomDialogFragment : DialogFragment() {
     var onNoClick: (() -> Unit)? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialogView = layoutInflater.inflate(R.layout.item_popup, null)
+        val dialogView = layoutInflater.inflate(R.layout.item_popup_quick_emergency_call, null)
 
         val dialog = AlertDialog.Builder(requireContext())
             .setView(dialogView)
@@ -32,8 +31,8 @@ class CustomDialogFragment : DialogFragment() {
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
 
-        val btnYes = dialogView.findViewById<Button>(R.id.btnYes)
-        val btnNo = dialogView.findViewById<Button>(R.id.btnNo)
+        val btnYes = dialogView.findViewById<Button>(R.id.btnCallNow)
+        val btnNo = dialogView.findViewById<Button>(R.id.btnCancel)
 
         btnYes.setOnClickListener {
             onYesClick?.invoke()

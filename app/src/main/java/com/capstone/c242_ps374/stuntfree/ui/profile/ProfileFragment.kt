@@ -111,3 +111,4 @@ class ProfileFragment : Fragment() {
         _binding = null
     }
 }
+

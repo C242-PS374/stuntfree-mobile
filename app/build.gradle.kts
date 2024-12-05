@@ -47,6 +47,8 @@ dependencies {
 
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.work)
+    implementation(libs.androidx.camera.view)
+    implementation(libs.androidx.camera.lifecycle)
     kapt(libs.hilt.compiler)
 
     implementation (libs.hilt.android.v248)
