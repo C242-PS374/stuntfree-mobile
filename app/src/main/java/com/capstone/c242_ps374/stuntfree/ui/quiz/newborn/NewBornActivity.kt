@@ -3,59 +3,83 @@ package com.capstone.c242_ps374.stuntfree.ui.quiz.newborn
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.EditText
-import android.widget.RadioGroup
-import android.widget.Spinner
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.capstone.c242_ps374.stuntfree.MainActivity
-import com.capstone.c242_ps374.stuntfree.R
+import com.capstone.c242_ps374.stuntfree.databinding.ActivityNewBornBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class NewBornActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityNewBornBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_new_born)
+        binding = ActivityNewBornBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val etUmur: EditText = findViewById(R.id.etUmur)
-        val spinnerProvinsi: Spinner = findViewById(R.id.spinnerProvinsi)
-        val spinnerTerpenuhi: Spinner = findViewById(R.id.spinnerTerpenuhi)
-        val spinnerKelayakan: Spinner = findViewById(R.id.spinnerKelayakan)
-        val btnSubmit: Button = findViewById(R.id.btnSubmit)
+        setupViews()
+        setupListeners()
+    }
 
-        val provinsiList = arrayOf("Aceh", "Bali", "Jakarta", "Jawa Barat", "Jawa Tengah", "Jawa Timur")
+    private fun setupViews() {
+        val provinsiList = arrayOf(
+            "Aceh", "Bali", "Bangka Belitung", "Banten", "Bengkulu", "DI Yogyakarta",
+            "DKI Jakarta", "Gorontalo", "Jambi", "Jawa Barat", "Jawa Tengah", "Jawa Timur",
+            "Kalimantan Barat", "Kalimantan Selatan", "Kalimantan Tengah", "Kalimantan Timur",
+            "Kalimantan Utara", "Kepulauan Riau", "Lampung", "Maluku", "Maluku Utara",
+            "Nusa Tenggara Barat", "Nusa Tenggara Timur", "Papua", "Papua Barat", "Riau",
+            "Sulawesi Barat", "Sulawesi Selatan", "Sulawesi Tengah", "Sulawesi Tenggara",
+            "Sulawesi Utara", "Sumatera Barat", "Sumatera Selatan", "Sumatera Utara", "West Java"
+        )
         val provinsiAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, provinsiList)
         provinsiAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinnerProvinsi.adapter = provinsiAdapter
+        binding.spinnerProvinsi.adapter = provinsiAdapter
 
         val yesNoList = arrayOf("Ya", "Tidak")
         val yesNoAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, yesNoList)
         yesNoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinnerTerpenuhi.adapter = yesNoAdapter
-        spinnerKelayakan.adapter = yesNoAdapter
+        binding.spinnerTerpenuhi.adapter = yesNoAdapter
+        binding.spinnerKelayakan.adapter = yesNoAdapter
+    }
 
-        btnSubmit.setOnClickListener {
-            val umur = etUmur.text.toString()
-            val provinsi = spinnerProvinsi.selectedItem.toString()
-            val terpenuhi = spinnerTerpenuhi.selectedItem.toString()
-            val kelayakan = spinnerKelayakan.selectedItem.toString()
+    private fun setupListeners() {
+        binding.btnSubmit.setOnClickListener { attemptSubmit() }
+    }
 
-            if (umur.isNotEmpty() && provinsi.isNotEmpty() && terpenuhi.isNotEmpty() && kelayakan.isNotEmpty()) {
-                val intent = Intent(this, NewBorn2Activity::class.java)
-                intent.putExtra("UMUR_ANAK", umur)
-                intent.putExtra("TEMPAT_TINGGAL", provinsi)
-                intent.putExtra("GIZI_TERPENUHI", terpenuhi)
-                intent.putExtra("KELAYAKAN_LINGKUNGAN", kelayakan)
-                startActivity(intent)
-                finish()
-            } else {
-                Toast.makeText(this, "Harap isi semua data!", Toast.LENGTH_SHORT).show()
-            }
+    private fun attemptSubmit() {
+        val umur = binding.etUmur.text.toString()
+        val tinggi = binding.etTinggi.text.toString()
+        val berat = binding.etBerat.text.toString()
+        val provinsi = binding.spinnerProvinsi.selectedItem.toString()
+        val terpenuhi = binding.spinnerTerpenuhi.selectedItem.toString()
+        val kelayakan = binding.spinnerKelayakan.selectedItem.toString()
+
+        if (isValidInput(umur, tinggi, berat, provinsi, terpenuhi, kelayakan)) {
+            navigateToNextScreen(umur, tinggi, berat, provinsi, terpenuhi, kelayakan)
+        } else {
+            showError()
         }
+    }
+
+    private fun isValidInput(umur: String, tinggi: String, berat: String, provinsi: String, terpenuhi: String, kelayakan: String ): Boolean {
+        return umur.isNotEmpty() && tinggi.isNotEmpty() && berat.isNotEmpty() && provinsi.isNotEmpty() && terpenuhi.isNotEmpty() && kelayakan.isNotEmpty()
+    }
+
+    private fun navigateToNextScreen(umur: String, tinggi: String, berat: String, provinsi: String, terpenuhi: String, kelayakan: String) {
+        val intent = Intent(this, NewBorn2Activity::class.java).apply {
+            putExtra("UMUR_ANAK", umur)
+            putExtra("TINGGI_BADAN", tinggi)
+            putExtra("BERAT_BADAN", berat)
+            putExtra("TEMPAT_TINGGAL", provinsi)
+            putExtra("GIZI_TERPENUHI", terpenuhi)
+            putExtra("KELAYAKAN_LINGKUNGAN", kelayakan)
+        }
+        startActivity(intent)
+        finish()
+    }
+
+    private fun showError() {
+        Toast.makeText(this, "Harap isi semua data!", Toast.LENGTH_SHORT).show()
     }
 }

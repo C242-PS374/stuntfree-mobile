@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Patterns
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -38,6 +39,7 @@ class LoginActivity : AppCompatActivity() {
         binding.logoImageView.setImageResource(R.drawable.dicoding_logo)
 
         binding.btnLogin.setOnClickListener { attemptLogin() }
+
         binding.btnRegister.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
@@ -83,7 +85,20 @@ class LoginActivity : AppCompatActivity() {
         val password = binding.edLoginPassword.text.toString().trim()
 
         if (validateEmail(email) && validatePassword(password)) {
-            authViewModel.loginUser(email, password)
+            authViewModel.loginUser(email, password) { isLoggedIn, isStageEmpty ->
+                if (isLoggedIn) {
+                    if (isStageEmpty) {
+                        val intent = Intent(this, QuizActivity::class.java)
+                        startActivity(intent)
+                    } else {
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                    }
+                    finish()
+                } else {
+                    Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 

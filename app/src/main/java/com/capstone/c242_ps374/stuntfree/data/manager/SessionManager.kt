@@ -26,6 +26,16 @@ class SessionManager @Inject constructor(
         return sharedPreferences.getString(KEY_TOKEN, null)
     }
 
+    fun saveStage(stage: String) {
+        sharedPreferences.edit()
+            .putString(KEY_STAGE, stage)
+            .apply()
+    }
+
+    fun getStage(): String? {
+        return sharedPreferences.getString(KEY_STAGE, null)
+    }
+
     fun clearSession() {
         sharedPreferences.edit()
             .remove(KEY_TOKEN)
@@ -51,5 +61,6 @@ class SessionManager @Inject constructor(
         private const val KEY_TOKEN = "auth_token"
         private const val KEY_IS_LOGGED_IN = "key_is_logged_in"
         private const val KEY_FIRST_TIME = "key_first_time"
+        private const val KEY_STAGE = "key_stage"
     }
 }

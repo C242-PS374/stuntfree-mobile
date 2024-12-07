@@ -12,6 +12,7 @@ import android.widget.Toast
 import com.capstone.c242_ps374.stuntfree.R
 import com.capstone.c242_ps374.stuntfree.data.service.StuntingStatistics
 import com.capstone.c242_ps374.stuntfree.databinding.FragmentProfileBinding
+import com.capstone.c242_ps374.stuntfree.ui.AttachViewModel
 import com.capstone.c242_ps374.stuntfree.ui.auth.AuthViewModel
 import com.capstone.c242_ps374.stuntfree.ui.auth.login.LoginActivity
 import com.capstone.c242_ps374.stuntfree.ui.utils.Resource
@@ -23,7 +24,7 @@ class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
 
-    private val profileViewModel: AuthViewModel by viewModels()
+    private val attachViewModel: AttachViewModel by viewModels()
 
     private val stuntingData = listOf(
         StuntingStatistics("Ibu Hamil Berisiko Stunting", "Jumlah: 2500"),
@@ -45,9 +46,8 @@ class ProfileFragment : Fragment() {
         setupButton()
         observeData()
 
-        profileViewModel.fetchProfile()
+        attachViewModel.getUserProfile()
     }
-
 
     private fun setupButton() {
         binding.tvEditProfile.setOnClickListener {
@@ -55,22 +55,22 @@ class ProfileFragment : Fragment() {
         }
 
         binding.actionLogout.setOnClickListener {
-            profileViewModel.logout()
+            attachViewModel.logout()  // Sesuaikan dengan fungsi logout yang ada di ViewModel
             Toast.makeText(requireContext(), "Logout berhasil", Toast.LENGTH_SHORT).show()
             navigateToLogin()
         }
     }
 
     private fun observeData() {
-        // Observasi data profil
-        profileViewModel.profileData.observe(viewLifecycleOwner) { resource ->
+        // Observasi data profil dari ViewModel
+        attachViewModel.userProfileResponse.observe(viewLifecycleOwner) { resource ->
             when (resource) {
                 is Resource.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
                 }
                 is Resource.Success -> {
                     binding.progressBar.visibility = View.GONE
-                    val profile = resource.data?.profileResult
+                    val profile = resource.data
                     binding.tvName.text = "Name: ${profile?.name}"
                     binding.tvEmail.text = "Email: ${profile?.email}"
                 }
@@ -85,7 +85,7 @@ class ProfileFragment : Fragment() {
             }
         }
 
-        profileViewModel.authState.observe(viewLifecycleOwner) { resource ->
+        attachViewModel.authState.observe(viewLifecycleOwner) { resource ->
             when (resource) {
                 is Resource.Error -> {
                     binding.progressBar.visibility = View.GONE
@@ -111,4 +111,3 @@ class ProfileFragment : Fragment() {
         _binding = null
     }
 }
-

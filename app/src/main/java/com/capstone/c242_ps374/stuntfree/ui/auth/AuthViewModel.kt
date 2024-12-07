@@ -33,9 +33,6 @@ class AuthViewModel @Inject constructor(
     private val _registrationStatus = MutableLiveData<Resource<RegisterResponse>>()
     val registrationStatus: LiveData<Resource<RegisterResponse>> get() = _registrationStatus
 
-    private val _authState = MutableLiveData<Resource<String?>>()
-    val authState: LiveData<Resource<String?>> = _authState
-
     val isLoggedIn: LiveData<Boolean> = repository.isLoggedIn
 
     init {
@@ -47,25 +44,42 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    fun loginUser(email: String, password: String) {
+    fun loginUser(email: String, password: String, onNavigate: (Boolean, Boolean) -> Unit) {
         viewModelScope.launch {
             _loginStatus.value = Resource.Loading()
             try {
                 val loginData = LoginRequest(email, password)
-                when (val response = repository.loginUser(loginData)) {
-                    is Resource.Success -> {
-                        _loginStatus.value = response
+                val result = repository.loginUser(loginData)
+                if (result is Resource.Success) {
+                    val token = sessionManager.getAuthToken()
+                    if (token != null) {
+                        sessionManager.saveAuthToken(token)
+
+                        val stage = sessionManager.getStage()
+                        if (stage.isNullOrEmpty()) {
+                            onNavigate(true, false)
+                        } else {
+                            onNavigate(true, true)
+                        }
+                    } else {
+                        _loginStatus.value = Resource.Error("Token not found")
                     }
-                    is Resource.Error -> {
-                        _loginStatus.value = Resource.Error(response.message ?: "Login failed")
-                    }
-                    is Resource.Loading -> {
-                        _loginStatus.value = Resource.Loading()
-                    }
+                } else {
+                    _loginStatus.value = Resource.Error("Login failed")
                 }
             } catch (e: Exception) {
                 _loginStatus.value = Resource.Error("Login failed: ${e.message}")
             }
+        }
+    }
+
+
+    fun checkStage(onNavigateToQuiz: () -> Unit, onNavigateToMain: () -> Unit) {
+        val stage = sessionManager.getStage()
+        if (stage.isNullOrEmpty()) {
+            onNavigateToQuiz()
+        } else {
+            onNavigateToMain()
         }
     }
 
@@ -88,36 +102,6 @@ class AuthViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 _registrationStatus.value = Resource.Error("Register failed: ${e.message}")
-            }
-        }
-    }
-
-    fun fetchProfile() {
-        viewModelScope.launch {
-            _profileData.value = Resource.Loading()
-
-            delay(1000)
-            val dummyProfile = ProfileResponse(
-                error = false,
-                message = "Profile fetched successfully",
-                profileResult = ProfileResult(
-                    name = "John Doe",
-                    email = "johndoe@example.com"
-                )
-            )
-
-            _profileData.value = Resource.Success(dummyProfile)
-        }
-    }
-
-    fun logout() {
-        viewModelScope.launch {
-            _authState.value = Resource.Loading()
-            try {
-                sessionManager.clearSession()
-                _authState.value = Resource.Success(null)
-            } catch (e: Exception) {
-                _authState.value = Resource.Error(e.message ?: "Logout failed")
             }
         }
     }

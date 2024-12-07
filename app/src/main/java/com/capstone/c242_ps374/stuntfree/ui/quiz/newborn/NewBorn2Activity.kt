@@ -3,60 +3,125 @@ package com.capstone.c242_ps374.stuntfree.ui.quiz.newborn
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.EditText
-import android.widget.RadioGroup
-import android.widget.Spinner
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import com.capstone.c242_ps374.stuntfree.MainActivity
-import com.capstone.c242_ps374.stuntfree.R
+import com.capstone.c242_ps374.stuntfree.data.attach.InfancyRequest
+import com.capstone.c242_ps374.stuntfree.data.attach.InfancyResponse
+import com.capstone.c242_ps374.stuntfree.databinding.ActivityNewBorn2Binding
+import com.capstone.c242_ps374.stuntfree.ui.AttachViewModel
+import com.capstone.c242_ps374.stuntfree.ui.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class NewBorn2Activity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityNewBorn2Binding
+    private val newBornViewModel: AttachViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_new_born2)
+        binding = ActivityNewBorn2Binding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val umurAnak = intent.getStringExtra("UMUR_ANAK")
-        val tempatTinggal = intent.getStringExtra("TEMPAT_TINGGAL")
-        val gizi = intent.getStringExtra("GIZI_TERPENUHI")
-        val kelayakanLingkungan = intent.getStringExtra("KELAYAKAN_LINGKUNGAN")
+        setupViews()
+        setupObservers()
+    }
 
-        val jenisKelaminList = arrayOf("Laki-Laki", "Perempuan")
-        val jenisKelaminAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, jenisKelaminList)
-        jenisKelaminAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+    private fun setupViews() {
+        val genderList = arrayOf("Laki-Laki", "Perempuan")
+        val genderAdapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            genderList
+        )
+        genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.dropdownJenisKelamin.adapter = genderAdapter
 
-        val dropdownJenisKelamin: Spinner = findViewById(R.id.dropdownJenisKelamin)
-        dropdownJenisKelamin.adapter = jenisKelaminAdapter
+        binding.btnSubmit.setOnClickListener {
+            attemptSubmit()
+        }
+    }
 
-        val etTinggiBadan: EditText = findViewById(R.id.tinggiBadan)
-        val etBeratBadan: EditText = findViewById(R.id.beratBadan)
-        val btnSubmit: Button = findViewById(R.id.btnSubmit)
+    private fun setupObservers() {
+        newBornViewModel.infancyProfileResponse.observe(this) { resource ->
+            handleSubmissionStatus(resource)
+        }
+    }
 
-        btnSubmit.setOnClickListener {
-            val selectedJenisKelamin = dropdownJenisKelamin.selectedItem.toString()
-            val tinggiBadan = etTinggiBadan.text.toString()
-            val beratBadan = etBeratBadan.text.toString()
+    private fun attemptSubmit() {
+        val umurAnak = intent.getStringExtra("UMUR_ANAK") ?: ""
+        val tinggiBadanAnak = intent.getStringExtra("TINGGI_BADAN") ?: ""
+        val beratBadanAnak = intent.getStringExtra("BERAT_BADAN") ?: ""
+        val tempatTinggal = intent.getStringExtra("TEMPAT_TINGGAL") ?: ""
+        val giziTerpenuhi = intent.getStringExtra("GIZI_TERPENUHI") ?: ""
+        val kelayakanLingkungan = intent.getStringExtra("KELAYAKAN_LINGKUNGAN") ?: ""
 
-            if (tinggiBadan.isNotEmpty() && beratBadan.isNotEmpty()) {
-                Toast.makeText(
-                    this,
-                    "Data tersimpan:\nUmur: $umurAnak\nTempat Tinggal: $tempatTinggal\nGizi: $gizi, \nKeayakanLingkungan: $kelayakanLingkungan\nJenis Kelamin: $selectedJenisKelamin\nTinggi: $tinggiBadan cm\nBerat: $beratBadan kg",
-                    Toast.LENGTH_LONG
-                ).show()
+        val jenisKelamin = binding.dropdownJenisKelamin.selectedItem?.toString() ?: ""
+        val tinggiBadan = binding.tinggiBadan.text.toString()
+        val beratBadan = binding.beratBadan.text.toString()
 
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-                finish()
-            } else {
-                Toast.makeText(this, "Harap isi semua data!", Toast.LENGTH_SHORT).show()
+        if (isValidInput(tinggiBadan, beratBadan)) {
+            val newBornRequest = InfancyRequest(
+                childDob = umurAnak,
+                childGender = jenisKelamin,
+                childBornWeight = beratBadanAnak.toInt(),
+                childBornHeight = tinggiBadanAnak.toInt(),
+                childHeight = tinggiBadan.toInt(),
+                childWeight = beratBadan.toInt(),
+                address = tempatTinggal,
+                isEnvironmentSuitable = kelayakanLingkungan == "Ya",
+                isNutritionFulfilled = giziTerpenuhi == "Ya"
+            )
+
+            newBornViewModel.attachInfancyProfile(newBornRequest)
+        } else {
+            showError("Harap isi semua data dengan benar!")
+        }
+    }
+
+    private fun isValidInput(tinggiBadan: String, beratBadan: String): Boolean {
+        return tinggiBadan.isNotEmpty() && beratBadan.isNotEmpty() &&
+                tinggiBadan.toIntOrNull() != null && beratBadan.toIntOrNull() != null
+    }
+
+    private fun handleSubmissionStatus(resource: Resource<InfancyResponse>) {
+        when (resource) {
+            is Resource.Loading -> {
+                binding.progressBar.isVisible = true
+                toggleInputs(false)
+            }
+            is Resource.Success -> {
+                binding.progressBar.isVisible = false
+                toggleInputs(true)
+                navigateToMain()
+            }
+            is Resource.Error -> {
+                binding.progressBar.isVisible = false
+                toggleInputs(true)
+                showError(resource.message)
             }
         }
+    }
+
+    private fun toggleInputs(enabled: Boolean) {
+        binding.apply {
+            tinggiBadan.isEnabled = enabled
+            beratBadan.isEnabled = enabled
+            dropdownJenisKelamin.isEnabled = enabled
+            btnSubmit.isEnabled = enabled
+        }
+    }
+
+    private fun navigateToMain() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun showError(message: String?) {
+        Toast.makeText(this, message ?: "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
     }
 }

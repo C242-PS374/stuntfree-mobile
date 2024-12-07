@@ -55,7 +55,7 @@
                 android:id="@+id/questionJumlah"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Berapa umur kandungan?"
+                android:text="Berapa umur kandungan anda?"
                 android:textSize="16sp"
                 android:textColor="@android:color/black" />
 
@@ -79,7 +79,7 @@
                 android:id="@+id/questionProvinsi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Pilih provinsi"
+                android:text="Pilih provinsi anda"
                 android:textSize="16sp"
                 android:textColor="@android:color/black" />
 
@@ -102,7 +102,7 @@
                 android:id="@+id/questionTerpenuhi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Apakah terpenuhi?"
+                android:text="Apakah gizinya terpenuhi?"
                 android:textSize="16sp"
                 android:textColor="@android:color/black" />
 
@@ -115,7 +115,6 @@
                 android:padding="8dp"/>
         </LinearLayout>
 
-        <!-- Form Input: Kelayakan -->
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -126,7 +125,7 @@
                 android:id="@+id/questionKelayakan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Apakah kelayakan?"
+                android:text="Apakah lingkungan anda layak?"
                 android:textSize="16sp"
                 android:textColor="@android:color/black" />
 

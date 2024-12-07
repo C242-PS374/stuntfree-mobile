@@ -10,10 +10,10 @@ import com.capstone.c242_ps374.stuntfree.data.service.Service
 import com.capstone.c242_ps374.stuntfree.databinding.ItemButtonBinding
 
 class ButtonAdapter(
-    private val onButtonClick: (Service) -> Unit // Callback untuk menangani klik tombol
+    private val onButtonClick: (Service) -> Unit
 ) : ListAdapter<Service, ButtonAdapter.ServiceViewHolder>(DIFF_CALLBACK) {
 
-    private val selectedButton = MutableLiveData<String?>() // Menyimpan tombol yang dipilih
+    private val selectedButton = MutableLiveData<String?>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ServiceViewHolder {
         val binding = ItemButtonBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -39,7 +39,7 @@ class ButtonAdapter(
                 binding.apply {
                     btnTitleAtas.text = it.name ?: "Unknown"
                     btnTitleAtas.setOnClickListener {
-                        onButtonClick(service) // Panggil callback saat tombol diklik
+                        onButtonClick(service)
                     }
                 }
             }

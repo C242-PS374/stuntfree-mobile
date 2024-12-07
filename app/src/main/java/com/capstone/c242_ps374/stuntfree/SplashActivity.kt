@@ -31,7 +31,7 @@ class SplashActivity : AppCompatActivity() {
     private fun checkSession() {
         when {
             sessionManager.isLoggedIn() -> {
-                startActivity(Intent(this, MainActivity::class.java))
+                startActivity(Intent(this, LoginActivity::class.java))
             }
             sessionManager.isFirstTime() -> {
                 startActivity(Intent(this, GetStartedActivity::class.java))

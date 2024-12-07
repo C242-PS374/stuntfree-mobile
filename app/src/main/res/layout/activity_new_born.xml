@@ -12,7 +12,7 @@
         android:padding="16dp">
 
         <ProgressBar
-            android:id="@+id/progressBar"
+            android:id="@+id/progressBar1"
             style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -55,12 +55,60 @@
                 android:id="@+id/questionJumlah"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Berapa Umur?"
+                android:hint="Berapa Umur anak anda?"
                 android:textSize="16sp"
                 android:textColor="@android:color/black" />
 
             <EditText
                 android:id="@+id/etUmur"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Berapa Umur anak anda?"
+                android:background="@drawable/spinner_rounded"
+                android:padding="8dp"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:id="@+id/questionJumlah1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Berapa Umur anak anda?"
+                android:textSize="16sp"
+                android:textColor="@android:color/black" />
+
+            <EditText
+                android:id="@+id/etBerat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Berapa berat anak anda saat lahir?"
+                android:background="@drawable/spinner_rounded"
+                android:padding="8dp"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:id="@+id/questionJumlah2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Berapa tinggi anak anda saat lahir?"
+                android:textSize="16sp"
+                android:textColor="@android:color/black" />
+
+            <EditText
+                android:id="@+id/etTinggi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Berapa Umur anak anda?"
@@ -80,7 +128,7 @@
                 android:id="@+id/questionProvinsi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Pilih provinsi"
+                android:text="Pilih provinsi anda"
                 android:textSize="16sp"
                 android:textColor="@android:color/black" />
 
@@ -104,7 +152,7 @@
                 android:id="@+id/questionTerpenuhi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Apakah terpenuhi?"
+                android:text="Apakah gizinya terpenuhi?"
                 android:textSize="16sp"
                 android:textColor="@android:color/black" />
 
@@ -128,7 +176,7 @@
                 android:id="@+id/questionKelayakan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Apakah kelayakan?"
+                android:text="Apakah lingkungan anda layak?"
                 android:textSize="16sp"
                 android:textColor="@android:color/black" />
 
@@ -152,4 +200,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="16dp" />
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="gone"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
