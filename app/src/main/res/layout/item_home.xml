@@ -30,7 +30,7 @@
             android:layout_marginStart="16dp"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:textColor="@color/black"
+            android:textColor="@color/neutral_900"
             app:layout_constraintTop_toTopOf="@id/ivImage"
             app:layout_constraintStart_toEndOf="@id/ivImage"
             app:layout_constraintEnd_toEndOf="parent"

@@ -99,8 +99,8 @@
 
             <View
                 android:id="@+id/uploadButton"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:background="@drawable/ic_upload"
                 android:contentDescription="Upload" />
 

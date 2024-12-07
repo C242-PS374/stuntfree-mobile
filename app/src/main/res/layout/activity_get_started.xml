@@ -32,8 +32,7 @@
         app:tabTextColor="@color/secondary_color"
         tools:ignore="SpeakableTextPresentCheck" />
 
-    <!-- Belum jadi (progress) -->
-    <!-- Custom Indicator Layout -->
+
     <LinearLayout
         android:id="@+id/indicatorLayout"
         android:layout_width="match_parent"
@@ -66,7 +65,6 @@
             android:background="@drawable/indicator_selector" />
     </LinearLayout>
 
-    <!-- Tombol Next -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/nextButton"
         android:layout_width="0dp"

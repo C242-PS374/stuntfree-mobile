@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/neutral_100"
     android:padding="16dp">
 
     <ImageView
@@ -22,13 +22,13 @@
 
     <TextView
         android:id="@+id/loginTitle"
-        android:layout_width="300dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Stuntfree - Beli truk"
-        android:textColor="@color/black"
+        android:textColor="@color/neutral_900"
         android:textAlignment="center"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,8 +40,8 @@
         android:layout_height="wrap_content"
         android:text="Login and Register and we'll get started"
         android:textStyle="normal"
-        android:layout_marginTop="10dp"
-        android:textSize="12sp"
+        android:layout_marginTop="4dp"
+        android:textSize="14sp"
         app:layout_constraintTop_toBottomOf="@id/loginTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:text="Name"
         android:layout_marginTop="30dp"
-        android:textStyle="bold"
+        android:textStyle="normal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/subLoginTitle"/>
 
@@ -61,9 +61,10 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Name"
+        android:hint="ex: John Doe"
         android:layout_marginTop="5dp"
-        app:boxStrokeColor="@color/black"
+        android:textSize="14sp"
+        app:boxStrokeColor="@color/neutral_700"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/namelInput">
@@ -72,8 +73,9 @@
             android:id="@+id/edRegisterName"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:textSize="16sp"
             android:inputType="textEmailAddress"
-            android:textColor="@color/black"
+            android:textColor="@color/neutral_700"
             android:textColorHint="#757575"
             tools:ignore="TextContrastCheck,VisualLintTextFieldSize" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -84,7 +86,7 @@
         android:layout_height="wrap_content"
         android:text="Email"
         android:layout_marginTop="10dp"
-        android:textStyle="bold"
+        android:textStyle="normal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nameInputLayout" />
 
@@ -93,9 +95,10 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Email"
+        android:hint="ex: stuntfree@bangkit.com"
+        android:textSize="14sp"
         android:layout_marginTop="5dp"
-        app:boxStrokeColor="@color/black"
+        app:boxStrokeColor="@color/neutral_700"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/emailInput">
@@ -103,9 +106,10 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edRegisterEmail"
             android:layout_width="match_parent"
+            android:textSize="16sp"
             android:layout_height="50dp"
             android:inputType="textEmailAddress"
-            android:textColor="@color/black"
+            android:textColor="@color/neutral_700"
             android:textColorHint="#757575"
             tools:ignore="TextContrastCheck,VisualLintTextFieldSize" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -115,7 +119,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Password"
-        android:textStyle="bold"
+        android:textStyle="normal"
+        android:textSize="14sp"
         android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/emailInputLayout" />
@@ -126,8 +131,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Password"
+        android:textSize="14sp"
         android:layout_marginTop="5dp"
-        app:boxStrokeColor="@color/black"
+        app:boxStrokeColor="@color/neutral_700"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/passwordInput">
@@ -137,7 +143,8 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:inputType="textPassword"
-            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textColor="@color/neutral_700"
             tools:ignore="TextContrastCheck,VisualLintTextFieldSize" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -146,7 +153,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Confirm Password"
-        android:textStyle="bold"
+        android:textSize="14sp"
+        android:textStyle="normal"
         android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/passwordInputLayout"/>
@@ -158,7 +166,7 @@
         android:layout_height="wrap_content"
         android:hint="Confirm Password"
         android:layout_marginTop="5dp"
-        app:boxStrokeColor="@color/black"
+        app:boxStrokeColor="@color/neutral_700"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/confirmPasswordInput">
@@ -168,7 +176,8 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:inputType="textPassword"
-            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textColor="@color/neutral_700"
             tools:ignore="TextContrastCheck,VisualLintTextFieldSize" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -177,8 +186,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:backgroundTint="@color/black"
-        android:padding="12dp"
+        android:padding="14dp"
         android:text="Register"
         android:textColor="@android:color/white"
         android:textStyle="bold"
