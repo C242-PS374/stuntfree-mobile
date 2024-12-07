@@ -132,7 +132,7 @@
             android:weightSum="3">
 
             <ImageView
-                android:id="@+id/img_log_symptoms"
+                android:id="@+id/log_symptoms"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -141,7 +141,7 @@
                 android:layout_margin="8dp" />
 
             <ImageView
-                android:id="@+id/img_camera_scan"
+                android:id="@+id/camera_scan"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -150,7 +150,7 @@
                 android:layout_margin="8dp" />
 
             <ImageView
-                android:id="@+id/img_quick_call"
+                android:id="@+id/quick_call"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

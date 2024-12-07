@@ -60,16 +60,16 @@ class HomeFragment : Fragment() {
             Toast.makeText(requireContext(), "Edit Newborn Data clicked!", Toast.LENGTH_SHORT).show()
         }
 
-        binding.cardLogSymptoms.setOnClickListener {
+        binding.logSymptoms.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_calendarFragment)
         }
 
-        binding.cardCameraScan.setOnClickListener {
+        binding.cameraScan.setOnClickListener {
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             startActivity(intent)
         }
 
-        binding.cardQuickCall.setOnClickListener {
+        binding.quickCall.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_serviceFragment)
         }
 
