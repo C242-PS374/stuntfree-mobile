@@ -45,4 +45,12 @@ interface ApiService {
     suspend fun getUserProfile(
         @Header("Authorization") token: String
     ): Response<UserProfileResponse>
+
+    @GET("stories")
+    suspend fun getAllDokter(
+        @Header("Authorization") token: String,
+        @Query("page") page: Int? = null,
+        @Query("size") size: Int? = null,
+        @Query("location") location: Int? = null
+    ): Response<ServiceResponse>
 }
