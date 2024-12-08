@@ -30,6 +30,10 @@ class AuthViewModel @Inject constructor(
     private val _loginStatus = MutableLiveData<Resource<LoginResponse>>()
     val loginStatus: LiveData<Resource<LoginResponse>> get() = _loginStatus
 
+    private val _authState = MutableLiveData<Resource<String>>()
+    val authState: LiveData<Resource<String>> = _authState
+
+
     private val _registrationStatus = MutableLiveData<Resource<RegisterResponse>>()
     val registrationStatus: LiveData<Resource<RegisterResponse>> get() = _registrationStatus
 

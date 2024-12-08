@@ -6,10 +6,10 @@
 
     <color name="neutral_100">#F5F5F5</color>
     <color name="neutral_500">#717680</color>
-    <color name="neutral_700">#1414651</color>
+    <color name="neutral_700">#414651</color>
     <color name="neutral_900">#181D27</color>
 
-    <color name="white">FFFFFF</color>
+    <color name="white">#FFFFFF</color>
 
 
     <color name="secondary_color">#FF333333</color>

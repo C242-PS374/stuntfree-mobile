@@ -30,7 +30,7 @@ class WeekAdapter : ListAdapter<DayItem, WeekAdapter.WeekViewHolder>(DIFF_CALLBA
                 binding.tvDate.setTextColor(ContextCompat.getColor(binding.root.context, R.color.white))
             } else {
                 binding.tvDate.setBackgroundResource(0)
-                binding.tvDate.setTextColor(ContextCompat.getColor(binding.root.context, R.color.black))
+                binding.tvDate.setTextColor(ContextCompat.getColor(binding.root.context, R.color.neutral_900))
             }
         }
     }

@@ -22,6 +22,7 @@ import com.capstone.c242_ps374.stuntfree.ui.adapter.HomeAdapter
 import com.capstone.c242_ps374.stuntfree.ui.adapter.WeekAdapter
 import com.capstone.c242_ps374.stuntfree.ui.auth.AuthViewModel
 import com.capstone.c242_ps374.stuntfree.ui.auth.login.LoginActivity
+import com.capstone.c242_ps374.stuntfree.ui.camera.CameraActivity
 import com.capstone.c242_ps374.stuntfree.ui.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -65,7 +66,7 @@ class HomeFragment : Fragment() {
         }
 
         binding.cameraScan.setOnClickListener {
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            val intent = Intent(requireContext(), CameraActivity::class.java)
             startActivity(intent)
         }
 
