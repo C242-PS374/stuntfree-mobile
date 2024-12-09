@@ -1,5 +1,6 @@
 package com.capstone.c242_ps374.stuntfree.ui.quiz.newborn
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
@@ -7,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.capstone.c242_ps374.stuntfree.databinding.ActivityNewBornBinding
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Calendar
 
 @AndroidEntryPoint
 class NewBornActivity : AppCompatActivity() {
@@ -45,6 +47,21 @@ class NewBornActivity : AppCompatActivity() {
 
     private fun setupListeners() {
         binding.btnSubmit.setOnClickListener { attemptSubmit() }
+        binding.etUmur.setOnClickListener { showDatePickerDialog() }
+    }
+
+    private fun showDatePickerDialog() {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
+            val selectedDate = "$selectedDay-${selectedMonth + 1}-$selectedYear"
+            binding.etUmur.text = selectedDate
+        }, year, month, day)
+
+        datePickerDialog.show()
     }
 
     private fun attemptSubmit() {
@@ -68,7 +85,7 @@ class NewBornActivity : AppCompatActivity() {
 
     private fun navigateToNextScreen(umur: String, tinggi: String, berat: String, provinsi: String, terpenuhi: String, kelayakan: String) {
         val intent = Intent(this, NewBorn2Activity::class.java).apply {
-            putExtra("UMUR_ANAK", umur)
+            putExtra("TANGGAL_LAHIR", umur)
             putExtra("TINGGI_BADAN", tinggi)
             putExtra("BERAT_BADAN", berat)
             putExtra("TEMPAT_TINGGAL", provinsi)
@@ -83,3 +100,4 @@ class NewBornActivity : AppCompatActivity() {
         Toast.makeText(this, "Harap isi semua data!", Toast.LENGTH_SHORT).show()
     }
 }
+

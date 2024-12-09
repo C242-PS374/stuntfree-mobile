@@ -43,7 +43,7 @@ interface ApiService {
 
     @GET("user/me")
     suspend fun getUserProfile(
-        @Header("Authorization") token: String
+        @Header("Authorization") token: String,
     ): Response<UserProfileResponse>
 
     @GET("stories")

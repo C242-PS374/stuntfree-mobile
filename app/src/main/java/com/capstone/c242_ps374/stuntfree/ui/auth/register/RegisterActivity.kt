@@ -2,15 +2,13 @@ package com.capstone.c242_ps374.stuntfree.ui.auth.register
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.capstone.c242_ps374.stuntfree.R
 import com.capstone.c242_ps374.stuntfree.databinding.ActivityRegisterBinding
-import com.capstone.c242_ps374.stuntfree.ui.auth.AuthViewModel
+import com.capstone.c242_ps374.stuntfree.ui.AuthViewModel
 import com.capstone.c242_ps374.stuntfree.ui.utils.Resource
 import com.capstone.c242_ps374.stuntfree.data.auth.RegisterResponse
 import com.capstone.c242_ps374.stuntfree.ui.auth.login.LoginActivity

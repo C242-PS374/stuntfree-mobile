@@ -1,62 +1,60 @@
 package com.capstone.c242_ps374.stuntfree.data.manager
 
-import android.content.SharedPreferences
+import android.content.Context
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class SessionManager @Inject constructor(
-    private val sharedPreferences: SharedPreferences
+    @ApplicationContext private val context: Context
 ) {
 
-    fun saveAuthToken(token: String) {
-        sharedPreferences.edit()
-            .putString(KEY_TOKEN, token)
-            .putBoolean(KEY_IS_LOGGED_IN, true)
-            .apply()
-    }
-
-    fun getAuthToken(): String? {
-        return if (isLoggedIn()) {
-            sharedPreferences.getString(KEY_TOKEN, null)
-        } else {
-            null
-        }
-    }
-
-    fun saveStage(stage: String) {
-        sharedPreferences.edit()
-            .putString(KEY_STAGE, stage)
-            .apply()
-    }
-
-    fun getStage(): String? {
-        return sharedPreferences.getString(KEY_STAGE, null)
-    }
-
-    fun clearSession() {
-        sharedPreferences.edit()
-            .remove(KEY_TOKEN)
-            .remove(KEY_IS_LOGGED_IN)
-            .apply()
-    }
-
-    fun isLoggedIn(): Boolean {
-        return sharedPreferences.getBoolean(KEY_IS_LOGGED_IN, false)
-    }
-
-    fun isFirstTime(): Boolean {
-        val isFirst = sharedPreferences.getBoolean(KEY_FIRST_TIME, true)
-        if (isFirst) {
-            sharedPreferences.edit()
-                .putBoolean(KEY_FIRST_TIME, false)
-                .apply()
-        }
-        return isFirst
-    }
+    private val Context.dataStore by preferencesDataStore(name = "user_preferences")
 
     companion object {
-        private const val KEY_TOKEN = "auth_token"
-        private const val KEY_IS_LOGGED_IN = "key_is_logged_in"
-        private const val KEY_FIRST_TIME = "key_first_time"
-        private const val KEY_STAGE = "key_stage"
+        private val KEY_ACCESS_TOKEN = stringPreferencesKey("access_token")
+        private val KEY_REFRESH_TOKEN = stringPreferencesKey("refresh_token")
+        private val KEY_TOKEN_TYPE = stringPreferencesKey("token_type")
+        private val KEY_STAGE = stringPreferencesKey("stage")
+        private val KEY_FIRST_TIME = booleanPreferencesKey("key_first_time")
+        private val KEY_IS_LOGGED_IN = booleanPreferencesKey("is_logged_in")
     }
+
+    suspend fun saveAuthToken(accessToken: String, refreshToken: String, tokenType: String = "bearer") {
+        context.dataStore.edit { preferences ->
+            preferences[KEY_ACCESS_TOKEN] = accessToken
+            preferences[KEY_REFRESH_TOKEN] = refreshToken
+            preferences[KEY_TOKEN_TYPE] = tokenType
+            preferences[KEY_IS_LOGGED_IN] = true
+        }
+    }
+
+    fun getAccessToken(): Flow<String?> = context.dataStore.data.map { it[KEY_ACCESS_TOKEN] }
+    fun getRefreshToken(): Flow<String?> = context.dataStore.data.map { it[KEY_REFRESH_TOKEN] }
+    fun getTokenType(): Flow<String?> = context.dataStore.data.map { it[KEY_TOKEN_TYPE] ?: "bearer" }
+
+    suspend fun saveStage(stage: String) {
+        context.dataStore.edit { preferences ->
+            preferences[KEY_STAGE] = stage
+        }
+    }
+
+    fun getStage(): Flow<String?> = context.dataStore.data.map { it[KEY_STAGE] }
+
+    suspend fun clearSession() {
+        context.dataStore.edit { preferences ->
+            preferences.clear()
+        }
+    }
+
+    fun isFirstTime(): Flow<Boolean> = context.dataStore.data.map { it[KEY_FIRST_TIME] ?: false }
+
+    fun isLoggedIn(): Flow<Boolean> = context.dataStore.data.map { it[KEY_IS_LOGGED_IN] ?: false }
 }

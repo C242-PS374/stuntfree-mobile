@@ -8,6 +8,7 @@ import com.capstone.c242_ps374.stuntfree.data.attach.InfancyRequest
 import com.capstone.c242_ps374.stuntfree.data.attach.InfancyResponse
 import com.capstone.c242_ps374.stuntfree.data.attach.PregnancyRequest
 import com.capstone.c242_ps374.stuntfree.data.attach.PregnancyResponse
+import com.capstone.c242_ps374.stuntfree.data.attach.UserProfileRequest
 import com.capstone.c242_ps374.stuntfree.data.attach.UserProfileResponse
 import com.capstone.c242_ps374.stuntfree.data.manager.SessionManager
 import com.capstone.c242_ps374.stuntfree.data.repository.AttachRepository
@@ -31,80 +32,61 @@ class AttachViewModel @Inject constructor(
     private val _userProfileResponse = MutableLiveData<Resource<UserProfileResponse>>()
     val userProfileResponse: LiveData<Resource<UserProfileResponse>> get() = _userProfileResponse
 
-    private val _authState = MutableLiveData<Resource<String?>>()
-    val authState: LiveData<Resource<String?>> = _authState
+    private val _stageLiveData = MutableLiveData<String>()
+    val stageLiveData: LiveData<String> get() = _stageLiveData
 
-    fun attachInfancyProfile(body: InfancyRequest) {
-        _infancyProfileResponse.value = Resource.Loading()
+    fun onSubmit(isPregnancySelected: Boolean, isInfancySelected: Boolean) {
         viewModelScope.launch {
-            try {
-                val result = attachRepository.attachInfancyProfile(body)
-                if (result.isSuccess) {
-                    val response = result.getOrNull()
-                    if (response != null) {
-                        _infancyProfileResponse.value = Resource.Success(response)
-                    } else {
-                        _infancyProfileResponse.value = Resource.Error("Data tidak ditemukan.")
-                    }
-                } else {
-                    _infancyProfileResponse.value = Resource.Error(result.exceptionOrNull()?.localizedMessage ?: "Unknown error")
-                }
-            } catch (e: Exception) {
-                _infancyProfileResponse.value = Resource.Error("Terjadi kesalahan: ${e.localizedMessage}")
+            val stage = when {
+                isPregnancySelected -> "pregnancy"
+                isInfancySelected -> "infancy"
+                else -> "no_selection"
             }
+
+            sessionManager.saveStage(stage)
+            _stageLiveData.postValue(stage)
         }
     }
 
-    fun attachPregnancyProfile(request: PregnancyRequest) {
-        _pregnancyProfileResponse.value = Resource.Loading()
-        viewModelScope.launch {
-            try {
-                val result = attachRepository.attachPregnancyProfile(request)
-                if (result.isSuccess) {
-                    val response = result.getOrNull()
-                    if (response != null) {
-                        _pregnancyProfileResponse.value = Resource.Success(response)
-                    } else {
-                        _pregnancyProfileResponse.value = Resource.Error("Data tidak ditemukan.")
-                    }
-                } else {
-                    _pregnancyProfileResponse.value = Resource.Error(result.exceptionOrNull()?.localizedMessage ?: "Unknown error")
-                }
-            } catch (e: Exception) {
-                _pregnancyProfileResponse.value = Resource.Error("Terjadi kesalahan: ${e.localizedMessage}")
-            }
+    fun attachInfancyProfile(body: InfancyRequest) {
+        handleApiRequest(_infancyProfileResponse) {
+            attachRepository.attachInfancyProfile(body)
+        }
+    }
+
+    fun attachPregnancyProfile(body: PregnancyRequest) {
+        handleApiRequest(_pregnancyProfileResponse) {
+            attachRepository.attachPregnancyProfile(body)
         }
     }
 
     fun getUserProfile() {
-        _userProfileResponse.value = Resource.Loading()
-        viewModelScope.launch {
-            try {
-                val result = attachRepository.getProfile()
-                if (result.isSuccess) {
-                    val response = result.getOrNull()
-                    if (response != null) {
-                        _userProfileResponse.value = Resource.Success(response)
-                    } else {
-                        _userProfileResponse.value = Resource.Error("Data profil tidak ditemukan.")
-                    }
-                } else {
-                    _userProfileResponse.value = Resource.Error(result.exceptionOrNull()?.localizedMessage ?: "Unknown error")
-                }
-            } catch (e: Exception) {
-                _userProfileResponse.value = Resource.Error("Terjadi kesalahan: ${e.localizedMessage}")
-            }
+        handleApiRequest(_userProfileResponse) {
+            attachRepository.getProfile()
         }
     }
 
-    fun logout() {
+    private fun <T> handleApiRequest(
+        liveData: MutableLiveData<Resource<T>>,
+        apiCall: suspend () -> Result<T>
+    ) {
+        liveData.value = Resource.Loading()
         viewModelScope.launch {
-            _authState.value = Resource.Loading()
             try {
-                sessionManager.clearSession()
-                _authState.value = Resource.Success(null)
+                val result = apiCall()
+                if (result.isSuccess) {
+                    val response = result.getOrNull()
+                    if (response != null) {
+                        liveData.value = Resource.Success(response)
+                    } else {
+                        liveData.value = Resource.Error("Data tidak ditemukan.")
+                    }
+                } else {
+                    val errorMessage = result.exceptionOrNull()?.localizedMessage ?: "Terjadi kesalahan."
+                    liveData.value = Resource.Error(errorMessage)
+                }
             } catch (e: Exception) {
-                _authState.value = Resource.Error(e.message ?: "Logout failed")
+                liveData.value = Resource.Error("Terjadi kesalahan: ${e.localizedMessage}")
             }
         }
     }

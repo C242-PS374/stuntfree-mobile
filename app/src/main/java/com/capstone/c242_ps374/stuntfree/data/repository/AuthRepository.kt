@@ -2,6 +2,7 @@ package com.capstone.c242_ps374.stuntfree.data.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import com.capstone.c242_ps374.stuntfree.data.api.ApiService
 import com.capstone.c242_ps374.stuntfree.data.manager.SessionManager
 import com.capstone.c242_ps374.stuntfree.ui.utils.Resource
@@ -14,12 +15,13 @@ import retrofit2.Response
 import java.io.IOException
 import javax.inject.Inject
 
+
 class AuthRepository @Inject constructor(
     private val apiService: ApiService,
     private val sessionManager: SessionManager
 ) {
 
-    val isLoggedIn: LiveData<Boolean> = MutableLiveData(sessionManager.isLoggedIn())
+    val isLoggedIn: LiveData<Boolean> = sessionManager.isLoggedIn().asLiveData()
 
     suspend fun registerUser(registerData: RegisterRequest): Resource<RegisterResponse> {
         return safeApiCall { apiService.registerUser(registerData) }
@@ -31,18 +33,25 @@ class AuthRepository @Inject constructor(
 
             when (result) {
                 is Resource.Success -> {
-                    result.data?.loginResult?.token?.let { token ->
-                        sessionManager.saveAuthToken(token)
+                    result.data?.token?.let { token ->
+                        sessionManager.saveAuthToken(token.accessToken,  token.refreshToken)
                     }
                     result
                 }
-                is Resource.Error -> result
-                is Resource.Loading -> result
+
+                is Resource.Error -> {
+                    result
+                }
+
+                is Resource.Loading -> {
+                    result
+                }
             }
         } catch (e: Exception) {
             Resource.Error("Login failed: ${e.localizedMessage}")
         }
     }
+
 
     private suspend fun <T> safeApiCall(
         apiCall: suspend () -> Response<T>

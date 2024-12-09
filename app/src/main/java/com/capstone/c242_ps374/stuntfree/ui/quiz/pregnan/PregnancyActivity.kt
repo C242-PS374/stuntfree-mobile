@@ -1,5 +1,6 @@
 package com.capstone.c242_ps374.stuntfree.ui.quiz.pregnan
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
@@ -14,6 +15,7 @@ import com.capstone.c242_ps374.stuntfree.databinding.ActivityPregnancyBinding
 import com.capstone.c242_ps374.stuntfree.ui.AttachViewModel
 import com.capstone.c242_ps374.stuntfree.ui.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Calendar
 
 @AndroidEntryPoint
 class PregnancyActivity : AppCompatActivity() {
@@ -50,7 +52,25 @@ class PregnancyActivity : AppCompatActivity() {
         binding.spinnerTerpenuhi.adapter = yesNoAdapter
         binding.spinnerKelayakan.adapter = yesNoAdapter
 
+        binding.etUmur.setOnClickListener {
+            showDatePickerDialog()
+        }
+
         binding.btnSubmit.setOnClickListener { attemptSubmit() }
+    }
+
+    private fun showDatePickerDialog() {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
+            val selectedDate = "$selectedDay-${selectedMonth + 1}-$selectedYear"
+            binding.etUmur.text = selectedDate
+        }, year, month, day)
+
+        datePickerDialog.show()
     }
 
     private fun setupObservers() {
@@ -60,17 +80,17 @@ class PregnancyActivity : AppCompatActivity() {
     }
 
     private fun attemptSubmit() {
-        val umur = binding.etUmur.text.toString().trim()
+        val tanggal = binding.etUmur.text.toString().trim()
         val provinsi = binding.spinnerProvinsi.selectedItem.toString()
         val terpenuhi = binding.spinnerTerpenuhi.selectedItem.toString()
         val kelayakan = binding.spinnerKelayakan.selectedItem.toString()
 
-        if (isValidInput(umur, provinsi, terpenuhi, kelayakan)) {
+        if (isValidInput(tanggal, provinsi, terpenuhi, kelayakan)) {
             val pregnancyRequest = PregnancyRequest(
-                gestasionalAge = umur.toInt(),
+                gestasionalAge = tanggal,
                 address = provinsi,
-                isEnvironmentSuitable = kelayakan == "Ya",
-                isNutritionFulfilled = terpenuhi == "Ya"
+                isEnvironmentSuitable = kelayakan,
+                isNutritionFulfilled = terpenuhi
             )
             attachViewModel.attachPregnancyProfile(pregnancyRequest)
         } else {
@@ -78,8 +98,8 @@ class PregnancyActivity : AppCompatActivity() {
         }
     }
 
-    private fun isValidInput(umur: String, provinsi: String, terpenuhi: String, kelayakan: String): Boolean {
-        return umur.isNotEmpty() && provinsi.isNotEmpty() && terpenuhi.isNotEmpty() && kelayakan.isNotEmpty()
+    private fun isValidInput(tanggal: String, provinsi: String, terpenuhi: String, kelayakan: String): Boolean {
+        return tanggal.isNotEmpty() && provinsi.isNotEmpty() && terpenuhi.isNotEmpty() && kelayakan.isNotEmpty()
     }
 
     private fun handleSubmissionStatus(resource: Resource<PregnancyResponse>) {
@@ -103,7 +123,6 @@ class PregnancyActivity : AppCompatActivity() {
 
     private fun toggleInputs(enabled: Boolean) {
         binding.apply {
-            etUmur.isEnabled = enabled
             spinnerProvinsi.isEnabled = enabled
             spinnerTerpenuhi.isEnabled = enabled
             spinnerKelayakan.isEnabled = enabled

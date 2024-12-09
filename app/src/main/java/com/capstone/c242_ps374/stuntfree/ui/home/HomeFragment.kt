@@ -2,17 +2,12 @@ package com.capstone.c242_ps374.stuntfree.ui.home
 
 import android.content.Intent
 import android.os.Bundle
-import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.c242_ps374.stuntfree.R
@@ -20,10 +15,8 @@ import com.capstone.c242_ps374.stuntfree.databinding.FragmentHomeBinding
 import com.capstone.c242_ps374.stuntfree.ui.ServiceViewModel
 import com.capstone.c242_ps374.stuntfree.ui.adapter.HomeAdapter
 import com.capstone.c242_ps374.stuntfree.ui.adapter.WeekAdapter
-import com.capstone.c242_ps374.stuntfree.ui.auth.AuthViewModel
-import com.capstone.c242_ps374.stuntfree.ui.auth.login.LoginActivity
+import com.capstone.c242_ps374.stuntfree.ui.AuthViewModel
 import com.capstone.c242_ps374.stuntfree.ui.camera.CameraActivity
-import com.capstone.c242_ps374.stuntfree.ui.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

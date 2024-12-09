@@ -51,6 +51,7 @@ dependencies {
     implementation(libs.androidx.camera.view)
     implementation(libs.androidx.camera.lifecycle)
     implementation(libs.play.services.maps)
+    implementation(libs.androidx.datastore.core.android)
     kapt(libs.hilt.compiler)
 
     implementation (libs.hilt.android.v248)
@@ -92,6 +93,9 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
+    implementation("androidx.datastore:datastore-preferences-core:1.1.1")
 
 
     implementation ("androidx.navigation:navigation-fragment-ktx:2.7.3")

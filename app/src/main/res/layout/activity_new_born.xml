@@ -55,19 +55,22 @@
                 android:id="@+id/questionJumlah"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Berapa Umur anak anda?"
+                android:text="Tanggal lahir anak anda?"
                 android:textSize="16sp"
                 android:textColor="@android:color/black" />
 
-            <EditText
+            <TextView
                 android:id="@+id/etUmur"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Berapa Umur anak anda?"
+                android:text="Pilih tanggal"
                 android:background="@drawable/spinner_rounded"
                 android:padding="8dp"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="8dp"
+                android:clickable="true"
+                android:focusable="true" />
         </LinearLayout>
+
 
         <LinearLayout
             android:orientation="vertical"

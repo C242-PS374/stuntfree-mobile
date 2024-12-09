@@ -11,44 +11,44 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
 
-    private var instance: ApiService? = null
-
-    @Synchronized
-    fun getInstance(context: Context): ApiService {
-        if (instance == null) {
-            val logging = HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            }
-
-            val client = OkHttpClient.Builder()
-                .addInterceptor(logging)
-                .addInterceptor { chain ->
-                    val token = (context.applicationContext as MyApp)
-                        .getSystemService(SessionManager::class.java)
-                        .getAuthToken()
-
-                    if (!token.isNullOrEmpty()) {
-                        val originalRequest = chain.request()
-                        val newRequest = originalRequest.newBuilder()
-                            .header("Authorization", "Bearer $token")
-                            .build()
-                        chain.proceed(newRequest)
-                    } else {
-                        chain.proceed(chain.request())
-                    }
-                }
-                .connectTimeout(30, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(30, TimeUnit.SECONDS)
-                .build()
-
-            instance = Retrofit.Builder()
-                .baseUrl("https://stuntfree-api-788458290127.asia-southeast2.run.app/api/v1\n")
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(ApiService::class.java)
-        }
-        return instance!!
-    }
+//    private var instance: ApiService? = null
+//
+//    @Synchronized
+//    fun getInstance(context: Context): ApiService {
+//        if (instance == null) {
+//            val logging = HttpLoggingInterceptor().apply {
+//                level = HttpLoggingInterceptor.Level.BODY
+//            }
+//
+//            val client = OkHttpClient.Builder()
+//                .addInterceptor(logging)
+//                .addInterceptor { chain ->
+//                    val token = (context.applicationContext as MyApp)
+//                        .getSystemService(SessionManager::class.java)
+//                        .getAccessToken()
+//
+//                    if (!token.isNullOrEmpty()) {
+//                        val originalRequest = chain.request()
+//                        val newRequest = originalRequest.newBuilder()
+//                            .header("Authorization", "Bearer $token")
+//                            .build()
+//                        chain.proceed(newRequest)
+//                    } else {
+//                        chain.proceed(chain.request())
+//                    }
+//                }
+//                .connectTimeout(30, TimeUnit.SECONDS)
+//                .readTimeout(30, TimeUnit.SECONDS)
+//                .writeTimeout(30, TimeUnit.SECONDS)
+//                .build()
+//
+//            instance = Retrofit.Builder()
+//                .baseUrl("https://stuntfree-api-788458290127.asia-southeast2.run.app/api/v1\n")
+//                .client(client)
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build()
+//                .create(ApiService::class.java)
+//        }
+//        return instance!!
+//    }
 }

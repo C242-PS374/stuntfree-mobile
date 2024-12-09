@@ -52,7 +52,7 @@ class NewBorn2Activity : AppCompatActivity() {
     }
 
     private fun attemptSubmit() {
-        val umurAnak = intent.getStringExtra("UMUR_ANAK") ?: ""
+        val umurAnak = intent.getStringExtra("TANGGAL_LAHIR") ?: ""
         val tinggiBadanAnak = intent.getStringExtra("TINGGI_BADAN") ?: ""
         val beratBadanAnak = intent.getStringExtra("BERAT_BADAN") ?: ""
         val tempatTinggal = intent.getStringExtra("TEMPAT_TINGGAL") ?: ""
@@ -72,8 +72,8 @@ class NewBorn2Activity : AppCompatActivity() {
                 childHeight = tinggiBadan.toInt(),
                 childWeight = beratBadan.toInt(),
                 address = tempatTinggal,
-                isEnvironmentSuitable = kelayakanLingkungan == "Ya",
-                isNutritionFulfilled = giziTerpenuhi == "Ya"
+                isEnvironmentSuitable = kelayakanLingkungan,
+                isNutritionFulfilled = giziTerpenuhi
             )
 
             newBornViewModel.attachInfancyProfile(newBornRequest)
@@ -83,8 +83,9 @@ class NewBorn2Activity : AppCompatActivity() {
     }
 
     private fun isValidInput(tinggiBadan: String, beratBadan: String): Boolean {
-        return tinggiBadan.isNotEmpty() && beratBadan.isNotEmpty() &&
-                tinggiBadan.toIntOrNull() != null && beratBadan.toIntOrNull() != null
+        val tinggi = tinggiBadan.toIntOrNull()
+        val berat = beratBadan.toIntOrNull()
+        return tinggi != null && berat != null && tinggi > 0 && tinggi <= 300 && berat > 0 && berat <= 500
     }
 
     private fun handleSubmissionStatus(resource: Resource<InfancyResponse>) {

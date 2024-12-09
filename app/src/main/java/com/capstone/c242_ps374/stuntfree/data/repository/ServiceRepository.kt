@@ -11,7 +11,7 @@ class ServiceRepository @Inject constructor(
 ) {
 
     suspend fun getServices(): Result<ServiceResponse> {
-        val token = sessionManager.getAuthToken() ?: return Result.failure(Exception("Token not found"))
+        val token = sessionManager.getAccessToken() ?: return Result.failure(Exception("Token not found"))
 
         return try {
             val response = apiService.getAllDokter(

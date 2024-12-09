@@ -14,6 +14,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -24,6 +26,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
     private const val BASE_URL = "https://stuntfree-api-788458290127.asia-southeast2.run.app/api/v1/"
 
     @Provides
@@ -37,12 +40,11 @@ object AppModule {
             }
         }
 
-
         return OkHttpClient.Builder()
             .addInterceptor(logging)
             .addInterceptor { chain ->
                 val originalRequest = chain.request()
-                val token = sessionManager.getAuthToken()
+                val token = runBlocking { sessionManager.getAccessToken().firstOrNull() }
 
                 val newRequest = if (!token.isNullOrEmpty()) {
                     originalRequest.newBuilder()
@@ -78,36 +80,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideAuthRepository(
-        apiService: ApiService,
-        sessionManager: SessionManager
-    ): AuthRepository {
-        return AuthRepository(apiService, sessionManager)
-    }
-
-    @Provides
-    @Singleton
-    fun provideEncryptedSharedPreferences(
-        @ApplicationContext context: Context
-    ): SharedPreferences {
-        return try {
-            val masterKey = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
-            EncryptedSharedPreferences.create(
-                "encrypted_preferences",
-                masterKey,
-                context,
-                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-            )
-        } catch (e: Exception) {
-            Log.e("AppModule", "Error creating EncryptedSharedPreferences", e)
-            context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-        }
-    }
-
-    @Provides
-    @Singleton
-    fun provideSessionManager(sharedPreferences: SharedPreferences): SessionManager {
-        return SessionManager(sharedPreferences)
+    fun provideSessionManager(@ApplicationContext context: Context): SessionManager {
+        return SessionManager(context)
     }
 }
