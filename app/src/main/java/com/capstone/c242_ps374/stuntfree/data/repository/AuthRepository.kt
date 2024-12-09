@@ -19,6 +19,8 @@ class AuthRepository @Inject constructor(
     private val sessionManager: SessionManager
 ) {
 
+    val isLoggedIn: LiveData<Boolean> = MutableLiveData(sessionManager.isLoggedIn())
+
     suspend fun registerUser(registerData: RegisterRequest): Resource<RegisterResponse> {
         return safeApiCall { apiService.registerUser(registerData) }
     }
@@ -41,8 +43,6 @@ class AuthRepository @Inject constructor(
             Resource.Error("Login failed: ${e.localizedMessage}")
         }
     }
-
-    val isLoggedIn: LiveData<Boolean> = MutableLiveData(sessionManager.isLoggedIn())
 
     private suspend fun <T> safeApiCall(
         apiCall: suspend () -> Response<T>

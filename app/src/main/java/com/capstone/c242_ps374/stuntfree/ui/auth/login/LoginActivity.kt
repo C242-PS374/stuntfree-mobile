@@ -85,20 +85,8 @@ class LoginActivity : AppCompatActivity() {
         val password = binding.edLoginPassword.text.toString().trim()
 
         if (validateEmail(email) && validatePassword(password)) {
-            authViewModel.loginUser(email, password) { isLoggedIn, isStageEmpty ->
-                if (isLoggedIn) {
-                    if (isStageEmpty) {
-                        val intent = Intent(this, QuizActivity::class.java)
-                        startActivity(intent)
-                    } else {
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
-                    }
-                    finish()
-                } else {
-                    Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show()
-                }
-            }
+            authViewModel.loginUser(email, password)
+            navigateToMain()
         }
     }
 

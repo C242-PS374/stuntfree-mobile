@@ -33,7 +33,6 @@ class AuthViewModel @Inject constructor(
     private val _authState = MutableLiveData<Resource<String>>()
     val authState: LiveData<Resource<String>> = _authState
 
-
     private val _registrationStatus = MutableLiveData<Resource<RegisterResponse>>()
     val registrationStatus: LiveData<Resource<RegisterResponse>> get() = _registrationStatus
 
@@ -41,42 +40,40 @@ class AuthViewModel @Inject constructor(
 
     init {
         val token = sessionManager.getAuthToken()
-        if (token != null) {
+        if (token != null && sessionManager.isLoggedIn()) {
             _authState.value = Resource.Success(token)
         } else {
             _authState.value = Resource.Error("Token not found")
         }
     }
 
-    fun loginUser(email: String, password: String, onNavigate: (Boolean, Boolean) -> Unit) {
+    fun loginUser(email: String, password: String) {
         viewModelScope.launch {
             _loginStatus.value = Resource.Loading()
             try {
                 val loginData = LoginRequest(email, password)
-                val result = repository.loginUser(loginData)
-                if (result is Resource.Success) {
-                    val token = sessionManager.getAuthToken()
-                    if (token != null) {
-                        sessionManager.saveAuthToken(token)
-
-                        val stage = sessionManager.getStage()
-                        if (stage.isNullOrEmpty()) {
-                            onNavigate(true, false)
+                when (val response = repository.loginUser(loginData)) {
+                    is Resource.Success -> {
+                        val token = response.data?.loginResult?.token
+                        if (!token.isNullOrEmpty()) {
+                            sessionManager.saveAuthToken(token)
+                            _loginStatus.value = response
                         } else {
-                            onNavigate(true, true)
+                            _loginStatus.value = Resource.Error("Invalid login response: Missing token")
                         }
-                    } else {
-                        _loginStatus.value = Resource.Error("Token not found")
                     }
-                } else {
-                    _loginStatus.value = Resource.Error("Login failed")
+                    is Resource.Error -> {
+                        _loginStatus.value = Resource.Error(response.message ?: "Login failed")
+                    }
+                    is Resource.Loading -> {
+                        _loginStatus.value = Resource.Loading()
+                    }
                 }
             } catch (e: Exception) {
                 _loginStatus.value = Resource.Error("Login failed: ${e.message}")
             }
         }
     }
-
 
     fun checkStage(onNavigateToQuiz: () -> Unit, onNavigateToMain: () -> Unit) {
         val stage = sessionManager.getStage()
@@ -92,20 +89,27 @@ class AuthViewModel @Inject constructor(
             _registrationStatus.value = Resource.Loading()
             try {
                 val registerData = RegisterRequest(name, email, password, confirmPassword)
-                when (val response = repository.registerUser(registerData)){
-                    is Resource.Error ->
-                        _registrationStatus.value = Resource.Error(response.message ?: "Register failed")
-                    is Resource.Loading ->
-                        _registrationStatus.value = Resource.Loading()
-                    is Resource.Success ->
-                        if (response.data?.error == true) {
-                            _registrationStatus.value = Resource.Error(response.data.message)
-                        } else {
-                            _registrationStatus.value = Resource.Error(response.data?.message ?: "Unknown error")
+                when (val response = repository.registerUser(registerData)) {
+                    is Resource.Success -> {
+                        response.data?.let { responseData ->
+                            if (responseData.error) {
+                                _registrationStatus.value = Resource.Error(responseData.message)
+                            } else {
+                                _registrationStatus.value = Resource.Success(responseData)
+                            }
+                        } ?: run {
+                            _registrationStatus.value = Resource.Error("Unknown error: Empty response")
                         }
+                    }
+                    is Resource.Error -> {
+                        _registrationStatus.value = Resource.Error(response.message ?: "Register failed")
+                    }
+                    is Resource.Loading -> {
+                        _registrationStatus.value = Resource.Loading()
+                    }
                 }
             } catch (e: Exception) {
-                _registrationStatus.value = Resource.Error("Register failed: ${e.message}")
+                _registrationStatus.value = Resource.Error("Register failed: ${e.localizedMessage}")
             }
         }
     }

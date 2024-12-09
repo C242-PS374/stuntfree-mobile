@@ -7,14 +7,6 @@ class SessionManager @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ) {
 
-    init {
-        if (!sharedPreferences.contains(KEY_FIRST_TIME)) {
-            sharedPreferences.edit()
-                .putBoolean(KEY_FIRST_TIME, true)
-                .apply()
-        }
-    }
-
     fun saveAuthToken(token: String) {
         sharedPreferences.edit()
             .putString(KEY_TOKEN, token)
@@ -23,7 +15,11 @@ class SessionManager @Inject constructor(
     }
 
     fun getAuthToken(): String? {
-        return sharedPreferences.getString(KEY_TOKEN, null)
+        return if (isLoggedIn()) {
+            sharedPreferences.getString(KEY_TOKEN, null)
+        } else {
+            null
+        }
     }
 
     fun saveStage(stage: String) {
