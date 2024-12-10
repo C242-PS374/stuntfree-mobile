@@ -49,57 +49,24 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         android:layout_margin="10dp"
         app:layout_constraintTop_toBottomOf="@+id/linear"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:listitem="@layout/item_day" />
 
-    <LinearLayout
-        android:id="@+id/linear1"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerStatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp"
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/recyclerView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_status" />
 
-        <TextView
-            android:id="@+id/tv_child_age_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Child Age:"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:textColor="@color/neutral_900"
-            android:layout_marginBottom="4dp" />
-
-        <TextView
-            android:id="@+id/tv_day_count"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Day 4"
-            android:gravity="center"
-            android:textSize="48sp"
-            android:textStyle="bold"
-            android:textColor="@color/neutral_900"
-            android:layout_marginBottom="16dp" />
-
-        <Button
-            android:id="@+id/btn_edit_newborn_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Edit Newborn Data"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/neutral_100"
-            android:textColor="@color/primaryBase"
-            android:padding="12dp"
-            android:textSize="16sp"
-            android:textAllCaps="false"/>
-    </LinearLayout>
 
     <TextView
         android:id="@+id/tv_my_daily_routines"
@@ -108,11 +75,11 @@
         android:text="My Daily Routines • Today"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="16dp"
         android:textColor="@color/neutral_900"
-        app:layout_constraintTop_toBottomOf="@+id/linear1"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerStatus"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="60dp" />
+        android:layout_marginTop="55dp" />
 
     <LinearLayout
         android:id="@+id/linear2"
@@ -120,10 +87,12 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@id/tv_my_daily_routines"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:weightSum="3">
 
         <ImageView
@@ -162,13 +131,16 @@
         app:layout_constraintTop_toBottomOf="@id/linear2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@color/white"
-        android:layout_marginTop="16dp">
+        android:background="@drawable/rounded_top_background"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp">
 
         <TextView
             android:id="@+id/tv_insight_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="For you • Insight during pregnancy"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -183,6 +155,7 @@
             android:scrollbars="vertical"
             tools:listitem="@layout/item_home" />
     </LinearLayout>
+
 
     <ProgressBar
         android:id="@+id/progress_bar"

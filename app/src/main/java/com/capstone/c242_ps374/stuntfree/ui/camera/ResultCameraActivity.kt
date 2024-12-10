@@ -51,5 +51,9 @@ class ResultCameraActivity : AppCompatActivity() {
         val foodGroupAdapter = FoodGroupAdapter(foodData)
         binding.dataGrid.layoutManager = LinearLayoutManager(this)
         binding.dataGrid.adapter = foodGroupAdapter
+
+        binding.backButton.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
     }
 }

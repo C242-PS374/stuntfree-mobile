@@ -16,6 +16,8 @@ import com.capstone.c242_ps374.stuntfree.ui.ServiceViewModel
 import com.capstone.c242_ps374.stuntfree.ui.adapter.HomeAdapter
 import com.capstone.c242_ps374.stuntfree.ui.adapter.WeekAdapter
 import com.capstone.c242_ps374.stuntfree.ui.AuthViewModel
+import com.capstone.c242_ps374.stuntfree.ui.adapter.RecyclerStatusAdapter
+import com.capstone.c242_ps374.stuntfree.ui.adapter.StatusItem
 import com.capstone.c242_ps374.stuntfree.ui.camera.CameraActivity
 import com.capstone.c242_ps374.stuntfree.ui.custom.CustomDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,6 +46,7 @@ class HomeFragment : Fragment() {
         setupWeekRecyclerView()
         observeWeekData()
         setupBinding()
+        setupRecyclerStatus()
 
         serviceViewModel.fetchServices()
         serviceViewModel.generateDummyData()
@@ -51,12 +54,9 @@ class HomeFragment : Fragment() {
 
     private fun setupButton() {
 
-        binding.btnEditNewbornData.setOnClickListener {
-            Toast.makeText(requireContext(), "Edit Newborn Data clicked!", Toast.LENGTH_SHORT).show()
-        }
-
         binding.logSymptoms.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_calendarFragment)
+            val intent = Intent(requireContext(), LogYourSymptomsActivity::class.java)
+            startActivity(intent)
         }
 
         binding.cameraScan.setOnClickListener {
@@ -107,16 +107,41 @@ class HomeFragment : Fragment() {
         serviceViewModel.todayDate.observe(viewLifecycleOwner) { todayDate ->
             binding.tvTodayDate.text = "Today, $todayDate"
         }
-
-        serviceViewModel.childAge.observe(viewLifecycleOwner) { childAge ->
-            binding.tvChildAgeTitle.text = "Child Age:"
-            binding.tvDayCount.text = childAge
-        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    val statusList = listOf(
+        StatusItem(
+            title = "Pregnancy - Day 4",
+            stuntingDescription = "3 Hari sebelum proses deteksi stunting",
+            nutritionDescription = "Not Fulfilled",
+            environmentalDescription = "Healthy Environment"
+        ),
+        StatusItem(
+            title = "Pregnancy - Day 5",
+            stuntingDescription = "2 Hari sebelum proses deteksi stunting",
+            nutritionDescription = "Partially Fulfilled",
+            environmentalDescription = "Moderate Environment"
+        ),
+        StatusItem(
+            title = "Pregnancy - Day 6",
+            stuntingDescription = "1 Hari sebelum proses deteksi stunting",
+            nutritionDescription = "Fulfilled",
+            environmentalDescription = "Optimal Environment"
+        )
+    )
+
+
+    private fun setupRecyclerStatus() {
+        val recyclerStatusAdapter = RecyclerStatusAdapter(statusList)
+        binding.recyclerStatus.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = recyclerStatusAdapter
+        }
     }
 }
 

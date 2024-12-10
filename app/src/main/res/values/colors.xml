@@ -5,11 +5,20 @@
     <color name="primaryLight">#F06292</color>
 
     <color name="neutral_100">#F5F5F5</color>
+    <color name="neutral_200">#E9EAEB</color>
     <color name="neutral_500">#717680</color>
     <color name="neutral_700">#414651</color>
     <color name="neutral_900">#181D27</color>
 
     <color name="white">#FFFFFF</color>
+
+    <color name="success_100">#D1FADF</color>
+    <color name="success_700">#027A48</color>
+
+
+    <color name="error_100">#FEF0C7</color>
+    <color name="error_600">#D92D20</color>
+    <color name="error_700">#B54708</color>
 
 
     <color name="secondary_color">#FF333333</color>

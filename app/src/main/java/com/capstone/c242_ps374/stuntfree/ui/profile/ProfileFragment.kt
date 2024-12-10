@@ -15,6 +15,7 @@ import com.capstone.c242_ps374.stuntfree.databinding.FragmentProfileBinding
 import com.capstone.c242_ps374.stuntfree.ui.AttachViewModel
 import com.capstone.c242_ps374.stuntfree.ui.AuthViewModel
 import com.capstone.c242_ps374.stuntfree.ui.auth.login.LoginActivity
+import com.capstone.c242_ps374.stuntfree.ui.custom.PopUpLogout
 import com.capstone.c242_ps374.stuntfree.ui.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -48,9 +49,8 @@ class ProfileFragment : Fragment() {
         }
 
         binding.actionLogout.setOnClickListener {
-            authViewModel.logout()
-            Toast.makeText(requireContext(), "Logout berhasil", Toast.LENGTH_SHORT).show()
-            navigateToLogin()
+            val customDialogFragment = PopUpLogout()
+            customDialogFragment.show(parentFragmentManager, PopUpLogout::class.java.simpleName)
         }
     }
 

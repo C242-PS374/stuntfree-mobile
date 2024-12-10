@@ -57,6 +57,10 @@ class CameraActivity : AppCompatActivity() {
         binding.backButton.setOnClickListener { finish() }
         binding.flashButton.setOnClickListener { toggleFlash() }
         binding.uploadButton.setOnClickListener { openGallery() }
+
+        binding.backButton.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
     }
 
     private fun openGallery() {
