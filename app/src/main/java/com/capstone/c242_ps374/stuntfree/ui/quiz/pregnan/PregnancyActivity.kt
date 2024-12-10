@@ -1,9 +1,9 @@
 package com.capstone.c242_ps374.stuntfree.ui.quiz.pregnan
 
-import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
-import android.widget.ArrayAdapter
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -15,7 +15,6 @@ import com.capstone.c242_ps374.stuntfree.databinding.ActivityPregnancyBinding
 import com.capstone.c242_ps374.stuntfree.ui.AttachViewModel
 import com.capstone.c242_ps374.stuntfree.ui.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.Calendar
 
 @AndroidEntryPoint
 class PregnancyActivity : AppCompatActivity() {
@@ -28,30 +27,7 @@ class PregnancyActivity : AppCompatActivity() {
         binding = ActivityPregnancyBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupViews()
         setupObservers()
-    }
-
-    private fun setupViews() {
-        val provinsiList = arrayOf(
-            "Aceh", "Bali", "Bangka Belitung", "Banten", "Bengkulu", "DI Yogyakarta",
-            "DKI Jakarta", "Gorontalo", "Jambi", "Jawa Barat", "Jawa Tengah", "Jawa Timur",
-            "Kalimantan Barat", "Kalimantan Selatan", "Kalimantan Tengah", "Kalimantan Timur",
-            "Kalimantan Utara", "Kepulauan Riau", "Lampung", "Maluku", "Maluku Utara",
-            "Nusa Tenggara Barat", "Nusa Tenggara Timur", "Papua", "Papua Barat", "Riau",
-            "Sulawesi Barat", "Sulawesi Selatan", "Sulawesi Tengah", "Sulawesi Tenggara",
-            "Sulawesi Utara", "Sumatera Barat", "Sumatera Selatan", "Sumatera Utara", "West Java"
-        )
-        val provinsiAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, provinsiList)
-        provinsiAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spinnerProvinsi.adapter = provinsiAdapter
-
-        val yesNoList = arrayOf("Ya", "Tidak")
-        val yesNoAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, yesNoList)
-        yesNoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spinnerTerpenuhi.adapter = yesNoAdapter
-        binding.spinnerKelayakan.adapter = yesNoAdapter
-
         binding.btnSubmit.setOnClickListener { attemptSubmit() }
     }
 
@@ -62,17 +38,17 @@ class PregnancyActivity : AppCompatActivity() {
     }
 
     private fun attemptSubmit() {
-        val tanggal = binding.etUmur.text.toString()
-        val provinsi = binding.spinnerProvinsi.selectedItem.toString()
-        val terpenuhi = binding.spinnerTerpenuhi.selectedItem.toString()
-        val kelayakan = binding.spinnerKelayakan.selectedItem.toString()
+        val umur = binding.etUmur.text.toString()
+        val address = binding.etAddress.text.toString()
+        val isNutritionFulfilled = getSelectedRadioButtonText(binding.radioNutrition)
+        val isEnvironmentSuitable = getSelectedRadioButtonText(binding.radioEnvironment)
 
-        if (isValidInput(tanggal, provinsi, terpenuhi, kelayakan)) {
+        if (isValidInput(umur, address, isNutritionFulfilled, isEnvironmentSuitable)) {
             val pregnancyRequest = PregnancyRequest(
-                gestasionalAge = tanggal.toInt(),
-                address = provinsi,
-                isEnvironmentSuitable = terpenuhi.equals("Ya", ignoreCase = true),
-                isNutritionFulfilled = kelayakan.equals("Ya", ignoreCase = true)
+                gestasionalAge = umur.toInt(),
+                address = address,
+                isNutritionFulfilled = isNutritionFulfilled.equals("Yes", ignoreCase = true),
+                isEnvironmentSuitable = isEnvironmentSuitable.equals("Yes", ignoreCase = true)
             )
             attachViewModel.attachPregnancyProfile(pregnancyRequest)
         } else {
@@ -80,8 +56,18 @@ class PregnancyActivity : AppCompatActivity() {
         }
     }
 
-    private fun isValidInput(tanggal: String, provinsi: String, terpenuhi: String, kelayakan: String): Boolean {
-        return tanggal.isNotEmpty() && provinsi.isNotEmpty() && terpenuhi.isNotEmpty() && kelayakan.isNotEmpty()
+    private fun isValidInput(
+        umur: String,
+        address: String,
+        isNutritionFulfilled: String?,
+        isEnvironmentSuitable: String?
+    ): Boolean {
+        return umur.isNotEmpty() && address.isNotEmpty() && isNutritionFulfilled != null && isEnvironmentSuitable != null
+    }
+
+    private fun getSelectedRadioButtonText(radioGroup: RadioGroup): String? {
+        val selectedId = radioGroup.checkedRadioButtonId
+        return if (selectedId != -1) findViewById<RadioButton>(selectedId).text.toString() else null
     }
 
     private fun handleSubmissionStatus(resource: Resource<PregnancyResponse>) {
@@ -105,9 +91,10 @@ class PregnancyActivity : AppCompatActivity() {
 
     private fun toggleInputs(enabled: Boolean) {
         binding.apply {
-            spinnerProvinsi.isEnabled = enabled
-            spinnerTerpenuhi.isEnabled = enabled
-            spinnerKelayakan.isEnabled = enabled
+            etUmur.isEnabled = enabled
+            etAddress.isEnabled = enabled
+            radioNutrition.isEnabled = enabled
+            radioEnvironment.isEnabled = enabled
             btnSubmit.isEnabled = enabled
         }
     }

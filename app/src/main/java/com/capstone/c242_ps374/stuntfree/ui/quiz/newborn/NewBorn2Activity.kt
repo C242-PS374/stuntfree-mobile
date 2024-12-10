@@ -2,8 +2,6 @@ package com.capstone.c242_ps374.stuntfree.ui.quiz.newborn
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -29,20 +27,7 @@ class NewBorn2Activity : AppCompatActivity() {
         binding = ActivityNewBorn2Binding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupViews()
         setupObservers()
-    }
-
-    private fun setupViews() {
-        val genderList = arrayOf("Laki-Laki", "Perempuan")
-        val genderAdapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_spinner_item,
-            genderList
-        )
-        genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.dropdownJenisKelamin.adapter = genderAdapter
-
         binding.btnSubmit.setOnClickListener {
             attemptSubmit()
         }
@@ -56,41 +41,43 @@ class NewBorn2Activity : AppCompatActivity() {
 
     private fun attemptSubmit() {
         val umurAnak = intent.getStringExtra("TANGGAL_LAHIR") ?: ""
-        val tinggiBadanAnak = intent.getStringExtra("TINGGI_BADAN") ?: ""
-        val beratBadanAnak = intent.getStringExtra("BERAT_BADAN") ?: ""
         val tempatTinggal = intent.getStringExtra("TEMPAT_TINGGAL") ?: ""
         val giziTerpenuhi = intent.getStringExtra("GIZI_TERPENUHI") ?: ""
         val kelayakanLingkungan = intent.getStringExtra("KELAYAKAN_LINGKUNGAN") ?: ""
 
-        val jenisKelamin = binding.dropdownJenisKelamin.selectedItem?.toString() ?: ""
-        val tinggiBadan = binding.tinggiBadan.text.toString()
-        val beratBadan = binding.beratBadan.text.toString()
+        val tinggiBadan = binding.etHeightBirth.text.toString()
+        val beratBadan = binding.etWeightBirth.text.toString()
+        val currentHeight = binding.etCurrentHeight.text.toString()
+        val currentWeight = binding.etCurrentWeight.text.toString()
+
+        // Ambil gender dari RadioGroup
+        val selectedGenderId = binding.radioGender.checkedRadioButtonId
+        val genderApiValue = when (selectedGenderId) {
+            binding.radioYesGender.id -> "male"
+            binding.radioNoGender.id -> "female"
+            else -> ""
+        }
 
         // Format tanggal
         val formattedDate = try {
             SimpleDateFormat("d-MM-yyyy", Locale.getDefault()).parse(umurAnak)?.let {
-                SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                    .format(it)
+                SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(it)
             }
         } catch (e: Exception) {
             null
         }
 
-        // Ubah gender ke format API
-        val genderApiValue = when (jenisKelamin.lowercase()) {
-            "laki-laki" -> "male"
-            "perempuan" -> "female"
-            else -> ""
-        }
-
-        if (isValidInput(tinggiBadan, beratBadan) && !formattedDate.isNullOrEmpty() && genderApiValue.isNotEmpty()) {
+        if (isValidInput(tinggiBadan, beratBadan, currentHeight, currentWeight) &&
+            !formattedDate.isNullOrEmpty() &&
+            genderApiValue.isNotEmpty()
+        ) {
             val newBornRequest = InfancyRequest(
-                childDob = formattedDate.toString(),
+                childDob = formattedDate,
                 childGender = genderApiValue,
-                childBornWeight = tinggiBadanAnak.toInt(),
-                childBornHeight = beratBadanAnak.toInt(),
-                childHeight = tinggiBadan.toInt(),
-                childWeight = beratBadan.toInt(),
+                childBornWeight = beratBadan.toInt(),
+                childBornHeight = tinggiBadan.toInt(),
+                childHeight = currentHeight.toInt(),
+                childWeight = currentWeight.toInt(),
                 address = tempatTinggal,
                 isEnvironmentSuitable = kelayakanLingkungan.equals("Ya", ignoreCase = true),
                 isNutritionFulfilled = giziTerpenuhi.equals("Ya", ignoreCase = true)
@@ -101,11 +88,8 @@ class NewBorn2Activity : AppCompatActivity() {
         }
     }
 
-
-    private fun isValidInput(tinggiBadan: String, beratBadan: String): Boolean {
-        val tinggi = tinggiBadan.toIntOrNull()
-        val berat = beratBadan.toIntOrNull()
-        return tinggi != null && berat != null && tinggi > 0 && tinggi <= 300 && berat > 0 && berat <= 500
+    private fun isValidInput(vararg inputs: String): Boolean {
+        return inputs.all { it.toIntOrNull() != null && it.toInt() > 0 }
     }
 
     private fun handleSubmissionStatus(resource: Resource<InfancyResponse>) {
@@ -129,9 +113,11 @@ class NewBorn2Activity : AppCompatActivity() {
 
     private fun toggleInputs(enabled: Boolean) {
         binding.apply {
-            tinggiBadan.isEnabled = enabled
-            beratBadan.isEnabled = enabled
-            dropdownJenisKelamin.isEnabled = enabled
+            etHeightBirth.isEnabled = enabled
+            etWeightBirth.isEnabled = enabled
+            etCurrentHeight.isEnabled = enabled
+            etCurrentWeight.isEnabled = enabled
+            radioGender.isEnabled = enabled
             btnSubmit.isEnabled = enabled
         }
     }

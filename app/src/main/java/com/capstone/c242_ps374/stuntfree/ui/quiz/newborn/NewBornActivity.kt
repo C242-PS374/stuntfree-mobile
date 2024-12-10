@@ -3,7 +3,6 @@ package com.capstone.c242_ps374.stuntfree.ui.quiz.newborn
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.capstone.c242_ps374.stuntfree.databinding.ActivityNewBornBinding
@@ -20,29 +19,7 @@ class NewBornActivity : AppCompatActivity() {
         binding = ActivityNewBornBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupViews()
         setupListeners()
-    }
-
-    private fun setupViews() {
-        val provinsiList = arrayOf(
-            "Aceh", "Bali", "Bangka Belitung", "Banten", "Bengkulu", "DI Yogyakarta",
-            "DKI Jakarta", "Gorontalo", "Jambi", "Jawa Barat", "Jawa Tengah", "Jawa Timur",
-            "Kalimantan Barat", "Kalimantan Selatan", "Kalimantan Tengah", "Kalimantan Timur",
-            "Kalimantan Utara", "Kepulauan Riau", "Lampung", "Maluku", "Maluku Utara",
-            "Nusa Tenggara Barat", "Nusa Tenggara Timur", "Papua", "Papua Barat", "Riau",
-            "Sulawesi Barat", "Sulawesi Selatan", "Sulawesi Tengah", "Sulawesi Tenggara",
-            "Sulawesi Utara", "Sumatera Barat", "Sumatera Selatan", "Sumatera Utara", "West Java"
-        )
-        val provinsiAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, provinsiList)
-        provinsiAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spinnerProvinsi.adapter = provinsiAdapter
-
-        val yesNoList = arrayOf("Ya", "Tidak")
-        val yesNoAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, yesNoList)
-        yesNoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spinnerTerpenuhi.adapter = yesNoAdapter
-        binding.spinnerKelayakan.adapter = yesNoAdapter
     }
 
     private fun setupListeners() {
@@ -57,7 +34,7 @@ class NewBornActivity : AppCompatActivity() {
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
         val datePickerDialog = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
-            val selectedDate = "$selectedDay-${selectedMonth + 1}-$selectedYear"
+            val selectedDate = "$selectedYear-${selectedMonth + 1}-$selectedDay"
             binding.etUmur.text = selectedDate
         }, year, month, day)
 
@@ -66,29 +43,25 @@ class NewBornActivity : AppCompatActivity() {
 
     private fun attemptSubmit() {
         val umur = binding.etUmur.text.toString()
-        val tinggi = binding.etTinggi.text.toString()
-        val berat = binding.etBerat.text.toString()
-        val provinsi = binding.spinnerProvinsi.selectedItem.toString()
-        val terpenuhi = binding.spinnerTerpenuhi.selectedItem.toString()
-        val kelayakan = binding.spinnerKelayakan.selectedItem.toString()
+        val address = binding.etAddress.text.toString()
+        val terpenuhi = if (binding.radioNutrition.checkedRadioButtonId == binding.radioYesNutrition.id) "Yes" else "No"
+        val kelayakan = if (binding.radioEnvironment.checkedRadioButtonId == binding.radioYesEnvi.id) "Yes" else "No"
 
-        if (isValidInput(umur, tinggi, berat, provinsi, terpenuhi, kelayakan)) {
-            navigateToNextScreen(umur, tinggi, berat, provinsi, terpenuhi, kelayakan)
+        if (isValidInput(umur, address, terpenuhi, kelayakan)) {
+            navigateToNextScreen(umur, address, terpenuhi, kelayakan)
         } else {
             showError()
         }
     }
 
-    private fun isValidInput(umur: String, tinggi: String, berat: String, provinsi: String, terpenuhi: String, kelayakan: String ): Boolean {
-        return umur.isNotEmpty() && tinggi.isNotEmpty() && berat.isNotEmpty() && provinsi.isNotEmpty() && terpenuhi.isNotEmpty() && kelayakan.isNotEmpty()
+    private fun isValidInput(umur: String, address: String, terpenuhi: String, kelayakan: String): Boolean {
+        return umur.isNotEmpty() && address.isNotEmpty() && terpenuhi.isNotEmpty() && kelayakan.isNotEmpty()
     }
 
-    private fun navigateToNextScreen(umur: String, tinggi: String, berat: String, provinsi: String, terpenuhi: String, kelayakan: String) {
+    private fun navigateToNextScreen(umur: String, address: String, terpenuhi: String, kelayakan: String) {
         val intent = Intent(this, NewBorn2Activity::class.java).apply {
             putExtra("TANGGAL_LAHIR", umur)
-            putExtra("TINGGI_BADAN", tinggi)
-            putExtra("BERAT_BADAN", berat)
-            putExtra("TEMPAT_TINGGAL", provinsi)
+            putExtra("ALAMAT", address)
             putExtra("GIZI_TERPENUHI", terpenuhi)
             putExtra("KELAYAKAN_LINGKUNGAN", kelayakan)
         }
@@ -100,4 +73,3 @@ class NewBornActivity : AppCompatActivity() {
         Toast.makeText(this, "Harap isi semua data!", Toast.LENGTH_SHORT).show()
     }
 }
-

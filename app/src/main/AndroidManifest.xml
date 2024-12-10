@@ -63,16 +63,20 @@
             android:theme="@style/Theme.StuntFreeNoAction"/>
         <activity
             android:name=".ui.quiz.newborn.NewBorn2Activity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.StuntFreeNoAction"/>
         <activity
             android:name=".ui.quiz.newborn.NewBornActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.StuntFreeNoAction"/>
         <activity
             android:name=".ui.quiz.pregnan.PregnancyActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.StuntFreeNoAction"/>
         <activity
             android:name=".ui.quiz.QuizActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.StuntFreeNoAction"/>
         <activity
             android:name=".SplashActivity"
             android:exported="true"
@@ -91,9 +95,6 @@
             android:exported="false" />
         <activity
             android:name=".ui.auth.register.RegisterActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.auth.password.ForgotPasswordActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
