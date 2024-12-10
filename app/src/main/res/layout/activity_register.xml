@@ -183,9 +183,8 @@
 
     <TextView
         android:id="@+id/forgotPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="264dp"
+        android:layout_width="115dp"
+        android:layout_height="16dp"
         android:clickable="true"
         android:focusable="true"
         android:text="Forgot Password?"
@@ -193,8 +192,11 @@
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/btnRegister"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordConfirmInputLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordConfirmInputLayout"
+        app:layout_constraintVertical_bias="0.509" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnRegister"
