@@ -17,6 +17,7 @@ import com.capstone.c242_ps374.stuntfree.ui.adapter.HomeAdapter
 import com.capstone.c242_ps374.stuntfree.ui.adapter.WeekAdapter
 import com.capstone.c242_ps374.stuntfree.ui.AuthViewModel
 import com.capstone.c242_ps374.stuntfree.ui.camera.CameraActivity
+import com.capstone.c242_ps374.stuntfree.ui.custom.CustomDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -64,7 +65,8 @@ class HomeFragment : Fragment() {
         }
 
         binding.quickCall.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_serviceFragment)
+            val customDialogFragment = CustomDialogFragment()
+            customDialogFragment.show(parentFragmentManager, CustomDialogFragment::class.java.simpleName)
         }
 
     }

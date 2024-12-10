@@ -38,8 +38,12 @@ class GetStartedActivity : AppCompatActivity() {
         }.attach()
 
         onboardingViewModel.onboardingItems.observe(this) { items ->
-            binding.nextButton.text = if (items.size - 1 == binding.viewPager.currentItem)
-                "Get Started" else "Next"
+            val currentItem = binding.viewPager.currentItem
+            if (items.size - 1 == currentItem) {
+                binding.nextButton.setImageResource(R.drawable.ic_next)
+            } else {
+                binding.nextButton.setImageResource(R.drawable.ic_next)
+            }
         }
 
         binding.nextButton.setOnClickListener {

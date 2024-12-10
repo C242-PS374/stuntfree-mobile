@@ -47,6 +47,7 @@
         android:layout_height="wrap_content"
         android:text="Close"
         android:backgroundTint="#B7155C"
+        android:textAllCaps="false"
         android:layout_marginTop="30dp"
         android:textColor="@color/white"
         android:paddingVertical="12dp"

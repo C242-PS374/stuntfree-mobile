@@ -1,5 +1,6 @@
 package com.capstone.c242_ps374.stuntfree.ui.camera
 
+import android.net.Uri
 import android.os.Bundle
 import android.widget.GridLayout
 import android.widget.TextView
@@ -8,8 +9,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.setPadding
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.capstone.c242_ps374.stuntfree.R
+import com.capstone.c242_ps374.stuntfree.data.model.FoodItem
 import com.capstone.c242_ps374.stuntfree.databinding.ActivityResultCameraBinding
+import com.capstone.c242_ps374.stuntfree.ui.adapter.FoodGroupAdapter
 
 class ResultCameraActivity : AppCompatActivity() {
     private lateinit var binding: ActivityResultCameraBinding
@@ -19,41 +24,32 @@ class ResultCameraActivity : AppCompatActivity() {
         binding = ActivityResultCameraBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val imageUriString = intent.getStringExtra("IMAGE_URI")
+        if (imageUriString != null) {
+            val imageUri = Uri.parse(imageUriString)
 
-        binding.previewImage.setImageResource(R.drawable.test_image)
+            Glide.with(this)
+                .load(imageUri)
+                .into(binding.previewImage)
+        }
 
 
         binding.foodTitle.text = "Avocado Sandwich with Sunny Side Up"
 
 
-        val dummyData = listOf(
-            "Calories: 250 kcal",
-            "Protein: 10g",
-            "Fat: 20g",
-            "Carbs: 15g",
-            "Fiber: 3g",
-            "Sugar: 1g"
+        val foodData = listOf(
+            FoodItem(
+                "Nasi (1)",
+                listOf("Energy: 130 kcal", "Protein: 2.6 g", "Total Fat: 0.3 g", "Carbo: 28 g", "Fiber: 0.6 g", "Calcium: 10 mg")
+            ),
+            FoodItem(
+                "Ayam (1)",
+                listOf("Energy: 240 kcal", "Protein: 30 g", "Total Fat: 10 g", "Omega 3: 0.1 g", "Omega 6: 1.0 g")
+            )
         )
 
-        populateGridLayout(dummyData)
-    }
-
-    private fun populateGridLayout(data: List<String>) {
-        for (item in data) {
-            val textView = TextView(this).apply {
-                text = item
-                setPadding(16)
-                setTextColor(resources.getColor(android.R.color.white, null))
-                setBackgroundColor(resources.getColor(android.R.color.darker_gray, null))
-                gravity = android.view.Gravity.CENTER
-            }
-            val params = GridLayout.LayoutParams().apply {
-                width = 0
-                height = GridLayout.LayoutParams.WRAP_CONTENT
-                columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
-                setMargins(8, 8, 8, 8)
-            }
-            binding.dataGrid.addView(textView, params)
-        }
+        val foodGroupAdapter = FoodGroupAdapter(foodData)
+        binding.dataGrid.layoutManager = LinearLayoutManager(this)
+        binding.dataGrid.adapter = foodGroupAdapter
     }
 }

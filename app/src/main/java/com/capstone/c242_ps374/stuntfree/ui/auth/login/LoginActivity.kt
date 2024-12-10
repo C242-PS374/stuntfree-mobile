@@ -10,7 +10,6 @@ import com.capstone.c242_ps374.stuntfree.MainActivity
 import com.capstone.c242_ps374.stuntfree.R
 import com.capstone.c242_ps374.stuntfree.databinding.ActivityLoginBinding
 import com.capstone.c242_ps374.stuntfree.ui.AuthViewModel
-import com.capstone.c242_ps374.stuntfree.ui.auth.password.ForgotPasswordActivity
 import com.capstone.c242_ps374.stuntfree.ui.auth.register.RegisterActivity
 import com.capstone.c242_ps374.stuntfree.ui.utils.Resource
 import com.capstone.c242_ps374.stuntfree.data.auth.LoginResponse
@@ -40,9 +39,6 @@ class LoginActivity : AppCompatActivity() {
 
         binding.btnRegister.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
-        }
-        binding.btnForgotPassword.setOnClickListener {
-            startActivity(Intent(this, ForgotPasswordActivity::class.java))
         }
     }
 
@@ -124,7 +120,6 @@ class LoginActivity : AppCompatActivity() {
             edLoginPassword.isEnabled = enabled
             btnLogin.isEnabled = enabled
             btnRegister.isEnabled = enabled
-            btnForgotPassword.isEnabled = enabled
         }
     }
 
