@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.fragment.app.viewModels
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -25,12 +26,6 @@ class ProfileFragment : Fragment() {
 
     private val attachViewModel: AttachViewModel by viewModels()
     private val authViewModel: AuthViewModel by viewModels()
-
-//    private val stuntingData = listOf(
-//        StuntingStatistics("Ibu Hamil Berisiko Stunting", "Jumlah: 2500"),
-//        StuntingStatistics("Anak Berisiko Stunting", "Jumlah: 1800"),
-//        StuntingStatistics("Tindakan Penanggulangan Stunting", "Jumlah: 1200")
-//    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,6 +56,7 @@ class ProfileFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun observeViewModelData() {
+        // Observasi status profil pengguna
         attachViewModel.userProfileResponse.observe(viewLifecycleOwner) { resource ->
             when (resource) {
                 is Resource.Loading -> {
@@ -68,11 +64,10 @@ class ProfileFragment : Fragment() {
                 }
                 is Resource.Success -> {
                     binding.progressBar.visibility = View.GONE
+                    Log.d("Fragment", "User Profile: ${resource.data?.data}")
                     val profile = resource.data
-                    binding.tvName.text = "Name: ${profile?.name}"
-                    binding.tvEmail.text = "Email: ${profile?.email}"
-//                    binding.tvPhoneNumber.text = "Phone: ${profile?.phoneNumber}"
-//                    binding.tvAddress.text = "Address: ${profile?.address}"
+                    binding.tvName.text = "Name: ${profile?.data?.gestasionalAge}"
+                    binding.tvEmail.text = "Email: ${profile?.data?.email}"
                 }
                 is Resource.Error -> {
                     binding.progressBar.visibility = View.GONE
@@ -85,7 +80,7 @@ class ProfileFragment : Fragment() {
             }
         }
 
-        // Observe the authentication state from AuthViewModel
+        // Observasi status autentikasi
         authViewModel.authState.observe(viewLifecycleOwner) { resource ->
             when (resource) {
                 is Resource.Error -> {
@@ -97,12 +92,13 @@ class ProfileFragment : Fragment() {
                 }
                 is Resource.Success -> {
                     binding.progressBar.visibility = View.GONE
+                    // Anda bisa langsung memeriksa status token dan login di sini sebelum mendapatkan profil
+                    attachViewModel.getUserProfile()
                 }
             }
         }
-
-        attachViewModel.getUserProfile()
     }
+
 
     private fun showError(message: String?) {
         Toast.makeText(requireContext(), "Error: ${message ?: "Unknown error"}", Toast.LENGTH_SHORT).show()
@@ -111,6 +107,7 @@ class ProfileFragment : Fragment() {
     private fun navigateToLogin() {
         val intent = Intent(requireContext(), LoginActivity::class.java)
         startActivity(intent)
+        requireActivity().finish()
     }
 
     override fun onDestroyView() {

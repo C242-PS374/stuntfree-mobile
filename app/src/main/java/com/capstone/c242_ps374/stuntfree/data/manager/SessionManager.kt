@@ -27,18 +27,26 @@ class SessionManager @Inject constructor(
         private val KEY_IS_LOGGED_IN = booleanPreferencesKey("is_logged_in")
     }
 
-    suspend fun saveAuthToken(accessToken: String, refreshToken: String, tokenType: String = "bearer") {
+    suspend fun saveAuthToken(tokenType: String, accessToken: String, refreshToken: String) {
         context.dataStore.edit { preferences ->
+            preferences[KEY_TOKEN_TYPE] = tokenType
             preferences[KEY_ACCESS_TOKEN] = accessToken
             preferences[KEY_REFRESH_TOKEN] = refreshToken
-            preferences[KEY_TOKEN_TYPE] = tokenType
             preferences[KEY_IS_LOGGED_IN] = true
         }
     }
 
+
+    fun getBearerToken(): Flow<String?> = context.dataStore.data.map { preferences ->
+        val accessToken = preferences[KEY_ACCESS_TOKEN]
+        val refreshToken = preferences[KEY_REFRESH_TOKEN]
+        val tokenType = preferences[KEY_TOKEN_TYPE] ?: "bearer"
+        "$tokenType $accessToken $refreshToken"
+    }
+
     fun getAccessToken(): Flow<String?> = context.dataStore.data.map { it[KEY_ACCESS_TOKEN] }
     fun getRefreshToken(): Flow<String?> = context.dataStore.data.map { it[KEY_REFRESH_TOKEN] }
-    fun getTokenType(): Flow<String?> = context.dataStore.data.map { it[KEY_TOKEN_TYPE] ?: "bearer" }
+    fun getTokenType(): Flow<String?> = context.dataStore.data.map { it[KEY_TOKEN_TYPE]}
 
     suspend fun saveStage(stage: String) {
         context.dataStore.edit { preferences ->
@@ -47,6 +55,17 @@ class SessionManager @Inject constructor(
     }
 
     fun getStage(): Flow<String?> = context.dataStore.data.map { it[KEY_STAGE] }
+
+    // Ini untuk nanti (progress)
+//    suspend fun clearSession() {
+//        context.dataStore.edit { preferences ->
+//            preferences.remove(KEY_FIRST_TIME)
+//            preferences.remove(KEY_IS_LOGGED_IN)
+//            preferences.remove(KEY_TOKEN_TYPE)
+//            preferences.remove(KEY_ACCESS_TOKEN)
+//            preferences.remove(KEY_REFRESH_TOKEN)
+//        }
+//    }
 
     suspend fun clearSession() {
         context.dataStore.edit { preferences ->

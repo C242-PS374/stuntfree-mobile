@@ -14,41 +14,41 @@ import retrofit2.Response
 import javax.inject.Inject
 
 class AttachRepository @Inject constructor(
-    private val apiService: ApiService,
-    private val sessionManager: SessionManager
+    private val apiService: ApiService
 ) {
 
-    private suspend fun getToken(): String {
-        val token = sessionManager.getAccessToken().first()
-        if (token.isNullOrEmpty()) {
-            throw TokenNotFoundException("Token tidak ditemukan. Silakan login kembali.")
-        }
-        return token
-    }
-
-    suspend fun attachInfancyProfile(body: InfancyRequest): Result<InfancyResponse> {
+    suspend fun attachInfancyProfile(token: String, body: InfancyRequest): Result<InfancyResponse> {
         return try {
-            val token = getToken()
-            makeApiRequest { apiService.attachInfancyProfile(token = token, body = body) }
-        } catch (e: TokenNotFoundException) {
+            if (token.isEmpty()) {
+                return Result.failure(Exception("Token is missing"))
+            }
+
+            makeApiRequest { apiService.attachInfancyProfile("Bearer $token", body) }
+        } catch (e: Exception) {
             Result.failure(e)
         }
     }
 
-    suspend fun attachPregnancyProfile(body: PregnancyRequest): Result<PregnancyResponse> {
+    suspend fun attachPregnancyProfile(token: String, body: PregnancyRequest): Result<PregnancyResponse> {
         return try {
-            val token = getToken()
-            makeApiRequest { apiService.attachPregnancyProfile(token = token, body = body) }
-        } catch (e: TokenNotFoundException) {
+            if (token.isEmpty()) {
+                return Result.failure(Exception("Token is missing"))
+            }
+
+            makeApiRequest { apiService.attachPregnancyProfile("Bearer $token", body) }
+        } catch (e: Exception) {
             Result.failure(e)
         }
     }
 
-    suspend fun getProfile(): Result<UserProfileResponse> {
+    suspend fun getProfile(token: String): Result<UserProfileResponse> {
         return try {
-            val token = getToken()
-            makeApiRequest { apiService.getUserProfile(token = token) }
-        } catch (e: TokenNotFoundException) {
+            if (token.isEmpty()) {
+                return Result.failure(Exception("Token is missing"))
+            }
+
+            makeApiRequest { apiService.getUserProfile("Bearer $token") }
+        } catch (e: Exception) {
             Result.failure(e)
         }
     }
@@ -68,6 +68,4 @@ class AttachRepository @Inject constructor(
             Result.failure(Exception("Request failed: ${e.message}"))
         }
     }
-
-    class TokenNotFoundException(message: String) : Exception(message)
 }

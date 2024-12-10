@@ -23,6 +23,10 @@ class AuthRepository @Inject constructor(
 
     val isLoggedIn: LiveData<Boolean> = sessionManager.isLoggedIn().asLiveData()
 
+    suspend fun logout() {
+        sessionManager.clearSession()
+    }
+
     suspend fun registerUser(registerData: RegisterRequest): Resource<RegisterResponse> {
         return safeApiCall { apiService.registerUser(registerData) }
     }
@@ -34,7 +38,11 @@ class AuthRepository @Inject constructor(
             when (result) {
                 is Resource.Success -> {
                     result.data?.token?.let { token ->
-                        sessionManager.saveAuthToken(token.accessToken,  token.refreshToken)
+                        sessionManager.saveAuthToken(
+                            tokenType = token.tokenType,
+                            accessToken = token.accessToken,
+                            refreshToken = token.refreshToken
+                        )
                     }
                     result
                 }

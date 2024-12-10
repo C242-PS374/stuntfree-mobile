@@ -13,6 +13,7 @@ import com.capstone.c242_ps374.stuntfree.data.auth.LoginResponse
 import com.capstone.c242_ps374.stuntfree.data.auth.RegisterRequest
 import com.capstone.c242_ps374.stuntfree.data.auth.RegisterResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -45,30 +46,40 @@ class AuthViewModel @Inject constructor(
 
     private fun checkLoginStatus() {
         viewModelScope.launch {
-            sessionManager.getAccessToken().collect { token ->
-                if (!token.isNullOrEmpty()) {
-                    _authState.postValue(Resource.Success(token))
+            try {
+                val refreshToken = sessionManager.getRefreshToken().first()
+                val accessToken = sessionManager.getAccessToken().first()
+                val tokenType = sessionManager.getTokenType().first()
+
+                if (!accessToken.isNullOrEmpty() && !tokenType.isNullOrEmpty() && !refreshToken.isNullOrEmpty()) {
+                    val fullToken = "$tokenType $accessToken $refreshToken"
+                    Log.d("AuthViewModel", "Token Used: $fullToken")
+                    _authState.postValue(Resource.Success(fullToken))
                 } else {
-                    _authState.postValue(Resource.Error("Token not found"))
+                    _authState.postValue(Resource.Error("Token or Token Type not found"))
                 }
+            } catch (e: Exception) {
+                _authState.postValue(Resource.Error("Error retrieving token: ${e.message}"))
             }
         }
     }
 
     private fun checkUserStage() {
         viewModelScope.launch {
-            sessionManager.getAccessToken().collect { token ->
+            try {
+                val token = sessionManager.getAccessToken().first()
                 if (token.isNullOrEmpty()) {
                     _authState.postValue(Resource.Error("Token not found"))
                 } else {
-                    sessionManager.getStage().collect { stage ->
-                        if (stage.isNullOrEmpty()) {
-                            _navigateToQuiz.postValue(Unit)
-                        } else {
-                            _navigateToMain.postValue(Unit)
-                        }
+                    val stage = sessionManager.getStage().first()
+                    if (stage.isNullOrEmpty()) {
+                        _navigateToQuiz.postValue(Unit)
+                    } else {
+                        _navigateToMain.postValue(Unit)
                     }
                 }
+            } catch (e: Exception) {
+                _authState.postValue(Resource.Error("Error retrieving stage or token: ${e.message}"))
             }
         }
     }
@@ -83,12 +94,20 @@ class AuthViewModel @Inject constructor(
 
                 when (val response = repository.loginUser(loginData)) {
                     is Resource.Success -> {
+                        Log.d("AuthViewModel", "Login successful: $loginData")
                         val token = response.data?.token
                         Log.d("AuthViewModel", "Token received: $token")
 
                         if (token != null) {
-                            sessionManager.saveAuthToken(token.accessToken, token.refreshToken)
-                            checkUserStage()
+                            sessionManager.saveAuthToken(token.tokenType, token.accessToken, token.refreshToken)
+
+                            sessionManager.getAccessToken().collect { savedToken ->
+                                if (!savedToken.isNullOrEmpty()) {
+                                    checkUserStage()
+                                } else {
+                                    _loginStatus.value = Resource.Error("Token gagal disimpan.")
+                                }
+                            }
                         } else {
                             _loginStatus.value = Resource.Error("Invalid login response: Missing token")
                         }
@@ -107,6 +126,7 @@ class AuthViewModel @Inject constructor(
             }
         }
     }
+
 
     fun registerUser(name: String, email: String, password: String, confirmPassword: String) {
         viewModelScope.launch {
@@ -140,13 +160,8 @@ class AuthViewModel @Inject constructor(
 
     fun logout() {
         viewModelScope.launch {
-            _authState.value = Resource.Loading()
-            try {
-                sessionManager.clearSession()
-                _authState.value = Resource.Success(null)
-            } catch (e: Exception) {
-                _authState.value = Resource.Error(e.message ?: "Logout failed")
-            }
+            repository.logout()
+            sessionManager.clearSession()
         }
     }
 }

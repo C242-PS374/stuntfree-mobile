@@ -65,7 +65,7 @@ class NewBorn2Activity : AppCompatActivity() {
 
         if (isValidInput(tinggiBadan, beratBadan)) {
             val newBornRequest = InfancyRequest(
-                childDob = umurAnak,
+                childDob = umurAnak.toInt(),
                 childGender = jenisKelamin,
                 childBornWeight = beratBadanAnak.toInt(),
                 childBornHeight = tinggiBadanAnak.toInt(),

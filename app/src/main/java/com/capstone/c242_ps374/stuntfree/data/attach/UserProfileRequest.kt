@@ -6,7 +6,11 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class UserProfileRequest(
+    @field:SerializedName("name") val name: String,
+    @field:SerializedName("email") val email: String,
+    @field:SerializedName("password") val password: String,
     @field:SerializedName("stage") val stage: String,
+    @field:SerializedName("gestasional_age") val gestasionalAge: String,
     @field:SerializedName("child_dob") val childDob: String,
     @field:SerializedName("child_gender") val childGender: String,
     @field:SerializedName("child_born_weight") val childBornWeight: Int,

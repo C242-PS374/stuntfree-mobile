@@ -4,10 +4,10 @@ import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
-@Parcelize
+
 data class InfancyRequest(
     @field:SerializedName("stage") val stage: String = "infancy",
-    @field:SerializedName("child_dob") val childDob: String,
+    @field:SerializedName("child_dob") val childDob: Int,
     @field:SerializedName("child_gender") val childGender: String,
     @field:SerializedName("child_born_weight") val childBornWeight: Int,
     @field:SerializedName("child_born_height") val childBornHeight: Int,
@@ -16,4 +16,4 @@ data class InfancyRequest(
     @field:SerializedName("address") val address: String,
     @field:SerializedName("is_environment_suitable") val isEnvironmentSuitable: String,
     @field:SerializedName("is_nutrition_fulfilled") val isNutritionFulfilled: String
-) : Parcelable
+)
