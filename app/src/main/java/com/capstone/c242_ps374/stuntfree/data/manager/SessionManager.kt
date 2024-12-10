@@ -36,13 +36,12 @@ class SessionManager @Inject constructor(
         }
     }
 
-
     fun getBearerToken(): Flow<String?> = context.dataStore.data.map { preferences ->
         val accessToken = preferences[KEY_ACCESS_TOKEN]
-        val refreshToken = preferences[KEY_REFRESH_TOKEN]
-        val tokenType = preferences[KEY_TOKEN_TYPE] ?: "bearer"
-        "$tokenType $accessToken $refreshToken"
+        val tokenType = preferences[KEY_TOKEN_TYPE] ?: "Bearer"
+        accessToken?.let { "$tokenType $it" }
     }
+
 
     fun getAccessToken(): Flow<String?> = context.dataStore.data.map { it[KEY_ACCESS_TOKEN] }
     fun getRefreshToken(): Flow<String?> = context.dataStore.data.map { it[KEY_REFRESH_TOKEN] }

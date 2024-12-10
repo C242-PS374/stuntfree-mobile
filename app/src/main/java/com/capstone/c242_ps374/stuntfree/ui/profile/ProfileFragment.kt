@@ -56,31 +56,35 @@ class ProfileFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun observeViewModelData() {
-        // Observasi status profil pengguna
+        // Mengamati status profil pengguna
         attachViewModel.userProfileResponse.observe(viewLifecycleOwner) { resource ->
             when (resource) {
                 is Resource.Loading -> {
+                    // Menampilkan loading indicator
                     binding.progressBar.visibility = View.VISIBLE
                 }
                 is Resource.Success -> {
                     binding.progressBar.visibility = View.GONE
-                    Log.d("Fragment", "User Profile: ${resource.data?.data}")
                     val profile = resource.data
-                    binding.tvName.text = "Name: ${profile?.data?.gestasionalAge}"
-                    binding.tvEmail.text = "Email: ${profile?.data?.email}"
+                    Log.d("ProfileFragment", "${profile?.data}")
+                    if (profile?.data != null) {
+                        binding.tvName.text = "Name: ${profile.data.profile?.name ?: "N/A"}"
+                        binding.tvEmail.text = "Email: ${profile.data.email ?: "N/A"}"
+                    } else {
+                        binding.tvName.text = "Name: N/A"
+                        binding.tvEmail.text = "Email: N/A"
+                    }
                 }
                 is Resource.Error -> {
+                    // Menyembunyikan loading dan menampilkan pesan error
                     binding.progressBar.visibility = View.GONE
-                    Toast.makeText(
-                        requireContext(),
-                        "Failed to load profile: ${resource.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(context, resource.message, Toast.LENGTH_SHORT).show()
                 }
             }
         }
 
-        // Observasi status autentikasi
+
+        // Mengamati status autentikasi
         authViewModel.authState.observe(viewLifecycleOwner) { resource ->
             when (resource) {
                 is Resource.Error -> {
@@ -92,12 +96,13 @@ class ProfileFragment : Fragment() {
                 }
                 is Resource.Success -> {
                     binding.progressBar.visibility = View.GONE
-                    // Anda bisa langsung memeriksa status token dan login di sini sebelum mendapatkan profil
+                    // Mendapatkan profil setelah memverifikasi token
                     attachViewModel.getUserProfile()
                 }
             }
         }
     }
+
 
 
     private fun showError(message: String?) {

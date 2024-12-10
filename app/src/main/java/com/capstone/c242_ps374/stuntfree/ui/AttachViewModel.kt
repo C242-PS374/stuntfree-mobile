@@ -47,6 +47,7 @@ class AttachViewModel @Inject constructor(
 
             sessionManager.saveStage(stage)
             _stageLiveData.postValue(stage)
+            Log.d("AttachViewModel", "Stage for now: $stage")
         }
     }
 
@@ -58,17 +59,20 @@ class AttachViewModel @Inject constructor(
                 _infancyProfileResponse.value = Resource.Error("Token tidak ditemukan. Silakan login ulang.")
                 return@launch
             }
+            Log.d("AttachViewModel", "Token: $token")
 
-            _infancyProfileResponse.value = Resource.Loading() // Menampilkan loading indicator
+            _infancyProfileResponse.value = Resource.Loading()
             try {
                 val result = attachRepository.attachInfancyProfile(token, body)
                 if (result.isSuccess) {
                     val response = result.getOrNull()
                     if (response != null) {
+                        Log.d("AttachViewModel", "Response: $response")
                         _infancyProfileResponse.value = Resource.Success(response)
                         Log.d("AttachViewModel", "Infancy profile berhasil ditambahkan: ${response.message}")
                     } else {
-                        _infancyProfileResponse.value = Resource.Error("Data infancy tidak ditemukan.")
+                        Log.d("AttachViewModel", "Response kosong atau tidak valid")
+                        _infancyProfileResponse.value = Resource.Error("Respons tidak berisi data yang valid.")
                     }
                 } else {
                     val errorMessage = result.exceptionOrNull()?.localizedMessage ?: "Terjadi kesalahan."
@@ -89,13 +93,15 @@ class AttachViewModel @Inject constructor(
                 _pregnancyProfileResponse.value = Resource.Error("Token tidak ditemukan. Silakan login ulang.")
                 return@launch
             }
+            Log.d("AttachViewModel", "Token: $token")
 
-            _pregnancyProfileResponse.value = Resource.Loading() // Menampilkan loading indicator
+            _pregnancyProfileResponse.value = Resource.Loading()
             try {
                 val result = attachRepository.attachPregnancyProfile(token, body)
                 if (result.isSuccess) {
                     val response = result.getOrNull()
                     if (response != null) {
+                        Log.d("AttachViewModel", "Response: $response")
                         _pregnancyProfileResponse.value = Resource.Success(response)
                         Log.d("AttachViewModel", "Pregnancy profile berhasil ditambahkan: ${response.message}")
                     } else {
@@ -110,32 +116,38 @@ class AttachViewModel @Inject constructor(
         }
     }
 
-    // Mengambil profil pengguna
     fun getUserProfile() {
         viewModelScope.launch {
             val token = sessionManager.getBearerToken().firstOrNull()
+
             if (token.isNullOrEmpty()) {
                 _userProfileResponse.value = Resource.Error("Token tidak ditemukan. Silakan login ulang.")
                 return@launch
             }
 
-            _userProfileResponse.value = Resource.Loading() // Menampilkan loading indicator
+            _userProfileResponse.value = Resource.Loading()
+
             try {
                 val result = attachRepository.getProfile(token)
+
                 if (result.isSuccess) {
                     val response = result.getOrNull()
+
                     if (response != null) {
                         _userProfileResponse.value = Resource.Success(response)
+                        Log.d("AttachViewModel", "Name: ${response.data?.profile?.name}, Email: ${response.data?.email}")
                         Log.d("AttachViewModel", "Profil pengguna berhasil diambil")
                     } else {
                         _userProfileResponse.value = Resource.Error("Profil pengguna tidak ditemukan.")
                     }
                 } else {
-                    _userProfileResponse.value = Resource.Error("Gagal mengambil profil pengguna.")
+                    val errorMessage = result.exceptionOrNull()?.localizedMessage ?: "Gagal mengambil profil pengguna."
+                    _userProfileResponse.value = Resource.Error(errorMessage)
                 }
             } catch (e: Exception) {
                 _userProfileResponse.value = Resource.Error("Terjadi kesalahan: ${e.localizedMessage}")
             }
         }
     }
+
 }

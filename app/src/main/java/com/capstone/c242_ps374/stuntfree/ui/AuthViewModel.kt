@@ -72,6 +72,7 @@ class AuthViewModel @Inject constructor(
                     _authState.postValue(Resource.Error("Token not found"))
                 } else {
                     val stage = sessionManager.getStage().first()
+                    Log.d("AuthViewModel", "Stage: $stage")
                     if (stage.isNullOrEmpty()) {
                         _navigateToQuiz.postValue(Unit)
                     } else {
@@ -83,7 +84,6 @@ class AuthViewModel @Inject constructor(
             }
         }
     }
-
 
     fun loginUser(email: String, password: String) {
         viewModelScope.launch {
@@ -128,35 +128,50 @@ class AuthViewModel @Inject constructor(
     }
 
 
-    fun registerUser(name: String, email: String, password: String, confirmPassword: String) {
+    fun registerUser(email: String, name: String, password: String, confirmPassword: String) {
         viewModelScope.launch {
-            _registrationStatus.value = Resource.Loading()
+            _registrationStatus.value = Resource.Loading()  // Menandakan loading
+
             try {
-                val registerData = RegisterRequest(name, email, password, confirmPassword)
-                when (val response = repository.registerUser(registerData)) {
+                // Membuat objek RegisterRequest
+                val registerData = RegisterRequest(email, name, password, confirmPassword)
+
+                // Memanggil fungsi registerUser dari repository
+                val response = repository.registerUser(registerData)
+
+                // Menangani hasil response
+                when (response) {
                     is Resource.Success -> {
                         response.data?.let { responseData ->
                             if (responseData.error) {
+                                // Jika ada error dalam response, beri pesan error
                                 _registrationStatus.value = Resource.Error(responseData.message)
                             } else {
+                                // Jika pendaftaran berhasil
                                 _registrationStatus.value = Resource.Success(responseData)
+                                Log.d("AuthViewModel", "Register User: ${registerData.name} ${registerData.email} ${registerData.password} ${registerData.confirmPassword}")
                             }
                         } ?: run {
+                            // Jika response null
                             _registrationStatus.value = Resource.Error("Unknown error: Empty response")
                         }
                     }
                     is Resource.Error -> {
+                        // Menangani error dari API
                         _registrationStatus.value = Resource.Error(response.message ?: "Register failed")
                     }
-                    is Resource.Loading -> {
-                        _registrationStatus.value = Resource.Loading()
+                    else -> {
+                        // Menangani kondisi lainnya, meskipun tidak diharapkan
+                        _registrationStatus.value = Resource.Error("Unexpected response")
                     }
                 }
             } catch (e: Exception) {
+                // Menangani exception yang tidak terduga
                 _registrationStatus.value = Resource.Error("Register failed: ${e.localizedMessage}")
             }
         }
     }
+
 
     fun logout() {
         viewModelScope.launch {

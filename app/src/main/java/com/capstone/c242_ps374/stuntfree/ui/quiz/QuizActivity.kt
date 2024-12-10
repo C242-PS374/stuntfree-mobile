@@ -38,23 +38,17 @@ class QuizActivity : AppCompatActivity() {
             quizViewModel.onSubmit(isPregnancySelected, isInfancySelected)
         }
 
-        binding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
-            when (checkedId) {
-                R.id.optionHamil -> quizViewModel.onSubmit(
-                    isPregnancySelected = true,
-                    isInfancySelected = false
-                )
-                R.id.optionBaruMelahirkan -> quizViewModel.onSubmit(
-                    isPregnancySelected = false,
-                    isInfancySelected = true
-                )
-                else -> quizViewModel.onSubmit(
-                    isPregnancySelected = false,
-                    isInfancySelected = false
-                )
+        binding.optionHamil.setOnClickListener {
+            if (binding.optionHamil.isChecked) {
+                binding.optionBaruMelahirkan.isChecked = false
             }
         }
 
+        binding.optionBaruMelahirkan.setOnClickListener {
+            if (binding.optionBaruMelahirkan.isChecked) {
+                binding.optionHamil.isChecked = false
+            }
+        }
     }
 
     private fun setupObservers() {

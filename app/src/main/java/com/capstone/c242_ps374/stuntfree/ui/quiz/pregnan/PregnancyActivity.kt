@@ -52,25 +52,7 @@ class PregnancyActivity : AppCompatActivity() {
         binding.spinnerTerpenuhi.adapter = yesNoAdapter
         binding.spinnerKelayakan.adapter = yesNoAdapter
 
-        binding.etUmur.setOnClickListener {
-            showDatePickerDialog()
-        }
-
         binding.btnSubmit.setOnClickListener { attemptSubmit() }
-    }
-
-    private fun showDatePickerDialog() {
-        val calendar = Calendar.getInstance()
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH)
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
-
-        val datePickerDialog = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
-            val selectedDate = "$selectedDay-${selectedMonth + 1}-$selectedYear"
-            binding.etUmur.text = selectedDate
-        }, year, month, day)
-
-        datePickerDialog.show()
     }
 
     private fun setupObservers() {
@@ -80,17 +62,17 @@ class PregnancyActivity : AppCompatActivity() {
     }
 
     private fun attemptSubmit() {
-        val tanggal = binding.etUmur.text.toString().trim()
+        val tanggal = binding.etUmur.text.toString()
         val provinsi = binding.spinnerProvinsi.selectedItem.toString()
         val terpenuhi = binding.spinnerTerpenuhi.selectedItem.toString()
         val kelayakan = binding.spinnerKelayakan.selectedItem.toString()
 
         if (isValidInput(tanggal, provinsi, terpenuhi, kelayakan)) {
             val pregnancyRequest = PregnancyRequest(
-                gestasionalAge = tanggal,
+                gestasionalAge = tanggal.toInt(),
                 address = provinsi,
-                isEnvironmentSuitable = kelayakan,
-                isNutritionFulfilled = terpenuhi
+                isEnvironmentSuitable = terpenuhi.equals("Ya", ignoreCase = true),
+                isNutritionFulfilled = kelayakan.equals("Ya", ignoreCase = true)
             )
             attachViewModel.attachPregnancyProfile(pregnancyRequest)
         } else {

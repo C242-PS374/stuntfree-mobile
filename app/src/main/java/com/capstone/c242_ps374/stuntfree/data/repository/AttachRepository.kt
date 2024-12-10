@@ -6,10 +6,7 @@ import com.capstone.c242_ps374.stuntfree.data.attach.InfancyRequest
 import com.capstone.c242_ps374.stuntfree.data.attach.InfancyResponse
 import com.capstone.c242_ps374.stuntfree.data.attach.PregnancyRequest
 import com.capstone.c242_ps374.stuntfree.data.attach.PregnancyResponse
-import com.capstone.c242_ps374.stuntfree.data.attach.UserProfileRequest
 import com.capstone.c242_ps374.stuntfree.data.attach.UserProfileResponse
-import com.capstone.c242_ps374.stuntfree.data.manager.SessionManager
-import kotlinx.coroutines.flow.first
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -58,14 +55,20 @@ class AttachRepository @Inject constructor(
             val response = apiCall()
             if (response.isSuccessful) {
                 response.body()?.let {
+                    Log.d("API Response", "Success: $it")
                     Result.success(it)
                 } ?: Result.failure(Exception("Response body is null"))
             } else {
                 val errorMessage = response.errorBody()?.string() ?: "Unknown error"
-                Result.failure(Exception("API Error: $errorMessage"))
+                val errorCode = response.code()
+                Log.e("API Error", "Code: $errorCode, Message: $errorMessage")
+                Result.failure(Exception("API Error: $errorMessage (Code: $errorCode)"))
             }
         } catch (e: Exception) {
+            Log.e("API Request Failed", "Error: ${e.message}")
             Result.failure(Exception("Request failed: ${e.message}"))
         }
     }
+
+
 }

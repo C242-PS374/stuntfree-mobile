@@ -2,6 +2,7 @@ package com.capstone.c242_ps374.stuntfree.ui.auth.register
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -93,7 +94,8 @@ class RegisterActivity : AppCompatActivity() {
 
         if (validateName(name) && validateEmail(email)) {
             if (validatePassword(password) && validatePasswordConfirmation(password, confirmPassword)) {
-                authViewModel.registerUser(name, email, password, confirmPassword)
+                Log.d("RegisterActivity", "Registering user: $name, $email, $password, $confirmPassword")
+                authViewModel.registerUser(email, name, password, confirmPassword)
             }
         }
     }

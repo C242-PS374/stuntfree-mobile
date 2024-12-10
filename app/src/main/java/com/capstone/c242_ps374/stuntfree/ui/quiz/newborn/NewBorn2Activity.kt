@@ -2,6 +2,7 @@ package com.capstone.c242_ps374.stuntfree.ui.quiz.newborn
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -14,6 +15,8 @@ import com.capstone.c242_ps374.stuntfree.databinding.ActivityNewBorn2Binding
 import com.capstone.c242_ps374.stuntfree.ui.AttachViewModel
 import com.capstone.c242_ps374.stuntfree.ui.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 @AndroidEntryPoint
 class NewBorn2Activity : AppCompatActivity() {
@@ -63,24 +66,41 @@ class NewBorn2Activity : AppCompatActivity() {
         val tinggiBadan = binding.tinggiBadan.text.toString()
         val beratBadan = binding.beratBadan.text.toString()
 
-        if (isValidInput(tinggiBadan, beratBadan)) {
+        // Format tanggal
+        val formattedDate = try {
+            SimpleDateFormat("d-MM-yyyy", Locale.getDefault()).parse(umurAnak)?.let {
+                SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                    .format(it)
+            }
+        } catch (e: Exception) {
+            null
+        }
+
+        // Ubah gender ke format API
+        val genderApiValue = when (jenisKelamin.lowercase()) {
+            "laki-laki" -> "male"
+            "perempuan" -> "female"
+            else -> ""
+        }
+
+        if (isValidInput(tinggiBadan, beratBadan) && !formattedDate.isNullOrEmpty() && genderApiValue.isNotEmpty()) {
             val newBornRequest = InfancyRequest(
-                childDob = umurAnak.toInt(),
-                childGender = jenisKelamin,
-                childBornWeight = beratBadanAnak.toInt(),
-                childBornHeight = tinggiBadanAnak.toInt(),
+                childDob = formattedDate.toString(),
+                childGender = genderApiValue,
+                childBornWeight = tinggiBadanAnak.toInt(),
+                childBornHeight = beratBadanAnak.toInt(),
                 childHeight = tinggiBadan.toInt(),
                 childWeight = beratBadan.toInt(),
                 address = tempatTinggal,
-                isEnvironmentSuitable = kelayakanLingkungan,
-                isNutritionFulfilled = giziTerpenuhi
+                isEnvironmentSuitable = kelayakanLingkungan.equals("Ya", ignoreCase = true),
+                isNutritionFulfilled = giziTerpenuhi.equals("Ya", ignoreCase = true)
             )
-
             newBornViewModel.attachInfancyProfile(newBornRequest)
         } else {
             showError("Harap isi semua data dengan benar!")
         }
     }
+
 
     private fun isValidInput(tinggiBadan: String, beratBadan: String): Boolean {
         val tinggi = tinggiBadan.toIntOrNull()

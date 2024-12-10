@@ -28,8 +28,26 @@ class AuthRepository @Inject constructor(
     }
 
     suspend fun registerUser(registerData: RegisterRequest): Resource<RegisterResponse> {
-        return safeApiCall { apiService.registerUser(registerData) }
+        return try {
+            // Mengambil response dari API
+            val response = apiService.registerUser(registerData)
+
+            // Mengecek apakah response sukses
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    // Jika sukses, kembalikan resource sukses
+                    Resource.Success(it)
+                } ?: Resource.Error("Response body is null")
+            } else {
+                // Jika response tidak sukses, kembalikan resource error
+                Resource.Error("Error: ${response.errorBody()?.string()}")
+            }
+        } catch (e: Exception) {
+            // Jika terjadi kesalahan, kembalikan resource error
+            Resource.Error("Request failed: ${e.message}")
+        }
     }
+
 
     suspend fun loginUser(loginData: LoginRequest): Resource<LoginResponse> {
         return try {
