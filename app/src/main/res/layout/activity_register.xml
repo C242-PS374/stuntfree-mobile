@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Stuntfree - Beli truk"
+        android:text="StuntFree - Number #1 Stunting Prevention and Detection Apps"
         android:textColor="@color/neutral_900"
         android:textAlignment="center"
         android:textSize="20sp"

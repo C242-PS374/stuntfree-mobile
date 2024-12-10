@@ -103,17 +103,10 @@ class ProfileFragment : Fragment() {
         }
     }
 
-
-
     private fun showError(message: String?) {
         Toast.makeText(requireContext(), "Error: ${message ?: "Unknown error"}", Toast.LENGTH_SHORT).show()
     }
 
-    private fun navigateToLogin() {
-        val intent = Intent(requireContext(), LoginActivity::class.java)
-        startActivity(intent)
-        requireActivity().finish()
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()
