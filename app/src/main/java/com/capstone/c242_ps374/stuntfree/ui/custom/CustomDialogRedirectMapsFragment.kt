@@ -37,11 +37,8 @@ class CustomDialogRedirectMapsFragment : DialogFragment() {
         val btnNo = dialogView.findViewById<Button>(R.id.btnCancel)
 
         btnYes.setOnClickListener {
-            onYesClick?.invoke() ?: run {
-                val intent = Intent(requireContext(), MapsActivity::class.java)
-                startActivity(intent)
-            }
-            dialog.dismiss()
+            val intent = Intent(requireContext(), MapsActivity::class.java)
+            startActivity(intent)
         }
 
 
