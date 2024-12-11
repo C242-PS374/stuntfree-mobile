@@ -12,12 +12,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.c242_ps374.stuntfree.R
 import com.capstone.c242_ps374.stuntfree.databinding.FragmentHomeBinding
-import com.capstone.c242_ps374.stuntfree.ui.ServiceViewModel
+import com.capstone.c242_ps374.stuntfree.ui.ArticleViewModel
 import com.capstone.c242_ps374.stuntfree.ui.adapter.HomeAdapter
 import com.capstone.c242_ps374.stuntfree.ui.adapter.WeekAdapter
 import com.capstone.c242_ps374.stuntfree.ui.AuthViewModel
 import com.capstone.c242_ps374.stuntfree.ui.adapter.RecyclerStatusAdapter
-import com.capstone.c242_ps374.stuntfree.ui.adapter.StatusItem
 import com.capstone.c242_ps374.stuntfree.ui.camera.CameraActivity
 import com.capstone.c242_ps374.stuntfree.ui.custom.CustomDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,8 +26,7 @@ class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private val authViewModel: AuthViewModel by viewModels()
-    private val serviceViewModel: ServiceViewModel by viewModels()
+    private val serviceViewModel: ArticleViewModel by viewModels()
     private lateinit var weekAdapter: WeekAdapter
     private lateinit var homeAdapter: HomeAdapter
 
@@ -48,8 +46,8 @@ class HomeFragment : Fragment() {
         setupBinding()
         setupRecyclerStatus()
 
-        serviceViewModel.fetchServices()
-        serviceViewModel.generateDummyData()
+        serviceViewModel.fetchNews()
+        serviceViewModel.generateWeekDays()
     }
 
     private fun setupButton() {
@@ -96,8 +94,21 @@ class HomeFragment : Fragment() {
     }
 
     private fun observeWeekData() {
-        serviceViewModel.services.observe(viewLifecycleOwner) { services ->
-            homeAdapter.submitList(services)
+        serviceViewModel.news.observe(viewLifecycleOwner) { result ->
+            result.onSuccess { response ->
+                val articles = response.articles ?: listOf()
+                if (articles.isEmpty()) {
+                    binding.rvInsight.visibility = View.GONE
+                    binding.progressBar.visibility = View.VISIBLE
+                } else {
+                    homeAdapter.submitList(articles)
+                    binding.rvInsight.visibility = View.VISIBLE
+                    binding.progressBar.visibility = View.GONE
+                }
+            }.onFailure { exception ->
+                binding.rvInsight.visibility = View.GONE
+                Toast.makeText(context, exception.message, Toast.LENGTH_SHORT).show()
+            }
         }
 
         serviceViewModel.weekDays.observe(viewLifecycleOwner) { weekData ->
@@ -115,19 +126,19 @@ class HomeFragment : Fragment() {
     }
 
     val statusList = listOf(
-        StatusItem(
+        RecyclerStatusAdapter.StatusItem(
             title = "Pregnancy - Day 4",
             stuntingDescription = "3 Hari sebelum proses deteksi stunting",
             nutritionDescription = "Not Fulfilled",
             environmentalDescription = "Healthy Environment"
         ),
-        StatusItem(
+        RecyclerStatusAdapter.StatusItem(
             title = "Pregnancy - Day 5",
             stuntingDescription = "2 Hari sebelum proses deteksi stunting",
             nutritionDescription = "Partially Fulfilled",
             environmentalDescription = "Moderate Environment"
         ),
-        StatusItem(
+        RecyclerStatusAdapter.StatusItem(
             title = "Pregnancy - Day 6",
             stuntingDescription = "1 Hari sebelum proses deteksi stunting",
             nutritionDescription = "Fulfilled",

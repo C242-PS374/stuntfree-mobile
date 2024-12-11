@@ -6,11 +6,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.capstone.c242_ps374.stuntfree.data.service.Service
+import com.capstone.c242_ps374.stuntfree.data.news.Article
 import com.capstone.c242_ps374.stuntfree.databinding.ItemHomeBinding
-import com.capstone.c242_ps374.stuntfree.databinding.ItemInsightBinding
 
-class HomeAdapter : ListAdapter<Service, HomeAdapter.HomeViewHolder>(DIFF_CALLBACK) {
+class HomeAdapter : ListAdapter<Article, HomeAdapter.HomeViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
         val binding = ItemHomeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -25,14 +24,13 @@ class HomeAdapter : ListAdapter<Service, HomeAdapter.HomeViewHolder>(DIFF_CALLBA
         private val binding: ItemHomeBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(service: Service?) {
-            service?.let {
+        fun bind(article: Article?) {
+            article?.let {
                 binding.apply {
-                    tvTitle.text = it.description ?: "Unknown"
+                    tvTitle.text = it.title ?: "No Title Available"
+                    tvDesc.text = it.description ?: "No Description Available"
                     Glide.with(itemView.context)
-                        .load(it.photoUrl)
-//                        .placeholder(R.drawable.placeholder_image) // Tambahkan drawable sesuai
-//                        .error(R.drawable.error_image) // Tambahkan drawable sesuai
+                        .load(it.urlToImage)
                         .into(ivImage)
                 }
             }
@@ -40,12 +38,12 @@ class HomeAdapter : ListAdapter<Service, HomeAdapter.HomeViewHolder>(DIFF_CALLBA
     }
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Service>() {
-            override fun areItemsTheSame(oldItem: Service, newItem: Service): Boolean {
-                return oldItem.id == newItem.id
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Article>() {
+            override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
+                return oldItem.url == newItem.url  // Assuming URL is unique for each article
             }
 
-            override fun areContentsTheSame(oldItem: Service, newItem: Service): Boolean {
+            override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean {
                 return oldItem == newItem
             }
         }

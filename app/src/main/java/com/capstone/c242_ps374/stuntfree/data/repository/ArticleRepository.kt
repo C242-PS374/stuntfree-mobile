@@ -4,9 +4,10 @@ import com.capstone.c242_ps374.stuntfree.data.api.NewsApiService
 import com.capstone.c242_ps374.stuntfree.data.news.Article
 import com.capstone.c242_ps374.stuntfree.data.news.NewsResponse
 import javax.inject.Inject
+import javax.inject.Named
 
 class ArticleRepository @Inject constructor(
-    private val apiService: NewsApiService
+    @Named("newsApiService") private val apiService: NewsApiService
 ) {
     suspend fun getNews(): Result<NewsResponse> {
         return try {

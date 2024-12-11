@@ -1,7 +1,6 @@
 package com.capstone.c242_ps374.stuntfree.ui.profile
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import androidx.fragment.app.viewModels
 import android.os.Bundle
 import android.util.Log
@@ -10,11 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.capstone.c242_ps374.stuntfree.data.service.StuntingStatistics
 import com.capstone.c242_ps374.stuntfree.databinding.FragmentProfileBinding
 import com.capstone.c242_ps374.stuntfree.ui.AttachViewModel
 import com.capstone.c242_ps374.stuntfree.ui.AuthViewModel
-import com.capstone.c242_ps374.stuntfree.ui.auth.login.LoginActivity
 import com.capstone.c242_ps374.stuntfree.ui.custom.PopUpLogout
 import com.capstone.c242_ps374.stuntfree.ui.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint

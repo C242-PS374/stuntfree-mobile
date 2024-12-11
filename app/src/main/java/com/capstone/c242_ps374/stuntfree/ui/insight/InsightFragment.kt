@@ -10,14 +10,10 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.capstone.c242_ps374.stuntfree.R
 import com.capstone.c242_ps374.stuntfree.databinding.FragmentInsightBinding
-import com.capstone.c242_ps374.stuntfree.databinding.FragmentServiceBinding
-import com.capstone.c242_ps374.stuntfree.ui.ServiceViewModel
+import com.capstone.c242_ps374.stuntfree.ui.ArticleViewModel
 import com.capstone.c242_ps374.stuntfree.ui.adapter.ButtonAdapter
 import com.capstone.c242_ps374.stuntfree.ui.adapter.InsightAdapter
-import com.capstone.c242_ps374.stuntfree.ui.adapter.ServiceAdapter
-import com.capstone.c242_ps374.stuntfree.ui.custom.CustomDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,7 +21,7 @@ class InsightFragment : Fragment() {
 
     private var _binding: FragmentInsightBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: ServiceViewModel by viewModels()
+    private val viewModel: ArticleViewModel by viewModels()
     private lateinit var adapter: InsightAdapter
     private lateinit var adapterButton: ButtonAdapter
 
@@ -44,20 +40,21 @@ class InsightFragment : Fragment() {
         setupSearchView()
         observeViewModel()
 
-        viewModel.fetchServicesWithButton()
+        viewModel.fetchNews()
+        viewModel.generateWeekDays()
     }
 
     private fun setupRecyclerView() {
         adapterButton = ButtonAdapter { service ->
-            viewModel.filterServicesByButton(service.name ?: "Unknown")
+            viewModel.filterNewsByAuthor(service.author ?: "Unknown")
         }
-
         binding.recyclerButton.apply {
             adapter = adapterButton
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
         }
 
+        // Set up InsightAdapter
         adapter = InsightAdapter()
         binding.recyclerInsight.apply {
             adapter = this@InsightFragment.adapter
@@ -69,67 +66,71 @@ class InsightFragment : Fragment() {
     private fun setupSearchView() {
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                query?.let {
-                    viewModel.searchServices(it.trim())
-                }
+                query?.let { viewModel.searchArticles(it.trim()) }
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                newText?.let {
-                    viewModel.searchServices(it.trim())
-                }
+                newText?.let { viewModel.searchArticles(it.trim()) }
                 return true
             }
         })
     }
 
     private fun observeViewModel() {
-        viewModel.services.observe(viewLifecycleOwner) { services ->
+        viewModel.news.observe(viewLifecycleOwner) { result ->
             setLoading(false)
-            if (!services.isNullOrEmpty()) {
-                adapter.submitList(services)
-                binding.recyclerInsight.visibility = View.VISIBLE
-                binding.textNoResults.visibility = View.GONE
-            } else {
+            result.onSuccess { response ->
+                val articles = response.articles ?: listOf()
+                if (articles.isEmpty()) {
+                    binding.recyclerInsight.visibility = View.GONE
+                    binding.recyclerButton.visibility = View.GONE
+                    binding.textNoResults.visibility = View.VISIBLE
+                } else {
+                    adapter.submitList(articles)
+                    binding.recyclerInsight.visibility = View.VISIBLE
+                    binding.recyclerButton.visibility = View.VISIBLE
+                    binding.textNoResults.visibility = View.GONE
+                }
+            }.onFailure { exception ->
                 binding.recyclerInsight.visibility = View.GONE
-                binding.textNoResults.visibility = View.VISIBLE
-            }
-        }
-
-        viewModel.buttonServices.observe(viewLifecycleOwner) { buttonServices ->
-            if (!buttonServices.isNullOrEmpty()) {
-                adapterButton.submitList(buttonServices)
-                binding.recyclerButton.visibility = View.VISIBLE
-            } else {
                 binding.recyclerButton.visibility = View.GONE
-            }
-        }
-
-        viewModel.error.observe(viewLifecycleOwner) { errorMessage ->
-            setLoading(false)
-            errorMessage?.let {
-                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                binding.textNoResults.visibility = View.VISIBLE
+                Toast.makeText(context, exception.message, Toast.LENGTH_SHORT).show()
             }
         }
 
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             setLoading(isLoading)
         }
+
+        viewModel.error.observe(viewLifecycleOwner) { errorMessage ->
+            setLoading(false)
+            errorMessage?.let { Toast.makeText(context, it, Toast.LENGTH_SHORT).show() }
+        }
+
+        viewModel.buttonServices.observe(viewLifecycleOwner) { buttonServices ->
+            if (buttonServices.isEmpty()) {
+                binding.recyclerButton.visibility = View.GONE
+            } else {
+                adapterButton.submitList(buttonServices)
+                binding.recyclerButton.visibility = View.VISIBLE
+            }
+        }
     }
 
     private fun setLoading(isLoading: Boolean) {
-        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-        if (isLoading) {
-            binding.recyclerInsight.visibility = View.GONE
-            binding.recyclerButton.visibility = View.GONE
-            binding.textNoResults.visibility = View.GONE
+        binding.apply {
+            progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            recyclerInsight.visibility = if (isLoading) View.GONE else View.VISIBLE
+            recyclerButton.visibility = if (isLoading) View.GONE else View.VISIBLE
+            textNoResults.visibility = if (isLoading) View.GONE else View.VISIBLE
         }
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 }
-

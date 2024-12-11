@@ -10,26 +10,25 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.c242_ps374.stuntfree.R
 import com.capstone.c242_ps374.stuntfree.databinding.ActivityLogYourSymptomsBinding
 import com.capstone.c242_ps374.stuntfree.ui.adapter.RecyclerStatusAdapter
-import com.capstone.c242_ps374.stuntfree.ui.adapter.StatusItem
 
 class LogYourSymptomsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLogYourSymptomsBinding
 
     private val statusList = listOf(
-        StatusItem(
+        RecyclerStatusAdapter.StatusItem(
             title = "Pregnancy - Day 4",
             stuntingDescription = "3 Hari sebelum proses deteksi stunting",
             nutritionDescription = "Not Fulfilled",
             environmentalDescription = "Healthy Environment"
         ),
-        StatusItem(
+        RecyclerStatusAdapter.StatusItem(
             title = "Pregnancy - Day 5",
             stuntingDescription = "2 Hari sebelum proses deteksi stunting",
             nutritionDescription = "Partially Fulfilled",
             environmentalDescription = "Moderate Environment"
         ),
-        StatusItem(
+        RecyclerStatusAdapter.StatusItem(
             title = "Pregnancy - Day 6",
             stuntingDescription = "1 Hari sebelum proses deteksi stunting",
             nutritionDescription = "Fulfilled",

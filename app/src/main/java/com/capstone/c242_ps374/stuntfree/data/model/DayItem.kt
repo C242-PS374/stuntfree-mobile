@@ -2,6 +2,6 @@ package com.capstone.c242_ps374.stuntfree.data.model
 
 data class DayItem(
     val date: String,
-    val dayName: String,  // Nama hari, contoh: "Sunday"
-    val isSelected: Boolean  // Status untuk lingkaran
+    val dayName: String,
+    val isSelected: Boolean
 )

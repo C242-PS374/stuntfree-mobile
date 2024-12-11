@@ -9,9 +9,10 @@ import com.capstone.c242_ps374.stuntfree.data.attach.PregnancyResponse
 import com.capstone.c242_ps374.stuntfree.data.attach.UserProfileResponse
 import retrofit2.Response
 import javax.inject.Inject
+import javax.inject.Named
 
 class AttachRepository @Inject constructor(
-    private val apiService: ApiService
+    @Named("stuntingApiService") private val apiService: ApiService,
 ) {
 
     suspend fun attachInfancyProfile(token: String, body: InfancyRequest): Result<InfancyResponse> {

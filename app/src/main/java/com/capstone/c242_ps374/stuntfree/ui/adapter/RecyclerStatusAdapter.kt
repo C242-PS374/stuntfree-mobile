@@ -39,11 +39,11 @@ class RecyclerStatusAdapter(private val statusList: List<StatusItem>) : Recycler
             tvEnvironmentalConditions.text = statusItem.environmentalDescription
         }
     }
-}
 
-data class StatusItem(
-    val title: String,
-    val stuntingDescription: String,
-    val nutritionDescription: String,
-    val environmentalDescription: String
-)
+    data class StatusItem(
+        val title: String,
+        val stuntingDescription: String,
+        val nutritionDescription: String,
+        val environmentalDescription: String
+    )
+}

@@ -10,10 +10,9 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.c242_ps374.stuntfree.databinding.FragmentServiceBinding
-import com.capstone.c242_ps374.stuntfree.ui.ServiceViewModel
-import com.capstone.c242_ps374.stuntfree.ui.adapter.ServiceAdapter
+import com.capstone.c242_ps374.stuntfree.ui.ArticleViewModel
+import com.capstone.c242_ps374.stuntfree.ui.adapter.ArticleAdapter
 import com.capstone.c242_ps374.stuntfree.ui.custom.CustomDialogEmergencyCallFragment
-import com.capstone.c242_ps374.stuntfree.ui.custom.CustomDialogFragment
 import com.capstone.c242_ps374.stuntfree.ui.custom.CustomDialogRedirectMapsFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,8 +21,8 @@ class ServiceFragment : Fragment() {
 
     private var _binding: FragmentServiceBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: ServiceViewModel by viewModels()
-    private lateinit var adapter: ServiceAdapter
+    private val viewModel: ArticleViewModel by viewModels()
+    private lateinit var adapter: ArticleAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,11 +60,11 @@ class ServiceFragment : Fragment() {
     }
 
     private fun setupAdapter() {
-        adapter = ServiceAdapter(
+        adapter = ArticleAdapter(
             onCallClick = { service ->
                 val dialog = CustomDialogEmergencyCallFragment().apply {
                     onYesClick = {
-                        Toast.makeText(context, "Memanggil ${service.name}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Memanggil ${service.author}", Toast.LENGTH_SHORT).show()
                     }
                     onNoClick = {
                         Toast.makeText(context, "Aksi batal.", Toast.LENGTH_SHORT).show()
@@ -76,7 +75,7 @@ class ServiceFragment : Fragment() {
             onLocationClick = { service ->
                 val dialog = CustomDialogRedirectMapsFragment().apply {
                     onYesClick = {
-                        Toast.makeText(context, "Menampilkan lokasi ${service.name}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Menampilkan lokasi ${service.author}", Toast.LENGTH_SHORT).show()
                     }
                     onNoClick = {
                         Toast.makeText(context, "Aksi batal.", Toast.LENGTH_SHORT).show()
@@ -91,14 +90,14 @@ class ServiceFragment : Fragment() {
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 query?.let {
-                    viewModel.searchServices(it)
+                    viewModel.searchArticles(it)
                 }
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 newText?.let {
-                    viewModel.searchServices(it)
+                    viewModel.searchArticles(it)
                 }
                 return true
             }
@@ -106,16 +105,20 @@ class ServiceFragment : Fragment() {
     }
 
     private fun observeData() {
-        viewModel.services.observe(viewLifecycleOwner) { services ->
-            if (!services.isNullOrEmpty()) {
-                adapter.submitList(services)
-                binding.recyclerHealth.visibility = View.VISIBLE
-                binding.recyclerDokter.visibility = View.VISIBLE
-                binding.textNoResults.visibility = View.GONE
-            } else {
-                binding.recyclerHealth.visibility = View.GONE
-                binding.recyclerDokter.visibility = View.GONE
-                binding.textNoResults.visibility = View.VISIBLE
+        viewModel.news.observe(viewLifecycleOwner) { result ->
+            setLoading(false)
+            result.onSuccess { response ->
+                val articles = response.articles ?: listOf()
+                if (articles.isEmpty()) {
+                    binding.recyclerHealth.visibility = View.GONE
+                    binding.recyclerDokter.visibility = View.GONE
+                    binding.textNoResults.visibility = View.VISIBLE
+                } else {
+                    adapter.submitList(articles)
+                    binding.recyclerHealth.visibility = View.VISIBLE
+                    binding.recyclerDokter.visibility = View.VISIBLE
+                    binding.textNoResults.visibility = View.GONE
+                }
             }
         }
 
@@ -136,7 +139,7 @@ class ServiceFragment : Fragment() {
     }
 
     private fun fetchServices() {
-        viewModel.fetchServices()
+        viewModel.fetchNews()
     }
 
     override fun onDestroyView() {

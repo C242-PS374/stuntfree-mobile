@@ -13,9 +13,10 @@ import com.google.gson.Gson
 import retrofit2.Response
 import java.io.IOException
 import javax.inject.Inject
+import javax.inject.Named
 
 class AuthRepository @Inject constructor(
-    private val apiService: ApiService,
+    @Named("stuntingApiService") private val apiService: ApiService,
     private val sessionManager: SessionManager
 ) {
 

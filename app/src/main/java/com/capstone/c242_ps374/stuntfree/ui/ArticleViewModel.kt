@@ -7,21 +7,26 @@ import androidx.lifecycle.viewModelScope
 import com.capstone.c242_ps374.stuntfree.data.model.DayItem
 import com.capstone.c242_ps374.stuntfree.data.news.Article
 import com.capstone.c242_ps374.stuntfree.data.news.NewsResponse
-import com.capstone.c242_ps374.stuntfree.data.repository.ServiceRepository
+import com.capstone.c242_ps374.stuntfree.data.repository.ArticleRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
-class ServiceViewModel @Inject constructor(
-    private val serviceRepository: ServiceRepository
+class ArticleViewModel @Inject constructor(
+    private val serviceRepository: ArticleRepository
 ) : ViewModel() {
 
     private val _news = MutableLiveData<Result<NewsResponse>>()
     val news: LiveData<Result<NewsResponse>> get() = _news
+
+    private val _buttonServices = MutableLiveData<List<Article>>()
+    val buttonServices: LiveData<List<Article>> get() = _buttonServices
 
     private val _weekDays = MutableLiveData<List<DayItem>>()
     val weekDays: LiveData<List<DayItem>> get() = _weekDays
@@ -75,12 +80,12 @@ class ServiceViewModel @Inject constructor(
     }
 
     fun searchArticles(query: String) {
-        if (query.isEmpty()) {
-            filterNewsByAuthor(lastClickedAuthor ?: "")
-        } else {
-            val filteredArticles = allArticles.filter {
-                it.title?.contains(query, ignoreCase = true) == true ||
-                        it.description?.contains(query, ignoreCase = true) == true
+        viewModelScope.launch {
+            val filteredArticles = withContext(Dispatchers.Default) {
+                allArticles.filter {
+                    it.title?.contains(query, ignoreCase = true) == true ||
+                            it.description?.contains(query, ignoreCase = true) == true
+                }
             }
             _news.postValue(Result.success(NewsResponse(
                 status = "ok",
@@ -91,6 +96,10 @@ class ServiceViewModel @Inject constructor(
     }
 
     fun generateWeekDays() {
+        _weekDays.value = getWeekDays()
+    }
+
+    private fun getWeekDays(): List<DayItem> {
         val weekDaysList = mutableListOf<DayItem>()
         val calendar = Calendar.getInstance()
 
@@ -102,6 +111,6 @@ class ServiceViewModel @Inject constructor(
             calendar.add(Calendar.DAY_OF_MONTH, 1)
         }
 
-        _weekDays.value = weekDaysList
+        return weekDaysList
     }
 }

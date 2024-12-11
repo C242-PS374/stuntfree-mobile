@@ -2,60 +2,62 @@ package com.capstone.c242_ps374.stuntfree.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.capstone.c242_ps374.stuntfree.data.service.Service
+import com.capstone.c242_ps374.stuntfree.data.news.Article
 import com.capstone.c242_ps374.stuntfree.databinding.ItemButtonBinding
 
 class ButtonAdapter(
-    private val onButtonClick: (Service) -> Unit
-) : ListAdapter<Service, ButtonAdapter.ServiceViewHolder>(DIFF_CALLBACK) {
+    private val onButtonClick: (Article) -> Unit
+) : ListAdapter<Article, ButtonAdapter.ArticleViewHolder>(DIFF_CALLBACK) {
 
     private val selectedButton = MutableLiveData<String?>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ServiceViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
         val binding = ItemButtonBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ServiceViewHolder(binding, onButtonClick)
+        return ArticleViewHolder(binding, onButtonClick, selectedButton)
     }
 
-    override fun onBindViewHolder(holder: ServiceViewHolder, position: Int) {
-        val service = getItem(position)
-        holder.bind(service)
-        holder.itemView.setOnClickListener {
-            selectedButton.value = if (selectedButton.value == service.name) null else service.name
-            onButtonClick(service)
-        }
+    override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
+        val article = getItem(position)
+        holder.bind(article)
     }
 
-    class ServiceViewHolder(
+    class ArticleViewHolder(
         private val binding: ItemButtonBinding,
-        private val onButtonClick: (Service) -> Unit
+        private val onButtonClick: (Article) -> Unit,
+        private val selectedButton: LiveData<String?>
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(service: Service?) {
-            service?.let {
+        fun bind(article: Article?) {
+            article?.let {
                 binding.apply {
-                    btnTitleAtas.text = it.name ?: "Unknown"
+                    btnTitleAtas.text = it.author ?: "Unknown"
+
+                    val isSelected = it.author == selectedButton.value
+
                     btnTitleAtas.setOnClickListener {
-                        onButtonClick(service)
+                        btnTitleAtas.isSelected = isSelected
+                        onButtonClick(article)
                     }
                 }
             }
         }
     }
 
+
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Service>() {
-            override fun areItemsTheSame(oldItem: Service, newItem: Service): Boolean {
-                return oldItem.id == newItem.id
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Article>() {
+            override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
+                return oldItem.source?.id == newItem.source?.id
             }
 
-            override fun areContentsTheSame(oldItem: Service, newItem: Service): Boolean {
+            override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean {
                 return oldItem == newItem
             }
         }
     }
 }
-

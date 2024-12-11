@@ -7,6 +7,7 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import com.airbnb.lottie.BuildConfig
 import com.capstone.c242_ps374.stuntfree.data.api.ApiService
+import com.capstone.c242_ps374.stuntfree.data.api.NewsApiService
 import com.capstone.c242_ps374.stuntfree.data.manager.SessionManager
 import com.capstone.c242_ps374.stuntfree.data.repository.AttachRepository
 import com.capstone.c242_ps374.stuntfree.data.repository.AuthRepository
@@ -22,14 +23,17 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-    private const val BASE_URL = "https://stuntfree-api-788458290127.asia-southeast2.run.app/api/v1/"
+    private const val BASE_URL_STUNTING = "https://stuntfree-api-788458290127.asia-southeast2.run.app/api/v1/"
+    private const val BASE_URL_NEWS = "https://newsapi.org/v2/"
 
+    // Menyediakan OkHttpClient yang digunakan oleh kedua Retrofit instances
     @Provides
     @Singleton
     fun provideOkHttpClient(sessionManager: SessionManager): OkHttpClient {
@@ -65,9 +69,10 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+    @Named("stuntingRetrofit")  // Memberi nama untuk Retrofit Stunting
+    fun provideStuntingRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(BASE_URL_STUNTING)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -75,25 +80,29 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideAttachRepository(
-        apiService: ApiService)
-    : AttachRepository {
-        return AttachRepository(apiService)
+    @Named("newsRetrofit")  // Memberi nama untuk Retrofit News
+    fun provideNewsRetrofit(okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL_NEWS)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
     }
 
+    // Menyediakan ApiService untuk API Stunting
     @Provides
     @Singleton
-    fun provideAuthRepository(
-        apiService: ApiService,
-        sessionManager: SessionManager)
-    : AuthRepository {
-        return AuthRepository(apiService, sessionManager)
-    }
-
-    @Provides
-    @Singleton
-    fun provideApiService(retrofit: Retrofit): ApiService {
+    @Named("stuntingApiService")  // Nama ApiService Stunting
+    fun provideStuntingApiService(@Named("stuntingRetrofit") retrofit: Retrofit): ApiService {
         return retrofit.create(ApiService::class.java)
+    }
+
+    // Menyediakan NewsApiService untuk API News
+    @Provides
+    @Singleton
+    @Named("newsApiService")  // Nama ApiService News
+    fun provideNewsApiService(@Named("newsRetrofit") retrofit: Retrofit): NewsApiService {
+        return retrofit.create(NewsApiService::class.java)
     }
 
     @Provides
