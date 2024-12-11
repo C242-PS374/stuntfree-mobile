@@ -45,10 +45,17 @@
             android:value="AIzaSyAEnDuSWehTTMRGx4NTMa44r_igq7LofP8" />
 
         <activity
+            android:name=".ui.home.TodayLogDetailsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.StuntFreeNoAction" />
+        <activity
+            android:name=".ui.stuntingreport.StuntingReportActivity"
+            android:exported="false"
+            android:theme="@style/Theme.StuntFreeNoAction" />
+        <activity
             android:name=".ui.home.LogYourSymptomsActivity"
             android:exported="false"
             android:theme="@style/Theme.StuntFreeNoAction"/>
-
         <activity
             android:name=".ui.maps.MapsActivity"
             android:exported="false"

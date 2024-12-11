@@ -1,6 +1,7 @@
 package com.capstone.c242_ps374.stuntfree.ui.profile
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.fragment.app.viewModels
 import android.os.Bundle
 import android.util.Log
@@ -8,11 +9,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.Toast
+import com.capstone.c242_ps374.stuntfree.R
 import com.capstone.c242_ps374.stuntfree.databinding.FragmentProfileBinding
 import com.capstone.c242_ps374.stuntfree.ui.AttachViewModel
 import com.capstone.c242_ps374.stuntfree.ui.AuthViewModel
 import com.capstone.c242_ps374.stuntfree.ui.custom.PopUpLogout
+import com.capstone.c242_ps374.stuntfree.ui.stuntingreport.StuntingReportActivity
 import com.capstone.c242_ps374.stuntfree.ui.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -49,15 +53,18 @@ class ProfileFragment : Fragment() {
             val customDialogFragment = PopUpLogout()
             customDialogFragment.show(parentFragmentManager, PopUpLogout::class.java.simpleName)
         }
+
+        binding.linearLayout.findViewById<LinearLayout>(R.id.stunting_report).setOnClickListener {
+            val intent = Intent(requireContext(), StuntingReportActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     @SuppressLint("SetTextI18n")
     private fun observeViewModelData() {
-        // Mengamati status profil pengguna
         attachViewModel.userProfileResponse.observe(viewLifecycleOwner) { resource ->
             when (resource) {
                 is Resource.Loading -> {
-                    // Menampilkan loading indicator
                     binding.progressBar.visibility = View.VISIBLE
                 }
                 is Resource.Success -> {
@@ -73,15 +80,12 @@ class ProfileFragment : Fragment() {
                     }
                 }
                 is Resource.Error -> {
-                    // Menyembunyikan loading dan menampilkan pesan error
                     binding.progressBar.visibility = View.GONE
                     Toast.makeText(context, resource.message, Toast.LENGTH_SHORT).show()
                 }
             }
         }
 
-
-        // Mengamati status autentikasi
         authViewModel.authState.observe(viewLifecycleOwner) { resource ->
             when (resource) {
                 is Resource.Error -> {
@@ -103,7 +107,6 @@ class ProfileFragment : Fragment() {
     private fun showError(message: String?) {
         Toast.makeText(requireContext(), "Error: ${message ?: "Unknown error"}", Toast.LENGTH_SHORT).show()
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

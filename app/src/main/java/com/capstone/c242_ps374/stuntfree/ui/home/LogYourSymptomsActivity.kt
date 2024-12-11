@@ -1,38 +1,44 @@
 package com.capstone.c242_ps374.stuntfree.ui.home
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.capstone.c242_ps374.stuntfree.R
+import com.capstone.c242_ps374.stuntfree.data.model.LogItem
 import com.capstone.c242_ps374.stuntfree.databinding.ActivityLogYourSymptomsBinding
-import com.capstone.c242_ps374.stuntfree.ui.adapter.RecyclerStatusAdapter
+import com.capstone.c242_ps374.stuntfree.ui.adapter.TodaysMealAdapter
+import com.capstone.c242_ps374.stuntfree.ui.adapter.TodaysMealItem
+import com.capstone.c242_ps374.stuntfree.ui.camera.CameraActivity
+import com.capstone.c242_ps374.stuntfree.ui.custom.CustomDialogFragment
+import com.capstone.c242_ps374.stuntfree.ui.custom.PopUpEditEnvironment
+
 
 class LogYourSymptomsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLogYourSymptomsBinding
 
+    private val logItem = LogItem(
+        title = "Pregnancy - Day 4",
+        stuntingStatusDetail = "3 Days before stunting detection",
+        nutritionDetail = "Not Fulfilled",
+        environmentalDetail = "Healthy Environment"
+    )
+
     private val statusList = listOf(
-        RecyclerStatusAdapter.StatusItem(
-            title = "Pregnancy - Day 4",
-            stuntingDescription = "3 Hari sebelum proses deteksi stunting",
-            nutritionDescription = "Not Fulfilled",
-            environmentalDescription = "Healthy Environment"
+        TodaysMealItem(
+            title = "Today’s Meal #1",
+            description = "1 Chicken, 1 Nasi, and 1 Ikan"
         ),
-        RecyclerStatusAdapter.StatusItem(
-            title = "Pregnancy - Day 5",
-            stuntingDescription = "2 Hari sebelum proses deteksi stunting",
-            nutritionDescription = "Partially Fulfilled",
-            environmentalDescription = "Moderate Environment"
+        TodaysMealItem(
+            title = "Today’s Meal #2",
+            description = "1 Soup, 2 Tempe, and 1 Orange"
         ),
-        RecyclerStatusAdapter.StatusItem(
-            title = "Pregnancy - Day 6",
-            stuntingDescription = "1 Hari sebelum proses deteksi stunting",
-            nutritionDescription = "Fulfilled",
-            environmentalDescription = "Optimal Environment"
+        TodaysMealItem(
+            title = "Today’s Meal #3",
+            description = "1 Fish, 1 Nasi, and 1 Vegetable Mix"
         )
     )
 
@@ -40,29 +46,43 @@ class LogYourSymptomsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        // Menggunakan View Binding
         binding = ActivityLogYourSymptomsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Mengatur insets
         ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        binding.backButton.setOnClickListener {
-            onBackPressedDispatcher.onBackPressed() // Kembali ke aktivitas sebelumnya
+        binding.ivEditEnvirontment.setOnClickListener {
+            val popUpEditEnvironment = PopUpEditEnvironment()
+            popUpEditEnvironment.show(supportFragmentManager, CustomDialogFragment::class.java.simpleName)
         }
 
-        setupRecyclerStatus()
+        binding.backButton.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+
+        binding.idAddMore.setOnClickListener {
+            val intent = Intent(this, CameraActivity::class.java)
+            startActivity(intent)
+        }
+
+
+        binding.tvTitle.text = logItem.title
+        binding.tvStuntingStatus.text = logItem.stuntingStatusDetail
+        binding.tvNutritionIntake.text = logItem.nutritionDetail
+        binding.tvEnvironmentalConditions.text = logItem.environmentalDetail
+
+        setupRecyclerView()
     }
 
-    private fun setupRecyclerStatus() {
-        val recyclerStatusAdapter = RecyclerStatusAdapter(statusList)
-        binding.rvLogSymptoms.apply {
+    private fun setupRecyclerView() {
+        val adapter = TodaysMealAdapter(statusList)
+        binding.rvLogToday.apply {
             layoutManager = LinearLayoutManager(this@LogYourSymptomsActivity)
-            adapter = recyclerStatusAdapter
+            this.adapter = adapter
         }
     }
 }
