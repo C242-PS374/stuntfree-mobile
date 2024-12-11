@@ -57,7 +57,7 @@ class LoginActivity : AppCompatActivity() {
 
         authViewModel.isLoggedIn.observe(this) { isLoggedIn ->
             if (isLoggedIn) {
-                navigateToActivity(MainActivity::class.java, true)
+                binding.progressBar.isVisible = false
             }
         }
     }

@@ -64,14 +64,14 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    private fun checkUserStage() {
+    private fun checkUserStage(email: String) {
         viewModelScope.launch {
             try {
                 val token = sessionManager.getAccessToken().first()
                 if (token.isNullOrEmpty()) {
                     _authState.postValue(Resource.Error("Token not found"))
                 } else {
-                    val stage = sessionManager.getStage().first()
+                    val stage = sessionManager.getStage(email).first()
                     Log.d("AuthViewModel", "Stage: $stage")
                     if (stage.isNullOrEmpty()) {
                         _navigateToQuiz.postValue(Unit)
@@ -98,12 +98,14 @@ class AuthViewModel @Inject constructor(
                         val token = response.data?.token
                         Log.d("AuthViewModel", "Token received: $token")
 
+
                         if (token != null) {
                             sessionManager.saveAuthToken(token.tokenType, token.accessToken, token.refreshToken)
+                            sessionManager.saveEmail(email)
 
                             sessionManager.getAccessToken().collect { savedToken ->
                                 if (!savedToken.isNullOrEmpty()) {
-                                    checkUserStage()
+                                    checkUserStage(email)
                                 } else {
                                     _loginStatus.value = Resource.Error("Token gagal disimpan.")
                                 }
@@ -126,52 +128,39 @@ class AuthViewModel @Inject constructor(
             }
         }
     }
-
-
+    
     fun registerUser(email: String, name: String, password: String, confirmPassword: String) {
         viewModelScope.launch {
-            _registrationStatus.value = Resource.Loading()  // Menandakan loading
+            _registrationStatus.value = Resource.Loading()
 
             try {
-                // Membuat objek RegisterRequest
                 val registerData = RegisterRequest(email, name, password, confirmPassword)
 
-                // Memanggil fungsi registerUser dari repository
-                val response = repository.registerUser(registerData)
-
-                // Menangani hasil response
-                when (response) {
+                when (val response = repository.registerUser(registerData)) {
                     is Resource.Success -> {
                         response.data?.let { responseData ->
                             if (responseData.error) {
-                                // Jika ada error dalam response, beri pesan error
                                 _registrationStatus.value = Resource.Error(responseData.message)
                             } else {
-                                // Jika pendaftaran berhasil
                                 _registrationStatus.value = Resource.Success(responseData)
                                 Log.d("AuthViewModel", "Register User: ${registerData.name} ${registerData.email} ${registerData.password} ${registerData.confirmPassword}")
                             }
                         } ?: run {
-                            // Jika response null
                             _registrationStatus.value = Resource.Error("Unknown error: Empty response")
                         }
                     }
                     is Resource.Error -> {
-                        // Menangani error dari API
                         _registrationStatus.value = Resource.Error(response.message ?: "Register failed")
                     }
                     else -> {
-                        // Menangani kondisi lainnya, meskipun tidak diharapkan
                         _registrationStatus.value = Resource.Error("Unexpected response")
                     }
                 }
             } catch (e: Exception) {
-                // Menangani exception yang tidak terduga
                 _registrationStatus.value = Resource.Error("Register failed: ${e.localizedMessage}")
             }
         }
     }
-
 
     fun logout() {
         viewModelScope.launch {

@@ -36,22 +36,23 @@ class AttachViewModel @Inject constructor(
     private val _stageLiveData = MutableLiveData<String>()
     val stageLiveData: LiveData<String> get() = _stageLiveData
 
-    // Menyimpan stage ketika disubmit
     fun onSubmit(isPregnancySelected: Boolean, isInfancySelected: Boolean) {
         viewModelScope.launch {
-            val stage = when {
-                isPregnancySelected -> "pregnancy"
-                isInfancySelected -> "infancy"
-                else -> "no_selection"
-            }
+            val email = sessionManager.getEmail().firstOrNull()
+            if (email != null) {
+                val stage = when {
+                    isPregnancySelected -> "pregnancy"
+                    isInfancySelected -> "infancy"
+                    else -> "no_selection"
+                }
 
-            sessionManager.saveStage(stage)
-            _stageLiveData.postValue(stage)
-            Log.d("AttachViewModel", "Stage for now: $stage")
+                sessionManager.saveStage(email, stage)
+                _stageLiveData.postValue(stage)
+                Log.d("AttachViewModel", "Stage for now: $stage")
+            }
         }
     }
 
-    // Menyertakan profil infancy ke server
     fun attachInfancyProfile(body: InfancyRequest) {
         viewModelScope.launch {
             val token = sessionManager.getBearerToken().firstOrNull()
@@ -149,5 +150,4 @@ class AttachViewModel @Inject constructor(
             }
         }
     }
-
 }

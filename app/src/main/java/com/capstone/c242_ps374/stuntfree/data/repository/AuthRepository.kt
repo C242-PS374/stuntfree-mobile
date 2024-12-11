@@ -1,7 +1,6 @@
 package com.capstone.c242_ps374.stuntfree.data.repository
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import com.capstone.c242_ps374.stuntfree.data.api.ApiService
 import com.capstone.c242_ps374.stuntfree.data.manager.SessionManager
@@ -14,7 +13,6 @@ import com.google.gson.Gson
 import retrofit2.Response
 import java.io.IOException
 import javax.inject.Inject
-
 
 class AuthRepository @Inject constructor(
     private val apiService: ApiService,
@@ -29,21 +27,16 @@ class AuthRepository @Inject constructor(
 
     suspend fun registerUser(registerData: RegisterRequest): Resource<RegisterResponse> {
         return try {
-            // Mengambil response dari API
             val response = apiService.registerUser(registerData)
 
-            // Mengecek apakah response sukses
             if (response.isSuccessful) {
                 response.body()?.let {
-                    // Jika sukses, kembalikan resource sukses
                     Resource.Success(it)
                 } ?: Resource.Error("Response body is null")
             } else {
-                // Jika response tidak sukses, kembalikan resource error
                 Resource.Error("Error: ${response.errorBody()?.string()}")
             }
         } catch (e: Exception) {
-            // Jika terjadi kesalahan, kembalikan resource error
             Resource.Error("Request failed: ${e.message}")
         }
     }
@@ -77,7 +70,6 @@ class AuthRepository @Inject constructor(
             Resource.Error("Login failed: ${e.localizedMessage}")
         }
     }
-
 
     private suspend fun <T> safeApiCall(
         apiCall: suspend () -> Response<T>
