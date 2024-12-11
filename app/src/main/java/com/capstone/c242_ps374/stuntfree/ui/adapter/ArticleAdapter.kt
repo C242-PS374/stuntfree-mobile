@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.capstone.c242_ps374.stuntfree.data.service.Service
+import com.capstone.c242_ps374.stuntfree.data.news.Article
 import com.capstone.c242_ps374.stuntfree.databinding.ItemServiceBinding
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -30,11 +30,11 @@ class ServiceAdapter(
 
     class ServiceViewHolder(
         private val binding: ItemServiceBinding,
-        private val onCallClick: (Service) -> Unit,
-        private val onLocationClick: (Service) -> Unit
+        private val onCallClick: (Article) -> Unit,
+        private val onLocationClick: (Article) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(service: Service) {
+        fun bind(Article: Article) {
             binding.apply {
                 // Bind data ke View
                 textName.text = service.name ?: "Unknown"
