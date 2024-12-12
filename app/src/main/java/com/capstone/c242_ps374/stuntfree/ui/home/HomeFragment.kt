@@ -19,6 +19,7 @@ import com.capstone.c242_ps374.stuntfree.ui.AuthViewModel
 import com.capstone.c242_ps374.stuntfree.ui.adapter.RecyclerStatusAdapter
 import com.capstone.c242_ps374.stuntfree.ui.camera.CameraActivity
 import com.capstone.c242_ps374.stuntfree.ui.custom.CustomDialogFragment
+import com.capstone.c242_ps374.stuntfree.ui.stuntingreport.StuntingReportActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -75,7 +76,8 @@ class HomeFragment : Fragment() {
         }
 
         binding.ivCalendar.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_calendarFragment)
+            val intent = Intent(requireContext(), StuntingReportActivity::class.java)
+            startActivity(intent)
         }
     }
 

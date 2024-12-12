@@ -40,9 +40,9 @@ class GetStartedActivity : AppCompatActivity() {
         onboardingViewModel.onboardingItems.observe(this) { items ->
             val currentItem = binding.viewPager.currentItem
             if (items.size - 1 == currentItem) {
-                binding.nextButton.setImageResource(R.drawable.ic_next)
+                binding.nextButton.setImageResource(R.drawable.ic_logo_onboarding)
             } else {
-                binding.nextButton.setImageResource(R.drawable.ic_next)
+                binding.nextButton.setImageResource(R.drawable.ic_logo_onboarding)
             }
         }
 

@@ -17,18 +17,18 @@ class OnBoardingViewModel : ViewModel() {
         val items = listOf(
             OnBoardingItem(
                 image = R.drawable.illustration_1,
-                title = "Selamat Datang",
-                description = "Mulai perjalanan belajar Anda dengan cara yang menyenangkan"
+                title = "Early Detection for Bright Futures",
+                description = "Identifying and addressing stunting early to protect children’s development."
             ),
             OnBoardingItem(
                 image = R.drawable.illustration_2,
-                title = "Belajar Mudah",
-                description = "Materi yang disusun secara sistematis dan menarik"
+                title = "Support Mothers for Lasting Health",
+                description = "Guidance and resources for maternal health and early childhood care."
             ),
             OnBoardingItem(
                 image = R.drawable.illustration_3,
-                title = "Tantang Diri",
-                description = "Kuis interaktif untuk mengukur pemahaman Anda"
+                title = "Healthy Growth, Happy Future",
+                description = "Ensuring every child grows up healthy and full of potential."
             )
         )
         _onboardingItems.value = items
