@@ -1,8 +1,6 @@
-package com.capstone.c242_ps374.stuntfree.data.attach
+package com.capstone.c242_ps374.stuntfree.data.api.pregnancy
 
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.parcelize.Parcelize
 
 data class PregnancyRequest(
     @field:SerializedName("stage") val stage: String = "pregnancy",

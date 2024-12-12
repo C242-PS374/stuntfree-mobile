@@ -11,7 +11,7 @@ import com.capstone.c242_ps374.stuntfree.R
 import com.capstone.c242_ps374.stuntfree.databinding.ActivityRegisterBinding
 import com.capstone.c242_ps374.stuntfree.ui.AuthViewModel
 import com.capstone.c242_ps374.stuntfree.ui.utils.Resource
-import com.capstone.c242_ps374.stuntfree.data.auth.RegisterResponse
+import com.capstone.c242_ps374.stuntfree.data.api.auth.RegisterResponse
 import com.capstone.c242_ps374.stuntfree.ui.auth.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 

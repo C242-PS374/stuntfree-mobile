@@ -9,8 +9,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.capstone.c242_ps374.stuntfree.MainActivity
-import com.capstone.c242_ps374.stuntfree.data.attach.PregnancyRequest
-import com.capstone.c242_ps374.stuntfree.data.attach.PregnancyResponse
+import com.capstone.c242_ps374.stuntfree.data.api.pregnancy.PregnancyRequest
+import com.capstone.c242_ps374.stuntfree.data.api.pregnancy.PregnancyResponse
 import com.capstone.c242_ps374.stuntfree.databinding.ActivityPregnancyBinding
 import com.capstone.c242_ps374.stuntfree.ui.AttachViewModel
 import com.capstone.c242_ps374.stuntfree.ui.utils.Resource

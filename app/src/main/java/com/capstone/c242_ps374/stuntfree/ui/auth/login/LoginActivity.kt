@@ -12,7 +12,7 @@ import com.capstone.c242_ps374.stuntfree.databinding.ActivityLoginBinding
 import com.capstone.c242_ps374.stuntfree.ui.AuthViewModel
 import com.capstone.c242_ps374.stuntfree.ui.auth.register.RegisterActivity
 import com.capstone.c242_ps374.stuntfree.ui.utils.Resource
-import com.capstone.c242_ps374.stuntfree.data.auth.LoginResponse
+import com.capstone.c242_ps374.stuntfree.data.api.auth.LoginResponse
 import com.capstone.c242_ps374.stuntfree.ui.quiz.QuizActivity
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint

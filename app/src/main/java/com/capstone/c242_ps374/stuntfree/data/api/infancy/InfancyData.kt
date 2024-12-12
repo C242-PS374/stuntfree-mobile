@@ -1,10 +1,15 @@
-package com.capstone.c242_ps374.stuntfree.data.attach
+package com.capstone.c242_ps374.stuntfree.data.api.infancy
 
 import com.google.gson.annotations.SerializedName
 
-data class PregnancyData(
-    @field:SerializedName("stage") val stage: String?,
-    @field:SerializedName("gestasional_age") val gestasionalAge: Int?,
+data class InfancyData(
+    @field:SerializedName("stage") val stage: String = "infancy",
+    @field:SerializedName("child_dob") val childDob: String?,
+    @field:SerializedName("child_gender") val childGender: String?,
+    @field:SerializedName("child_born_weight") val childBornWeight: Int?,
+    @field:SerializedName("child_born_height") val childBornHeight: Int?,
+    @field:SerializedName("child_height") val childHeight: Int?,
+    @field:SerializedName("child_weight") val childWeight: Int?,
     @field:SerializedName("address") val address: String?,
     @field:SerializedName("is_environment_suitable") val isEnvironmentSuitable: Boolean?,
     @field:SerializedName("is_nutrition_fulfilled") val isNutritionFulfilled: Boolean?,

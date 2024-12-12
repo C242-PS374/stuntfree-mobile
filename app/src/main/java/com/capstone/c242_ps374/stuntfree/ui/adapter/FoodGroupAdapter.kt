@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.capstone.c242_ps374.stuntfree.R
-import com.capstone.c242_ps374.stuntfree.data.model.FoodItem
+import com.capstone.c242_ps374.stuntfree.data.api.scan.FoodItem
 
 class FoodGroupAdapter(private val foodData: List<FoodItem>) : RecyclerView.Adapter<FoodGroupAdapter.FoodGroupViewHolder>() {
 
@@ -25,8 +25,7 @@ class FoodGroupAdapter(private val foodData: List<FoodItem>) : RecyclerView.Adap
         val foodItem = foodData[position]
         holder.groupName.text = foodItem.name
 
-        // Set Adapter untuk Nutrisi
-        val nutrientAdapter = FoodNutrientAdapter(foodItem.nutrients)
+        val nutrientAdapter = FoodNutrientAdapter(foodItem.nutrition)
         holder.nutrientList.layoutManager = GridLayoutManager(holder.itemView.context, 3) // Grid dengan 3 kolom
         holder.nutrientList.adapter = nutrientAdapter
     }

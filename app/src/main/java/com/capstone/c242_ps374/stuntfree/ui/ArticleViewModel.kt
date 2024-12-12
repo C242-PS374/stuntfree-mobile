@@ -103,7 +103,7 @@ class ArticleViewModel @Inject constructor(
         val weekDaysList = mutableListOf<DayItem>()
         val calendar = Calendar.getInstance()
 
-        for (i in 0..6) {
+        for (i in 0..31) {
             val date = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(calendar.time)
             val dayName = SimpleDateFormat("EEEE", Locale.getDefault()).format(calendar.time)
             val isSelected = (i == 0)

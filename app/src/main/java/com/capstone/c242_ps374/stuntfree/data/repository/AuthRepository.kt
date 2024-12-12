@@ -5,10 +5,10 @@ import androidx.lifecycle.asLiveData
 import com.capstone.c242_ps374.stuntfree.data.api.ApiService
 import com.capstone.c242_ps374.stuntfree.data.manager.SessionManager
 import com.capstone.c242_ps374.stuntfree.ui.utils.Resource
-import com.capstone.c242_ps374.stuntfree.data.auth.LoginRequest
-import com.capstone.c242_ps374.stuntfree.data.auth.LoginResponse
-import com.capstone.c242_ps374.stuntfree.data.auth.RegisterRequest
-import com.capstone.c242_ps374.stuntfree.data.auth.RegisterResponse
+import com.capstone.c242_ps374.stuntfree.data.api.auth.LoginRequest
+import com.capstone.c242_ps374.stuntfree.data.api.auth.LoginResponse
+import com.capstone.c242_ps374.stuntfree.data.api.auth.RegisterRequest
+import com.capstone.c242_ps374.stuntfree.data.api.auth.RegisterResponse
 import com.google.gson.Gson
 import retrofit2.Response
 import java.io.IOException

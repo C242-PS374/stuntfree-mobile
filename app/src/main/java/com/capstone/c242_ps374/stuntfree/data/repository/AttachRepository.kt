@@ -2,11 +2,11 @@ package com.capstone.c242_ps374.stuntfree.data.repository
 
 import android.util.Log
 import com.capstone.c242_ps374.stuntfree.data.api.ApiService
-import com.capstone.c242_ps374.stuntfree.data.attach.InfancyRequest
-import com.capstone.c242_ps374.stuntfree.data.attach.InfancyResponse
-import com.capstone.c242_ps374.stuntfree.data.attach.PregnancyRequest
-import com.capstone.c242_ps374.stuntfree.data.attach.PregnancyResponse
-import com.capstone.c242_ps374.stuntfree.data.attach.UserProfileResponse
+import com.capstone.c242_ps374.stuntfree.data.api.infancy.InfancyRequest
+import com.capstone.c242_ps374.stuntfree.data.api.infancy.InfancyResponse
+import com.capstone.c242_ps374.stuntfree.data.api.pregnancy.PregnancyRequest
+import com.capstone.c242_ps374.stuntfree.data.api.pregnancy.PregnancyResponse
+import com.capstone.c242_ps374.stuntfree.data.api.attach.UserProfileResponse
 import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Named
@@ -70,6 +70,4 @@ class AttachRepository @Inject constructor(
             Result.failure(Exception("Request failed: ${e.message}"))
         }
     }
-
-
 }

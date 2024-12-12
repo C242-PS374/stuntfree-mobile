@@ -1,4 +1,4 @@
-package com.capstone.c242_ps374.stuntfree.data.auth
+package com.capstone.c242_ps374.stuntfree.data.api.auth
 
 import com.google.gson.annotations.SerializedName
 

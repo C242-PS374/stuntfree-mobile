@@ -5,11 +5,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.capstone.c242_ps374.stuntfree.data.attach.InfancyRequest
-import com.capstone.c242_ps374.stuntfree.data.attach.InfancyResponse
-import com.capstone.c242_ps374.stuntfree.data.attach.PregnancyRequest
-import com.capstone.c242_ps374.stuntfree.data.attach.PregnancyResponse
-import com.capstone.c242_ps374.stuntfree.data.attach.UserProfileResponse
+import com.capstone.c242_ps374.stuntfree.data.api.infancy.InfancyRequest
+import com.capstone.c242_ps374.stuntfree.data.api.infancy.InfancyResponse
+import com.capstone.c242_ps374.stuntfree.data.api.pregnancy.PregnancyRequest
+import com.capstone.c242_ps374.stuntfree.data.api.pregnancy.PregnancyResponse
+import com.capstone.c242_ps374.stuntfree.data.api.attach.UserProfileResponse
 import com.capstone.c242_ps374.stuntfree.data.manager.SessionManager
 import com.capstone.c242_ps374.stuntfree.data.repository.AttachRepository
 import com.capstone.c242_ps374.stuntfree.ui.utils.Resource

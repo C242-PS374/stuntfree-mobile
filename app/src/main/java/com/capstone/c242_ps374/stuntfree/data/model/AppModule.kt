@@ -30,10 +30,9 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-    private const val BASE_URL_STUNTING = "https://stuntfree-api-788458290127.asia-southeast2.run.app/api/v1/"
+    private const val BASE_URL_STUNTING = "https://stuntfree-api-staging-788458290127.asia-southeast2.run.app/api/v1/"
     private const val BASE_URL_NEWS = "https://newsapi.org/v2/"
 
-    // Menyediakan OkHttpClient yang digunakan oleh kedua Retrofit instances
     @Provides
     @Singleton
     fun provideOkHttpClient(sessionManager: SessionManager): OkHttpClient {
@@ -61,9 +60,9 @@ object AppModule {
 
                 chain.proceed(newRequest)
             }
-            .connectTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(30, TimeUnit.SECONDS)
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
             .build()
     }
 

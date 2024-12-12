@@ -1,0 +1,42 @@
+package com.capstone.c242_ps374.stuntfree.data.api.scan
+
+import com.google.gson.annotations.SerializedName
+
+data class Nutrition(
+    @field:SerializedName("energi") val energi: Double,
+    @field:SerializedName("protein") val protein: Double,
+    @field:SerializedName("lemak_total") val lemakTotal: Double,
+    @field:SerializedName("omega_3") val omega3: Double,
+    @field:SerializedName("omega_6") val omega6: Double,
+    @field:SerializedName("karbohidrat") val karbohidrat: Double,
+    @field:SerializedName("serat") val serat: Double,
+    @field:SerializedName("air") val air: Double,
+    @field:SerializedName("vit_a") val vitA: Double,
+    @field:SerializedName("vit_d") val vitD: Double,
+    @field:SerializedName("vit_e") val vitE: Double,
+    @field:SerializedName("vit_k") val vitK: Double,
+    @field:SerializedName("vit_b1") val vitB1: Double,
+    @field:SerializedName("vit_b2") val vitB2: Double,
+    @field:SerializedName("vit_b3") val vitB3: Double,
+    @field:SerializedName("vit_b5") val vitB5: Double,
+    @field:SerializedName("vit_b6") val vitB6: Double,
+    @field:SerializedName("folat") val folat: Double,
+    @field:SerializedName("vit_b12") val vitB12: Double,
+    @field:SerializedName("biotin") val biotin: Double,
+    @field:SerializedName("kolin") val kolin: Double,
+    @field:SerializedName("vit_c") val vitC: Double,
+    @field:SerializedName("kalsium") val kalsium: Double,
+    @field:SerializedName("fosfor") val fosfor: Double,
+    @field:SerializedName("magnesium") val magnesium: Double,
+    @field:SerializedName("besi") val besi: Double,
+    @field:SerializedName("iodium") val iodium: Double,
+    @field:SerializedName("seng") val seng: Double,
+    @field:SerializedName("selenium") val selenium: Double,
+    @field:SerializedName("mangan") val mangan: Double,
+    @field:SerializedName("fluor") val fluor: Double,
+    @field:SerializedName("kromium") val kromium: Double,
+    @field:SerializedName("kalium") val kalium: Double,
+    @field:SerializedName("natrium") val natrium: Double,
+    @field:SerializedName("klor") val klor: Double,
+    @field:SerializedName("tembaga") val tembaga: Double
+)

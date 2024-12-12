@@ -9,13 +9,13 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
     <uses-permission android:name="android.permission.CAMERA" />
-
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
-
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
 
     <application
         android:name=".data.model.MyApp"
@@ -28,7 +28,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StuntFree"
         tools:targetApi="31">
-
+        <activity
+            android:name=".ui.camera.ResultCamera2Activity"
+            android:exported="false" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -55,36 +57,36 @@
         <activity
             android:name=".ui.home.LogYourSymptomsActivity"
             android:exported="false"
-            android:theme="@style/Theme.StuntFreeNoAction"/>
+            android:theme="@style/Theme.StuntFreeNoAction" />
         <activity
             android:name=".ui.maps.MapsActivity"
             android:exported="false"
             android:label="@string/title_activity_maps"
-            android:theme="@style/Theme.StuntFreeNoAction"/>
+            android:theme="@style/Theme.StuntFreeNoAction" />
         <activity
             android:name=".ui.camera.ResultCameraActivity"
             android:exported="false"
-            android:theme="@style/Theme.StuntFreeNoAction"/>
+            android:theme="@style/Theme.StuntFreeNoAction" />
         <activity
             android:name=".ui.camera.CameraActivity"
             android:exported="false"
-            android:theme="@style/Theme.StuntFreeNoAction"/>
+            android:theme="@style/Theme.StuntFreeNoAction" />
         <activity
             android:name=".ui.quiz.newborn.NewBorn2Activity"
             android:exported="false"
-            android:theme="@style/Theme.StuntFreeNoAction"/>
+            android:theme="@style/Theme.StuntFreeNoAction" />
         <activity
             android:name=".ui.quiz.newborn.NewBornActivity"
             android:exported="false"
-            android:theme="@style/Theme.StuntFreeNoAction"/>
+            android:theme="@style/Theme.StuntFreeNoAction" />
         <activity
             android:name=".ui.quiz.pregnan.PregnancyActivity"
             android:exported="false"
-            android:theme="@style/Theme.StuntFreeNoAction"/>
+            android:theme="@style/Theme.StuntFreeNoAction" />
         <activity
             android:name=".ui.quiz.QuizActivity"
             android:exported="false"
-            android:theme="@style/Theme.StuntFreeNoAction"/>
+            android:theme="@style/Theme.StuntFreeNoAction" />
         <activity
             android:name=".SplashActivity"
             android:exported="true"

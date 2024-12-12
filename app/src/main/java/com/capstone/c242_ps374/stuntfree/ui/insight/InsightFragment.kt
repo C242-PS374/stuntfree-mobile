@@ -48,6 +48,7 @@ class InsightFragment : Fragment() {
         adapterButton = ButtonAdapter { service ->
             viewModel.filterNewsByAuthor(service.author ?: "Unknown")
         }
+
         binding.recyclerButton.apply {
             adapter = adapterButton
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)

@@ -7,8 +7,10 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
@@ -17,17 +19,26 @@ import androidx.camera.core.ImageCaptureException
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import com.capstone.c242_ps374.stuntfree.R
+import com.capstone.c242_ps374.stuntfree.data.api.journaling.SubmitFoodLog
 import com.capstone.c242_ps374.stuntfree.databinding.ActivityCameraBinding
+import com.capstone.c242_ps374.stuntfree.ui.ScanFoodViewModel
+import com.capstone.c242_ps374.stuntfree.ui.SubmitFoodViewModel
+import com.capstone.c242_ps374.stuntfree.ui.utils.Resource
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Locale
 
+@AndroidEntryPoint
 class CameraActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCameraBinding
     private var imageCapture: ImageCapture? = null
     private var camera: Camera? = null
     private var isFlashEnabled = false
+
+    private val submitFoodViewModel: SubmitFoodViewModel by viewModels()
+    private val scanFoodViewModel: ScanFoodViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,17 +84,23 @@ class CameraActivity : AppCompatActivity() {
     ) { result ->
         if (result.resultCode == RESULT_OK) {
             val selectedImageUri: Uri? = result.data?.data
-            selectedImageUri?.let {
-                Toast.makeText(this, "Selected image URI: $it", Toast.LENGTH_SHORT).show()
-                Log.d("CameraActivity", "Image URI: $it")
-
-                val intent = Intent(this, ResultCameraActivity::class.java)
-                intent.putExtra("IMAGE_URI", it.toString())
-                startActivity(intent)
+            selectedImageUri?.let { uri ->
+                val intent = Intent(this, ResultCamera2Activity::class.java)
+                intent.putExtra("IMAGE_URI", uri.toString())
+                resultCameraLauncher.launch(intent)
             }
         }
     }
 
+    private val resultCameraLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            Toast.makeText(this, "Food log submitted successfully!", Toast.LENGTH_SHORT).show()
+        } else {
+            Log.e("CameraActivity", "Missing data from ResultCameraActivity")
+        }
+    }
 
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
@@ -114,13 +131,15 @@ class CameraActivity : AppCompatActivity() {
     private fun takePhoto() {
         val imageCapture = imageCapture ?: return
 
-        val photoFile = File(
+        val imageFile1 = File(
             externalMediaDirs.firstOrNull(),
             SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS", Locale.US)
                 .format(System.currentTimeMillis()) + ".jpg"
         )
 
-        val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
+        cleanUpTemporaryFiles(imageFile1)
+
+        val outputOptions = ImageCapture.OutputFileOptions.Builder(imageFile1).build()
 
         imageCapture.takePicture(
             outputOptions,
@@ -132,12 +151,8 @@ class CameraActivity : AppCompatActivity() {
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                    val photoUri = Uri.fromFile(photoFile)
-                    Toast.makeText(
-                        this@CameraActivity,
-                        "Photo saved: ${photoUri}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    val photoUri = Uri.fromFile(imageFile1)
+                    Toast.makeText(this@CameraActivity, "Photo saved: $photoUri", Toast.LENGTH_SHORT).show()
 
                     val intent = Intent(this@CameraActivity, ResultCameraActivity::class.java)
                     intent.putExtra("IMAGE_URI", photoUri.toString())
@@ -145,6 +160,13 @@ class CameraActivity : AppCompatActivity() {
                 }
             }
         )
+    }
+
+    private fun cleanUpTemporaryFiles(photoFile: File) {
+        if (photoFile.exists()) {
+            photoFile.delete()
+            Log.d("CameraActivity", "Temporary file deleted: ${photoFile.path}")
+        }
     }
 
     private fun toggleFlash() {

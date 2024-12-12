@@ -7,8 +7,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.capstone.c242_ps374.stuntfree.MainActivity
-import com.capstone.c242_ps374.stuntfree.data.attach.InfancyRequest
-import com.capstone.c242_ps374.stuntfree.data.attach.InfancyResponse
+import com.capstone.c242_ps374.stuntfree.data.api.infancy.InfancyRequest
+import com.capstone.c242_ps374.stuntfree.data.api.infancy.InfancyResponse
 import com.capstone.c242_ps374.stuntfree.databinding.ActivityNewBorn2Binding
 import com.capstone.c242_ps374.stuntfree.ui.AttachViewModel
 import com.capstone.c242_ps374.stuntfree.ui.utils.Resource

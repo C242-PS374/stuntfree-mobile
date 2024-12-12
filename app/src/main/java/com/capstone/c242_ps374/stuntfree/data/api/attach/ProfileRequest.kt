@@ -1,4 +1,4 @@
-package com.capstone.c242_ps374.stuntfree.data.attach
+package com.capstone.c242_ps374.stuntfree.data.api.attach
 
 import com.google.gson.annotations.SerializedName
 
