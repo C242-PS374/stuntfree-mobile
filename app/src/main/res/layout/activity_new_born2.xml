@@ -24,7 +24,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:src="@drawable/ic_question_quiz"
-                android:contentDescription="Logo" />
+                android:contentDescription="@string/text_logo" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -42,7 +42,7 @@
                     android:layout_marginLeft="14dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:text="Please, fill in the following child’s information correctly."
+                    android:text="@string/text_message_newborn"
                     android:textColor="@android:color/black"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -58,7 +58,7 @@
                 android:id="@+id/gender_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Child’s Gender"
+                android:text="@string/text_gender"
                 android:textSize="16sp"
                 android:textColor="@android:color/black" />
 
@@ -74,14 +74,14 @@
                     android:id="@+id/radio_yes_gender"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Male"
+                    android:text="@string/text_male"
                     android:padding="8dp" />
 
                 <RadioButton
                     android:id="@+id/radio_no_gender"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Female"
+                    android:text="@string/text_female"
                     android:padding="8dp" />
             </RadioGroup>
         </LinearLayout>
@@ -96,7 +96,7 @@
                 android:id="@+id/height_birth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Child's height at birth (Cm)"
+                android:text="@string/text_height_birth"
                 android:textSize="16sp"
                 android:textColor="@android:color/black" />
 
@@ -104,7 +104,7 @@
                 android:id="@+id/et_height_birth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="ex:60"
+                android:hint="@string/text_hint_birth"
                 android:background="@drawable/spinner_rounded"
                 android:padding="12dp"
                 android:layout_marginTop="8dp"/>
@@ -120,7 +120,7 @@
                 android:id="@+id/weight_birth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Child's weight at birth (Kg)"
+                android:text="@string/text_weight_birth"
                 android:textSize="16sp"
                 android:textColor="@android:color/black" />
 
@@ -128,7 +128,7 @@
                 android:id="@+id/et_weight_birth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="ex:14"
+                android:hint="@string/text_hint_weight_birth"
                 android:background="@drawable/spinner_rounded"
                 android:padding="12dp"
                 android:layout_marginTop="8dp"/>
@@ -144,7 +144,7 @@
                 android:id="@+id/current_height"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Child's current height (Cm)"
+                android:text="@string/text_current_height"
                 android:textSize="16sp"
                 android:textColor="@android:color/black" />
 
@@ -152,7 +152,7 @@
                 android:id="@+id/et_current_height"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="ex:70"
+                android:hint="@string/text_hint_current"
                 android:background="@drawable/spinner_rounded"
                 android:padding="12dp"
                 android:layout_marginTop="8dp"/>
@@ -168,7 +168,7 @@
                 android:id="@+id/current_weight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Child's current weight (Kg)"
+                android:text="@string/text_current_weight"
                 android:textSize="16sp"
                 android:textColor="@android:color/black" />
 
@@ -176,7 +176,7 @@
                 android:id="@+id/et_current_weight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="ex:21"
+                android:hint="@string/text_hint_current_weight"
                 android:background="@drawable/spinner_rounded"
                 android:padding="12dp"
                 android:layout_marginTop="8dp"/>
@@ -187,7 +187,7 @@
         android:id="@+id/btnSubmit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Finish"
+        android:text="@string/text_finish"
         android:padding="16dp"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"

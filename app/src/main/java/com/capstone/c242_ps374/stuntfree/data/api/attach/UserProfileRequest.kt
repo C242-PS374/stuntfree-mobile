@@ -1,8 +1,6 @@
 package com.capstone.c242_ps374.stuntfree.data.api.attach
 
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.parcelize.Parcelize
 
 data class UserProfileRequest(
     @field:SerializedName("id") val id: Int?,

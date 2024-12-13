@@ -7,7 +7,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -19,11 +18,9 @@ import androidx.camera.core.ImageCaptureException
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import com.capstone.c242_ps374.stuntfree.R
-import com.capstone.c242_ps374.stuntfree.data.api.journaling.SubmitFoodLog
 import com.capstone.c242_ps374.stuntfree.databinding.ActivityCameraBinding
 import com.capstone.c242_ps374.stuntfree.ui.ScanFoodViewModel
 import com.capstone.c242_ps374.stuntfree.ui.SubmitFoodViewModel
-import com.capstone.c242_ps374.stuntfree.ui.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.text.SimpleDateFormat

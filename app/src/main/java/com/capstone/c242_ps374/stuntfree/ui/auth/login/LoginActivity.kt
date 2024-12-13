@@ -33,7 +33,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setupViews() {
-        binding.logoImageView.setImageResource(R.drawable.dicoding_logo)
+        binding.logoImageView.setImageResource(R.drawable.icon_app)
 
         binding.btnLogin.setOnClickListener { attemptLogin() }
 

@@ -29,7 +29,7 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:background="@android:color/transparent"
-            android:contentDescription="Navigate Back"
+            android:contentDescription="@string/navigate_back"
             android:src="@drawable/ic_back_2"
             app:tint="@color/white" />
 
@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="Scanning"
+            android:text="@string/text_scanning"
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -53,7 +53,7 @@
             android:id="@+id/scanImage"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:contentDescription="Scan Icon"
+            android:contentDescription="@string/text_scan_icon"
             android:src="@drawable/ic_scanning" />
 
         <View
@@ -100,13 +100,13 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@drawable/ic_flash"
-                android:contentDescription="Flash" />
+                android:contentDescription="@string/text_flash" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Flash"
+                android:text="@string/text_flash"
                 android:textColor="@android:color/white"
                 android:textSize="14sp"
                 android:gravity="center" />
@@ -125,13 +125,13 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:background="@drawable/circular_background"
-                android:contentDescription="Take Photo" />
+                android:contentDescription="@string/text_take_photo" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Take Photo"
+                android:text="@string/text_take_photo"
                 android:textColor="@android:color/white"
                 android:textSize="14sp"
                 android:gravity="center" />
@@ -150,13 +150,13 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@drawable/ic_upload"
-                android:contentDescription="Upload" />
+                android:contentDescription="@string/text_upload" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Upload"
+                android:text="@string/text_upload"
                 android:textColor="@android:color/white"
                 android:textSize="14sp"
                 android:gravity="center" />

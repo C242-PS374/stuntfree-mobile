@@ -13,10 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.c242_ps374.stuntfree.R
 import com.capstone.c242_ps374.stuntfree.databinding.FragmentHomeBinding
 import com.capstone.c242_ps374.stuntfree.ui.ArticleViewModel
-import com.capstone.c242_ps374.stuntfree.ui.AttachViewModel
 import com.capstone.c242_ps374.stuntfree.ui.adapter.HomeAdapter
 import com.capstone.c242_ps374.stuntfree.ui.adapter.WeekAdapter
-import com.capstone.c242_ps374.stuntfree.ui.AuthViewModel
 import com.capstone.c242_ps374.stuntfree.ui.adapter.RecyclerStatusAdapter
 import com.capstone.c242_ps374.stuntfree.ui.camera.CameraActivity
 import com.capstone.c242_ps374.stuntfree.ui.custom.CustomDialogFragment

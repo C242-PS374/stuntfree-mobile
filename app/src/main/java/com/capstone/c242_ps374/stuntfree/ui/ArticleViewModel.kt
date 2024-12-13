@@ -62,26 +62,6 @@ class ArticleViewModel @Inject constructor(
         }
     }
 
-    // Filter articles by author
-    fun filterNewsByAuthor(authorName: String) {
-        if (lastClickedAuthor == authorName) {
-            lastClickedAuthor = null
-            _news.postValue(Result.success(NewsResponse(
-                status = "ok",
-                totalResults = allArticles.size,
-                articles = allArticles
-            )))
-        } else {
-            lastClickedAuthor = authorName
-            val filteredArticles = allArticles.filter { it.author == authorName }
-            _news.postValue(Result.success(NewsResponse(
-                status = "ok",
-                totalResults = filteredArticles.size,
-                articles = filteredArticles
-            )))
-        }
-    }
-
     fun searchArticles(query: String) {
         viewModelScope.launch {
             val filteredArticles = withContext(Dispatchers.Default) {

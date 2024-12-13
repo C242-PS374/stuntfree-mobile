@@ -16,13 +16,13 @@
             android:id="@+id/imgFoodLog"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            tools:src="@drawable/profile_foto" />
+            tools:src="@drawable/illustration_1" />
 
         <TextView
             android:id="@+id/createdAt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Created At"
+            android:text="@string/text_created"
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView

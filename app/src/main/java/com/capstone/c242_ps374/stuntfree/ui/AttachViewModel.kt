@@ -1,7 +1,6 @@
 package com.capstone.c242_ps374.stuntfree.ui
 
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,12 +12,9 @@ import com.capstone.c242_ps374.stuntfree.data.api.pregnancy.PregnancyResponse
 import com.capstone.c242_ps374.stuntfree.data.api.attach.UserProfileResponse
 import com.capstone.c242_ps374.stuntfree.data.api.get.PredictResponse
 import com.capstone.c242_ps374.stuntfree.data.api.get.TodayResponse
-import com.capstone.c242_ps374.stuntfree.data.api.infancy.InfancyData
-import com.capstone.c242_ps374.stuntfree.data.api.pregnancy.PregnancyData
 import com.capstone.c242_ps374.stuntfree.data.manager.SessionManager
 import com.capstone.c242_ps374.stuntfree.data.repository.AttachRepository
 import com.capstone.c242_ps374.stuntfree.ui.utils.Resource
-import dagger.hilt.android.internal.Contexts.getApplication
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch

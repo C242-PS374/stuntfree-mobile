@@ -32,14 +32,6 @@ class LogYourSymptomsActivity : AppCompatActivity() {
         TodaysMealItem(
             title = "Today’s Meal #1",
             description = "1 Chicken, 1 Nasi, and 1 Ikan"
-        ),
-        TodaysMealItem(
-            title = "Today’s Meal #2",
-            description = "1 Soup, 2 Tempe, and 1 Orange"
-        ),
-        TodaysMealItem(
-            title = "Today’s Meal #3",
-            description = "1 Fish, 1 Nasi, and 1 Vegetable Mix"
         )
     )
 

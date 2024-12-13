@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Energy"
+        android:text="@string/text_title_item_food"
         android:textColor="@color/primaryLight"
         android:textSize="14sp" />
 
@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="130.0 kcal"
+        android:text="@string/text_field_food"
         android:textColor="@android:color/white"
         android:textSize="14sp" />
 </LinearLayout>

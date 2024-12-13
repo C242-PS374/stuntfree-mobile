@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.DialogFragment
 import com.capstone.c242_ps374.stuntfree.R
-import dagger.hilt.android.AndroidEntryPoint
 
 class PopUpEditEnvironment : DialogFragment() {
 

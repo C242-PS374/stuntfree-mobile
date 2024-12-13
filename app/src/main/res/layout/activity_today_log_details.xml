@@ -24,7 +24,7 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:background="@android:color/transparent"
-            android:contentDescription="Navigate Back"
+            android:contentDescription="@string/navigate_back"
             android:src="@drawable/ic_back_2"
             app:tint="@color/neutral_900" />
 
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="Today’s Meal #1"
+            android:text="@string/text_title_today_meal"
             android:textColor="@color/neutral_900"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -65,7 +65,7 @@
         android:id="@+id/saveButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Save My Food"
+        android:text="@string/text_save_my_food"
         android:padding="14dp"
         android:textAllCaps="false"
         android:textColor="@android:color/white"

@@ -24,7 +24,7 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:background="@android:color/transparent"
-            android:contentDescription="Navigate Back"
+            android:contentDescription="@string/navigate_back"
             android:src="@drawable/ic_back_2"
             app:tint="@color/neutral_900" />
 
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="Today’s Log"
+            android:text="@string/text_todays_log"
             android:textColor="@color/neutral_900"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -67,7 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
-        android:text="17 November 2024"
+        android:text="@string/text_tanggal"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@id/calendarView"
@@ -116,7 +116,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle"
                 app:layout_constraintVertical_bias="0.0"
-                android:text="Stunting Status" />
+                android:text="@string/text_title_stunting_status" />
 
             <TextView
                 android:id="@+id/tv_stunting_status"
@@ -132,7 +132,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iv_status"
                 app:layout_constraintVertical_bias="0.0"
-                android:text="3 Hari sebelum proses deteksi stunting" />
+                android:text="@string/text_stunting_detect" />
 
             <TextView
                 android:id="@+id/iv_nutrition"
@@ -147,7 +147,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_stunting_status"
                 app:layout_constraintVertical_bias="0.0"
-                android:text="Nutrition Intake" />
+                android:text="@string/text_title_nutrition" />
 
             <TextView
                 android:id="@+id/tv_nutriotion_intake"
@@ -164,7 +164,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iv_nutrition"
                 app:layout_constraintVertical_bias="0.0"
-                android:text="Not Fulfilled" />
+                android:text="@string/text_not_full" />
 
             <TextView
                 android:id="@+id/iv_envi"
@@ -179,7 +179,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_nutriotion_intake"
                 app:layout_constraintVertical_bias="0.0"
-                android:text="Environmental Conditions" />
+                android:text="@string/text_title_envi" />
 
             <TextView
                 android:id="@+id/tv_environmental_conditions"
@@ -196,7 +196,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iv_envi"
                 app:layout_constraintVertical_bias="0.0"
-                android:text="Healthy Environment" />
+                android:text="@string/text_envi" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

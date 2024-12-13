@@ -4,19 +4,14 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.c242_ps374.stuntfree.data.api.get.TodayResponse
 import com.capstone.c242_ps374.stuntfree.data.api.journaling.SubmitFoodLogResult
-import com.capstone.c242_ps374.stuntfree.data.api.scan.FoodScanResponse
-import com.capstone.c242_ps374.stuntfree.data.model.FoodItem
 import com.capstone.c242_ps374.stuntfree.databinding.ActivityTodayLogDetailsBinding
 import com.capstone.c242_ps374.stuntfree.ui.AttachViewModel
-import com.capstone.c242_ps374.stuntfree.ui.ScanFoodViewModel
 import com.capstone.c242_ps374.stuntfree.ui.adapter.FoodGropAdapter
-import com.capstone.c242_ps374.stuntfree.ui.adapter.FoodGroupAdapter
 import com.capstone.c242_ps374.stuntfree.ui.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -55,7 +50,6 @@ class TodayLogDetailsActivity : AppCompatActivity() {
                     if (response != null) {
                         Log.d("TodayLogDetailsActivity", "Response: $response")
                         displayFoodScanResult(response)
-                        Toast.makeText(this, "Log makanan berhasil diambil", Toast.LENGTH_SHORT).show()
                     } else {
                         Log.d("TodayLogDetailsActivity", "Response is null")
                     }
@@ -63,7 +57,6 @@ class TodayLogDetailsActivity : AppCompatActivity() {
                 is Resource.Error -> {
                     binding.progressBar.visibility = View.GONE
                     Log.d("TodayLogDetailsActivity", "Error: ${resource.message}")
-                    Toast.makeText(this, "Gagal mengambil data", Toast.LENGTH_SHORT).show()
                 }
             }
         }

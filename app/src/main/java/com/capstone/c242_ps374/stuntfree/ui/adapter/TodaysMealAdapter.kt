@@ -3,12 +3,9 @@ package com.capstone.c242_ps374.stuntfree.ui.adapter
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.capstone.c242_ps374.stuntfree.R
 import com.capstone.c242_ps374.stuntfree.databinding.ItemTodaysMealBinding
-import com.capstone.c242_ps374.stuntfree.ui.camera.CameraActivity
 import com.capstone.c242_ps374.stuntfree.ui.home.TodayLogDetailsActivity
 
 // Data class to represent a meal item

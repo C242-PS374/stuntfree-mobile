@@ -23,7 +23,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:src="@drawable/ic_question_quiz"
-            android:contentDescription="Logo" />
+            android:contentDescription="@string/text_logo" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,7 +41,7 @@
                 android:layout_marginLeft="14dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="Please, fill in the following child’s information correctly."
+                android:text="@string/message_quiz"
                 android:textColor="@android:color/black"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -80,14 +80,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Pregnancy"
+                    android:text="@string/text_title_pregnan"
                     android:textStyle="bold"
                     android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Start analyze your child progress earlier"
+                    android:text="@string/text_message_pregnan"
                     android:textSize="14sp"
                     android:textColor="@android:color/darker_gray" />
             </LinearLayout>
@@ -109,7 +109,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:src="@drawable/ic_new_born"
-                android:contentDescription="Logo" />
+                android:contentDescription="@string/text_logo" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -121,14 +121,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Have a New Born"
+                    android:text="@string/text_title_newborn"
                     android:textStyle="bold"
                     android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Monitor your child growth daily"
+                    android:text="@string/text_message_haveanewborn"
                     android:textSize="14sp"
                     android:textColor="@android:color/darker_gray" />
             </LinearLayout>
@@ -144,7 +144,7 @@
         android:id="@+id/btnSubmit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Next"
+        android:text="@string/text_next"
         android:textAllCaps="false"
         android:padding="14dp"
         app:layout_constraintBottom_toBottomOf="parent"

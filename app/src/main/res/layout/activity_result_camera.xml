@@ -30,7 +30,7 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:background="@android:color/transparent"
-            android:contentDescription="Navigate Back"
+            android:contentDescription="@string/navigate_back"
             android:src="@drawable/ic_back_2"
             app:tint="@color/white" />
 
@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="Input Data"
+            android:text="@string/text_input_data"
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -110,7 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Add More"
+                android:text="@string/text_add_more"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -120,7 +120,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:text="Save My Food Logs"
+            android:text="@string/text_save_my_food"
             android:textAllCaps="false"
             android:visibility="gone"
             android:textColor="@android:color/white"

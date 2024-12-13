@@ -25,7 +25,7 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:background="@android:color/transparent"
-            android:contentDescription="Navigate Back"
+            android:contentDescription="@string/navigate_back"
             android:src="@drawable/ic_back_2"
             app:tint="@color/neutral_900" />
 
@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Today’s Log"
+            android:text="@string/text_todays_log"
             android:textColor="@color/neutral_900"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -75,7 +75,7 @@
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-                android:text="Stunting Status" />
+                android:text="@string/text_stunting_status" />
 
             <TextView
                 android:id="@+id/tv_stunting_status"
@@ -98,7 +98,7 @@
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_stunting_status"
-                android:text="Nutrition Intake" />
+                android:text="@string/text_nutrition_intake" />
 
             <TextView
                 android:id="@+id/tv_nutrition_intake"
@@ -129,7 +129,7 @@
                     android:layout_weight="1"
                     android:textSize="12sp"
                     android:textStyle="bold"
-                    android:text="Environmental Conditions" />
+                    android:text="@string/text_environmental_conditions" />
 
                 <ImageView
                     android:id="@+id/iv_edit_environtment"
@@ -137,7 +137,7 @@
                     android:layout_height="15dp"
                     android:layout_marginStart="8dp"
                     android:src="@drawable/ic_edit_profile"
-                    android:contentDescription="Edit Icon" />
+                    android:contentDescription="@string/text_edit_icon" />
             </LinearLayout>
 
             <TextView
@@ -192,7 +192,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="Add More"
+            android:text="@string/text_add_more"
             android:textSize="16sp"
             android:textStyle="bold" />
     </LinearLayout>

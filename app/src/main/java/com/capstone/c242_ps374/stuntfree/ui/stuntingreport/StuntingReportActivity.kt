@@ -2,22 +2,16 @@ package com.capstone.c242_ps374.stuntfree.ui.stuntingreport
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import android.widget.CalendarView
 import android.widget.TextView
-import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.capstone.c242_ps374.stuntfree.R
-import com.capstone.c242_ps374.stuntfree.databinding.ActivityCameraBinding
 import com.capstone.c242_ps374.stuntfree.databinding.ActivityStuntingReportBinding
 import com.capstone.c242_ps374.stuntfree.ui.ArticleViewModel
 import com.capstone.c242_ps374.stuntfree.ui.AttachViewModel
-import com.capstone.c242_ps374.stuntfree.ui.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*

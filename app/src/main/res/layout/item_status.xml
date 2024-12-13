@@ -42,7 +42,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
             app:layout_constraintVertical_bias="0.0"
-            android:text="Stunting Status" />
+            android:text="@string/text_stunting_status" />
 
         <TextView
             android:id="@+id/tv_stunting_status"
@@ -73,7 +73,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_stunting_status"
             app:layout_constraintVertical_bias="0.0"
-            android:text="Nutrition Intake" />
+            android:text="@string/text_nutrition_intake" />
 
         <TextView
             android:id="@+id/tv_nutriotion_intake"
@@ -105,7 +105,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_nutriotion_intake"
             app:layout_constraintVertical_bias="0.0"
-            android:text="Environmental Conditions" />
+            android:text="@string/text_environmental_conditions" />
 
         <TextView
             android:id="@+id/tv_environmental_conditions"

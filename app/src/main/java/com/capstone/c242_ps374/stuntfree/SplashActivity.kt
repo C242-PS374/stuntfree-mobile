@@ -3,8 +3,6 @@ package com.capstone.c242_ps374.stuntfree
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.capstone.c242_ps374.stuntfree.data.manager.SessionManager
@@ -12,7 +10,6 @@ import com.capstone.c242_ps374.stuntfree.ui.auth.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

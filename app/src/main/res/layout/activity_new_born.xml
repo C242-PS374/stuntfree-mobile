@@ -24,7 +24,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:src="@drawable/ic_question_quiz"
-                android:contentDescription="Logo" />
+                android:contentDescription="@string/text_logo" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -42,7 +42,7 @@
                     android:layout_marginLeft="14dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:text="Please, fill in the following child’s information correctly."
+                    android:text="@string/text_message_newborn"
                     android:textColor="@android:color/black"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -58,7 +58,7 @@
                 android:id="@+id/questionJumlah"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="What is your child's birth date?"
+                android:text="@string/text_child_birth"
                 android:textSize="16sp"
                 android:textColor="@android:color/black" />
 
@@ -66,7 +66,7 @@
                 android:id="@+id/etUmur"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="ex:2023-06-02"
+                android:hint="@string/text_ex_childbirth"
                 android:background="@drawable/spinner_rounded"
                 android:padding="17dp"
                 android:layout_marginTop="8dp"
@@ -85,7 +85,7 @@
                 android:id="@+id/question_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Your Address"
+                android:text="@string/text_address"
                 android:textSize="16sp"
                 android:textColor="@android:color/black" />
 
@@ -93,7 +93,7 @@
                 android:id="@+id/et_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="ex: BSB City, Semarang"
+                android:hint="@string/text_hint_address"
                 android:background="@drawable/spinner_rounded"
                 android:padding="12dp"
                 android:layout_marginTop="8dp"/>
@@ -109,7 +109,7 @@
                 android:id="@+id/questionTerpenuhi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Was the previous nutrition fulfillment met?"
+                android:text="@string/text_nutrition_fullfilment"
                 android:textSize="16sp"
                 android:textColor="@android:color/black" />
 
@@ -125,14 +125,14 @@
                     android:id="@+id/radio_yes_nutrition"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Yes"
+                    android:text="@string/text_yes"
                     android:padding="8dp" />
 
                 <RadioButton
                     android:id="@+id/radio_no_nutrition"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="No"
+                    android:text="@string/text_no"
                     android:padding="8dp" />
             </RadioGroup>
         </LinearLayout>
@@ -147,7 +147,7 @@
                 android:id="@+id/questionKelayakan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Is the surrounding environment suitable?"
+                android:text="@string/text_suround_envi"
                 android:textSize="16sp"
                 android:textColor="@android:color/black" />
 
@@ -163,14 +163,14 @@
                     android:id="@+id/radio_yes_envi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Yes"
+                    android:text="@string/text_yes"
                     android:padding="8dp" />
 
                 <RadioButton
                     android:id="@+id/radio_no_envi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="No"
+                    android:text="@string/text_no"
                     android:padding="8dp" />
             </RadioGroup>
         </LinearLayout>
@@ -180,7 +180,7 @@
         android:id="@+id/btnSubmit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Next"
+        android:text="@string/text_next"
         android:textAllCaps="false"
         android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -22,18 +22,6 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_button"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="8dp"
-            android:paddingStart="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/search_view"
-            tools:listitem="@layout/item_button" />
-
-        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_insight"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -42,7 +30,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recycler_button"
+            app:layout_constraintTop_toBottomOf="@id/search_view"
             tools:listitem="@layout/item_insight" />
 
         <ProgressBar
@@ -59,7 +47,7 @@
             android:id="@+id/text_no_results"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No results found"
+            android:text="@string/text_no_result"
             android:visibility="gone"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

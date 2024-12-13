@@ -145,7 +145,6 @@ class ServiceFragment : Fragment() {
                         Toast.makeText(context, "Memanggil ${doctor.name}", Toast.LENGTH_SHORT).show()
                     }
                     onNoClick = {
-                        Toast.makeText(context, "Aksi batal.", Toast.LENGTH_SHORT).show()
                     }
                 }
                 dialog.show(parentFragmentManager, "CustomDialog")
@@ -156,7 +155,6 @@ class ServiceFragment : Fragment() {
                         Toast.makeText(context, "Menampilkan lokasi ${service.name}", Toast.LENGTH_SHORT).show()
                     }
                     onNoClick = {
-                        Toast.makeText(context, "Aksi batal.", Toast.LENGTH_SHORT).show()
                     }
                 }
                 dialog.show(parentFragmentManager, "CustomDialog")
@@ -171,7 +169,6 @@ class ServiceFragment : Fragment() {
                         Toast.makeText(context, "Memanggil ${healthcare.name}", Toast.LENGTH_SHORT).show()
                     }
                     onNoClick = {
-                        Toast.makeText(context, "Aksi batal.", Toast.LENGTH_SHORT).show()
                     }
                 }
                 dialog.show(parentFragmentManager, "CustomDialog")
@@ -182,7 +179,6 @@ class ServiceFragment : Fragment() {
                         Toast.makeText(context, "Menampilkan lokasi ${service.name}", Toast.LENGTH_SHORT).show()
                     }
                     onNoClick = {
-                        Toast.makeText(context, "Aksi batal.", Toast.LENGTH_SHORT).show()
                     }
                 }
                 dialog.show(parentFragmentManager, "CustomDialog")

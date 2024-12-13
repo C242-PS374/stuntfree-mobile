@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.c242_ps374.stuntfree.databinding.FragmentInsightBinding
 import com.capstone.c242_ps374.stuntfree.ui.ArticleViewModel
 import com.capstone.c242_ps374.stuntfree.ui.adapter.ButtonAdapter
@@ -45,17 +44,6 @@ class InsightFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        adapterButton = ButtonAdapter { service ->
-            viewModel.filterNewsByAuthor(service.author ?: "Unknown")
-        }
-
-        binding.recyclerButton.apply {
-            adapter = adapterButton
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            setHasFixedSize(true)
-        }
-
-        // Set up InsightAdapter
         adapter = InsightAdapter()
         binding.recyclerInsight.apply {
             adapter = this@InsightFragment.adapter
@@ -85,17 +73,14 @@ class InsightFragment : Fragment() {
                 val articles = response.articles ?: listOf()
                 if (articles.isEmpty()) {
                     binding.recyclerInsight.visibility = View.GONE
-                    binding.recyclerButton.visibility = View.GONE
                     binding.textNoResults.visibility = View.VISIBLE
                 } else {
                     adapter.submitList(articles)
                     binding.recyclerInsight.visibility = View.VISIBLE
-                    binding.recyclerButton.visibility = View.VISIBLE
                     binding.textNoResults.visibility = View.GONE
                 }
             }.onFailure { exception ->
                 binding.recyclerInsight.visibility = View.GONE
-                binding.recyclerButton.visibility = View.GONE
                 binding.textNoResults.visibility = View.VISIBLE
                 Toast.makeText(context, exception.message, Toast.LENGTH_SHORT).show()
             }
@@ -112,10 +97,8 @@ class InsightFragment : Fragment() {
 
         viewModel.buttonServices.observe(viewLifecycleOwner) { buttonServices ->
             if (buttonServices.isEmpty()) {
-                binding.recyclerButton.visibility = View.GONE
             } else {
                 adapterButton.submitList(buttonServices)
-                binding.recyclerButton.visibility = View.VISIBLE
             }
         }
     }
@@ -124,7 +107,6 @@ class InsightFragment : Fragment() {
         binding.apply {
             progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
             recyclerInsight.visibility = if (isLoading) View.GONE else View.VISIBLE
-            recyclerButton.visibility = if (isLoading) View.GONE else View.VISIBLE
             textNoResults.visibility = if (isLoading) View.GONE else View.VISIBLE
         }
     }

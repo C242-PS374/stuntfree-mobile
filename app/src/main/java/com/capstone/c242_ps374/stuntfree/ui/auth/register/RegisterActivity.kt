@@ -31,7 +31,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun setupViews() {
-        binding.logoImageView.setImageResource(R.drawable.dicoding_logo)
+        binding.logoImageView.setImageResource(R.drawable.icon_app)
 
         binding.btnRegister.setOnClickListener { attemptRegister() }
         binding.btnLogin.setOnClickListener {

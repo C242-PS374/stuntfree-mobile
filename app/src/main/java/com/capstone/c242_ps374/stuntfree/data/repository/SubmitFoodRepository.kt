@@ -3,11 +3,8 @@ package com.capstone.c242_ps374.stuntfree.data.repository
 import android.util.Log
 import com.capstone.c242_ps374.stuntfree.data.api.ApiService
 import com.capstone.c242_ps374.stuntfree.data.api.journaling.SubmitFoodLogResponse
-import com.google.gson.Gson
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Named

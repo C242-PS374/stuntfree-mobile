@@ -1,7 +1,6 @@
 package com.capstone.c242_ps374.stuntfree.data.repository
 
 import com.capstone.c242_ps374.stuntfree.data.api.NewsApiService
-import com.capstone.c242_ps374.stuntfree.data.news.Article
 import com.capstone.c242_ps374.stuntfree.data.news.NewsResponse
 import javax.inject.Inject
 import javax.inject.Named

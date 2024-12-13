@@ -1,7 +1,5 @@
 package com.capstone.c242_ps374.stuntfree.ui
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -21,7 +19,6 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
-import java.io.FileOutputStream
 import javax.inject.Inject
 
 @HiltViewModel
@@ -84,21 +81,6 @@ class SubmitFoodViewModel @Inject constructor(
             } catch (e: Exception) {
                 _submitFood.value = Resource.Error("Terjadi kesalahan: ${e.localizedMessage}")
             }
-        }
-    }
-
-    private fun compressImageFile(originalFile: File): File? {
-        return try {
-            val bitmap = BitmapFactory.decodeFile(originalFile.absolutePath)
-            val compressedFile = File(originalFile.parent, "compressed_${originalFile.name}")
-
-            FileOutputStream(compressedFile).use { out ->
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 75, out)
-            }
-            compressedFile
-        } catch (e: Exception) {
-            Log.e("SubmitFoodViewModel", "Compression error: ${e.message}", e)
-            null
         }
     }
 }

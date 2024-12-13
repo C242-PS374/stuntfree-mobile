@@ -1,16 +1,10 @@
 package com.capstone.c242_ps374.stuntfree.data.model
 
 import android.content.Context
-import android.content.SharedPreferences
-import android.util.Log
-import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKeys
 import com.airbnb.lottie.BuildConfig
 import com.capstone.c242_ps374.stuntfree.data.api.ApiService
 import com.capstone.c242_ps374.stuntfree.data.api.NewsApiService
 import com.capstone.c242_ps374.stuntfree.data.manager.SessionManager
-import com.capstone.c242_ps374.stuntfree.data.repository.AttachRepository
-import com.capstone.c242_ps374.stuntfree.data.repository.AuthRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,7 +24,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-    private const val BASE_URL_STUNTING = "https://stuntfree-api-staging-788458290127.asia-southeast2.run.app/api/v1/"
+    private const val BASE_URL_STUNTING = "https://stuntfree-api-788458290127.asia-southeast2.run.app/api/v1/"
     private const val BASE_URL_NEWS = "https://newsapi.org/v2/"
 
     @Provides
