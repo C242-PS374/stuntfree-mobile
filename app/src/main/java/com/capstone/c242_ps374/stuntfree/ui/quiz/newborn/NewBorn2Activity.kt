@@ -82,7 +82,7 @@ class NewBorn2Activity : AppCompatActivity() {
                 isEnvironmentSuitable = kelayakanLingkungan.equals("Ya", ignoreCase = true),
                 isNutritionFulfilled = giziTerpenuhi.equals("Ya", ignoreCase = true)
             )
-            newBornViewModel.attachInfancyProfile(newBornRequest)
+            newBornViewModel.attachProfile(AttachViewModel.Stage.INFANCY, newBornRequest)
         } else {
             showError("Harap isi semua data dengan benar!")
         }

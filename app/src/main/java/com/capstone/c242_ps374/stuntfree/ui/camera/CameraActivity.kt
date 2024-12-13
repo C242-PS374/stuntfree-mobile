@@ -85,7 +85,7 @@ class CameraActivity : AppCompatActivity() {
         if (result.resultCode == RESULT_OK) {
             val selectedImageUri: Uri? = result.data?.data
             selectedImageUri?.let { uri ->
-                val intent = Intent(this, ResultCamera2Activity::class.java)
+                val intent = Intent(this, ResultCameraActivity::class.java)
                 intent.putExtra("IMAGE_URI", uri.toString())
                 resultCameraLauncher.launch(intent)
             }
@@ -137,7 +137,6 @@ class CameraActivity : AppCompatActivity() {
                 .format(System.currentTimeMillis()) + ".jpg"
         )
 
-        cleanUpTemporaryFiles(imageFile1)
 
         val outputOptions = ImageCapture.OutputFileOptions.Builder(imageFile1).build()
 

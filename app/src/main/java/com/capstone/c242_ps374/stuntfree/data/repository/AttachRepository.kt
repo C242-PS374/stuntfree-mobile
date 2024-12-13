@@ -7,6 +7,8 @@ import com.capstone.c242_ps374.stuntfree.data.api.infancy.InfancyResponse
 import com.capstone.c242_ps374.stuntfree.data.api.pregnancy.PregnancyRequest
 import com.capstone.c242_ps374.stuntfree.data.api.pregnancy.PregnancyResponse
 import com.capstone.c242_ps374.stuntfree.data.api.attach.UserProfileResponse
+import com.capstone.c242_ps374.stuntfree.data.api.get.PredictResponse
+import com.capstone.c242_ps374.stuntfree.data.api.get.TodayResponse
 import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Named
@@ -14,6 +16,30 @@ import javax.inject.Named
 class AttachRepository @Inject constructor(
     @Named("stuntingApiService") private val apiService: ApiService,
 ) {
+
+    suspend fun predictStunting(token: String): Result<PredictResponse> {
+        return try {
+            if (token.isEmpty()) {
+                return Result.failure(Exception("Token is missing"))
+            }
+
+            makeApiRequest { apiService.predictStunting("Bearer $token") }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun todayLog(token: String): Result<TodayResponse> {
+        return try {
+            if (token.isEmpty()) {
+                return Result.failure(Exception("Token is missing"))
+            }
+
+            makeApiRequest { apiService.todayLog("Bearer $token") }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 
     suspend fun attachInfancyProfile(token: String, body: InfancyRequest): Result<InfancyResponse> {
         return try {

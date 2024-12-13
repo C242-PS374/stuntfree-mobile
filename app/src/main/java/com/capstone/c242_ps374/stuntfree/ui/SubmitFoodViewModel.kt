@@ -1,12 +1,13 @@
 package com.capstone.c242_ps374.stuntfree.ui
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.capstone.c242_ps374.stuntfree.data.api.journaling.SubmitFoodLog
-import com.capstone.c242_ps374.stuntfree.data.api.journaling.SubmitFoodLogData
 import com.capstone.c242_ps374.stuntfree.data.api.journaling.SubmitFoodLogResponse
 import com.capstone.c242_ps374.stuntfree.data.manager.SessionManager
 import com.capstone.c242_ps374.stuntfree.data.repository.SubmitFoodRepository
@@ -17,10 +18,10 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
+import java.io.FileOutputStream
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,7 +33,9 @@ class SubmitFoodViewModel @Inject constructor(
     private val _submitFood = MutableLiveData<Resource<SubmitFoodLogResponse>>()
     val submitFood: LiveData<Resource<SubmitFoodLogResponse>> get() = _submitFood
 
-    fun submitFoodLog(file: File, foodsList: ArrayList<SubmitFoodLog>) {
+    fun submitFoodLog(file: File, foodsList: List<SubmitFoodLog>) {
+        Log.d("SubmitFoodLog", "Submitting data: $foodsList with image file: ${file.absolutePath}")
+
         viewModelScope.launch {
             val token = sessionManager.getBearerToken().firstOrNull()
             if (token.isNullOrEmpty()) {
@@ -41,21 +44,33 @@ class SubmitFoodViewModel @Inject constructor(
             }
             Log.d("SubmitFoodViewModel", "Token: $token")
 
+            Log.d("SubmitFoodViewModel", "File details:")
+            Log.d("SubmitFoodViewModel", "Name: ${file.name}")
+            Log.d("SubmitFoodViewModel", "Size: ${file.length()} bytes")
+            Log.d("SubmitFoodViewModel", "Path: ${file.absolutePath}")
+
             _submitFood.value = Resource.Loading()
 
             try {
-                val requestBodyFile = file.asRequestBody("image/*".toMediaTypeOrNull())
-                val filePart = MultipartBody.Part.createFormData("file", file.name, requestBodyFile)
+                // Membuat Multipart untuk file
+                val requestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
+                val filePart = MultipartBody.Part.createFormData(
+                    "file", file.name, requestBody
+                )
 
-                val requestBodyFoods = Gson().toJson(foodsList)
-                val requestBody = requestBodyFoods.toRequestBody("application/json".toMediaTypeOrNull())
+                // Mengonversi foodsList menjadi JSON dan mengirimnya sebagai request body
+                val foodsJson = Gson().toJson(foodsList)
+                Log.d("SubmitFoodViewModel", "Foods JSON: $foodsJson")
+                val foodsRequestBody = foodsJson.toRequestBody("application/json".toMediaTypeOrNull())
 
-                val result = submitFoodRepository.submitFoodLog(token, filePart, requestBody)
+                // Memanggil repository untuk mengirim data
+                val result = submitFoodRepository.submitFoodLog(token, filePart, foodsRequestBody)
                 Log.d("SubmitFoodViewModel", "Result: $result")
                 if (result.isSuccess) {
                     val response = result.getOrNull()
                     if (response != null) {
-                        Log.d("SubmitFoodViewModel", "Response: $response")
+                        Log.d("SubmitFoodViewModel", "Full Response: $response")
+                        Log.d("SubmitFoodViewModel", "Message: ${response.message}")
                         _submitFood.value = Resource.Success(response)
                         Log.d("SubmitFoodViewModel", "Food log berhasil dikirim: ${response.message}")
                     } else {
@@ -69,6 +84,21 @@ class SubmitFoodViewModel @Inject constructor(
             } catch (e: Exception) {
                 _submitFood.value = Resource.Error("Terjadi kesalahan: ${e.localizedMessage}")
             }
+        }
+    }
+
+    private fun compressImageFile(originalFile: File): File? {
+        return try {
+            val bitmap = BitmapFactory.decodeFile(originalFile.absolutePath)
+            val compressedFile = File(originalFile.parent, "compressed_${originalFile.name}")
+
+            FileOutputStream(compressedFile).use { out ->
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 75, out)
+            }
+            compressedFile
+        } catch (e: Exception) {
+            Log.e("SubmitFoodViewModel", "Compression error: ${e.message}", e)
+            null
         }
     }
 }

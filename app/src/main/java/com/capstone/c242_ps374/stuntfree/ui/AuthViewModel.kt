@@ -76,6 +76,8 @@ class AuthViewModel @Inject constructor(
                     if (stage.isNullOrEmpty()) {
                         _navigateToQuiz.postValue(Unit)
                     } else {
+                        _authState.postValue(Resource.Success(stage))
+                        sessionManager.saveStage(email, stage)
                         _navigateToMain.postValue(Unit)
                     }
                 }

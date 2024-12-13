@@ -50,7 +50,7 @@ class PregnancyActivity : AppCompatActivity() {
                 isNutritionFulfilled = isNutritionFulfilled.equals("Yes", ignoreCase = true),
                 isEnvironmentSuitable = isEnvironmentSuitable.equals("Yes", ignoreCase = true)
             )
-            attachViewModel.attachPregnancyProfile(pregnancyRequest)
+            attachViewModel.attachProfile(AttachViewModel.Stage.PREGNANCY, pregnancyRequest)
         } else {
             showError("Harap isi semua data!")
         }

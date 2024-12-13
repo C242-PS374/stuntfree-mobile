@@ -14,8 +14,9 @@ import com.capstone.c242_ps374.stuntfree.ui.adapter.TodaysMealItem
 import com.capstone.c242_ps374.stuntfree.ui.camera.CameraActivity
 import com.capstone.c242_ps374.stuntfree.ui.custom.CustomDialogFragment
 import com.capstone.c242_ps374.stuntfree.ui.custom.PopUpEditEnvironment
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class LogYourSymptomsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLogYourSymptomsBinding

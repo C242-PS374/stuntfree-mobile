@@ -34,6 +34,9 @@ class ArticleViewModel @Inject constructor(
     private val _todayDate = MutableLiveData<String>()
     val todayDate: LiveData<String> get() = _todayDate
 
+    private val _todayDate1 = MutableLiveData<Int>()
+    val todayDate1: LiveData<Int> get() = _todayDate1
+
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
@@ -95,8 +98,16 @@ class ArticleViewModel @Inject constructor(
         }
     }
 
+    fun getToday() {
+        _todayDate1.value = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+    }
+
     fun generateWeekDays() {
         _weekDays.value = getWeekDays()
+    }
+
+    fun getTodayDate() {
+        _todayDate.value = SimpleDateFormat("EEEE, dd MMMM yyyy", Locale.getDefault()).format(Calendar.getInstance().time)
     }
 
     private fun getWeekDays(): List<DayItem> {

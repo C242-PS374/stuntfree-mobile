@@ -8,9 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.capstone.c242_ps374.stuntfree.R
 import com.capstone.c242_ps374.stuntfree.data.api.scan.Nutrition
 
-class FoodNutrientAdapter(private val nutrients: Nutrition) : RecyclerView.Adapter<FoodNutrientAdapter.FoodNutrientViewHolder>() {
+class FoodNutrientAdapter(nutrients: Nutrition) : RecyclerView.Adapter<FoodNutrientAdapter.FoodNutrientViewHolder>() {
+
+    private val nutrientList = nutrients.toNutritionMap().toList() // Konversi map menjadi list
 
     inner class FoodNutrientViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val labelText: TextView = itemView.findViewById(R.id.label)
         val nutrientText: TextView = itemView.findViewById(R.id.foodInfo)
     }
 
@@ -20,8 +23,10 @@ class FoodNutrientAdapter(private val nutrients: Nutrition) : RecyclerView.Adapt
     }
 
     override fun onBindViewHolder(holder: FoodNutrientViewHolder, position: Int) {
-        holder.nutrientText.text = nutrients.toString()
+        val (name, value) = nutrientList[position]
+        holder.labelText.text = name
+        holder.nutrientText.text = value
     }
 
-    override fun getItemCount() = 1
+    override fun getItemCount() = nutrientList.size
 }

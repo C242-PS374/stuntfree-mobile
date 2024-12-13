@@ -21,7 +21,7 @@
             android:id="@+id/iv_avatar"
             android:layout_width="55dp"
             android:layout_height="55dp"
-            android:src="@drawable/photo_profile"
+            android:src="@drawable/profile_foto"
             android:layout_marginEnd="16dp"
             android:contentDescription="Avatar"
             android:layout_gravity="center_horizontal"/>
@@ -37,7 +37,7 @@
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Bunda Corla Zubaedah"
+                android:text="Name"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@android:color/black" />
@@ -46,7 +46,7 @@
                 android:id="@+id/tv_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="corlazubaedah@gmail.com"
+                android:text="stuntfree@bangkit.com"
                 android:textSize="12sp"
                 android:textColor="@android:color/darker_gray" />
         </LinearLayout>
@@ -93,6 +93,7 @@
                     android:textColor="@android:color/white" />
 
                 <TextView
+                    android:id="@+id/tv_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Pregnancy"
@@ -118,6 +119,7 @@
                 android:background="@color/primaryLight">
 
                 <TextView
+                    android:id="@+id/tv_title_age"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Age"
@@ -125,9 +127,10 @@
                     android:textColor="@android:color/white" />
 
                 <TextView
+                    android:id="@+id/tv_age"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="4 W 3 Days"
+                    android:text="3 Years"
                     android:textSize="16sp"
                     android:textColor="@android:color/white"
                     android:textStyle="bold" />
@@ -156,6 +159,7 @@
                     android:textColor="@android:color/white" />
 
                 <TextView
+                    android:id="@+id/tv_stunting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Healthy"
@@ -274,6 +278,7 @@
                 android:padding="12dp">
 
                 <TextView
+                    android:id="@+id/language"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

@@ -1,5 +1,7 @@
 package com.capstone.c242_ps374.stuntfree.ui
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -17,73 +19,84 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
+import java.io.FileOutputStream
 import javax.inject.Inject
 
 @HiltViewModel
 class ScanFoodViewModel @Inject constructor(
     private val scanFoodRepository: ScanFoodRepository,
     private val sessionManager: SessionManager
-): ViewModel() {
+) : ViewModel() {
 
     private val _foodScanResult = MutableLiveData<Resource<FoodScanResponse>>()
     val foodScanResult: LiveData<Resource<FoodScanResponse>> get() = _foodScanResult
 
     fun scanFood(imageFile: File) {
-        Log.d("ScanFoodViewModel", "scanFood() called with file: $imageFile")
         viewModelScope.launch {
+            _foodScanResult.value = Resource.Loading()
+
+            // Ambil token sekali di awal
             val token = sessionManager.getBearerToken().firstOrNull()
             if (token.isNullOrEmpty()) {
                 _foodScanResult.value = Resource.Error("Token tidak ditemukan. Silakan login ulang.")
                 return@launch
             }
 
-            // Tambahkan pengecekan ukuran file
-            if (imageFile.length() > 10 * 1024 * 1024) { // Batasi ukuran file misalnya 10MB
-                _foodScanResult.value = Resource.Error("Ukuran file terlalu besar")
-                return@launch
-            }
+            Log.d("ScanFoodViewModel", "File details:")
+            Log.d("ScanFoodViewModel", "Name: ${imageFile.name}")
+            Log.d("ScanFoodViewModel", "Size: ${imageFile.length()} bytes")
+            Log.d("ScanFoodViewModel", "Path: ${imageFile.absolutePath}")
 
-            _foodScanResult.value = Resource.Loading()
-
-            try {
-                // Pastikan tipe media benar
-                val requestBody = imageFile.asRequestBody("image/jpeg".toMediaTypeOrNull())
-                val filePart = MultipartBody.Part.createFormData(
-                    "file",
-                    imageFile.name,
-                    requestBody
-                )
-
-                Log.d("ScanFoodViewModel", "File details:")
-                Log.d("ScanFoodViewModel", "Name: ${imageFile.name}")
-                Log.d("ScanFoodViewModel", "Size: ${imageFile.length()} bytes")
-                Log.d("ScanFoodViewModel", "Path: ${imageFile.absolutePath}")
-
-                val result = scanFoodRepository.scanFood(token, filePart)
-
-                // Logging response details
-                Log.d("ScanFoodViewModel", "API Result: $result")
-
-                if (result.isSuccess) {
-                    val response = result.getOrNull()
-                    if (response != null) {
-                        Log.d("ScanFoodViewModel", "Full Response: $response")
-                        Log.d("ScanFoodViewModel", "Message: ${response.message}")
-                        Log.d("ScanFoodViewModel", "Result Size: ${response.result.size}")
-
-                        _foodScanResult.value = Resource.Success(response)
-                    } else {
-                        _foodScanResult.value = Resource.Error("Respons kosong atau tidak valid")
-                    }
-                } else {
-                    val errorMessage = result.exceptionOrNull()?.message ?: "Terjadi kesalahan"
-                    Log.e("ScanFoodViewModel", "Error: $errorMessage")
-                    _foodScanResult.value = Resource.Error(errorMessage)
+            // Periksa ukuran file
+            val fileToProcess = if (imageFile.length() > 10 * 1024 * 1024) {
+                compressImageFile(imageFile) ?: run {
+                    _foodScanResult.value = Resource.Error("Gagal mengompresi file.")
+                    return@launch
                 }
-            } catch (e: Exception) {
-                Log.e("ScanFoodViewModel", "Exception: ${e.message}", e)
-                _foodScanResult.value = Resource.Error("Terjadi kesalahan: ${e.localizedMessage}")
+            } else {
+                imageFile
             }
+
+            // Proses upload
+            uploadImage(fileToProcess, token)
+        }
+    }
+
+    private fun compressImageFile(originalFile: File): File? {
+        return try {
+            val bitmap = BitmapFactory.decodeFile(originalFile.absolutePath)
+            val compressedFile = File(originalFile.parent, "compressed_${originalFile.name}")
+
+            FileOutputStream(compressedFile).use { out ->
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 75, out)
+            }
+            compressedFile
+        } catch (e: Exception) {
+            Log.e("ScanFoodViewModel", "Compression error: ${e.message}", e)
+            null
+        }
+    }
+
+    private suspend fun uploadImage(file: File, token: String) {
+        try {
+            val requestBody = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
+            val filePart = MultipartBody.Part.createFormData("file", file.name, requestBody)
+
+            val result = scanFoodRepository.scanFood(token, filePart)
+
+            if (result.isSuccess) {
+                result.getOrNull()?.let {
+                    Log.d("ScanFoodViewModel", "Full Response: $result")
+                    _foodScanResult.value = Resource.Success(it)
+                } ?: run {
+                    _foodScanResult.value = Resource.Error("Respons kosong atau tidak valid")
+                }
+            } else {
+                _foodScanResult.value = Resource.Error(result.exceptionOrNull()?.message ?: "Terjadi kesalahan")
+            }
+        } catch (e: Exception) {
+            Log.e("ScanFoodViewModel", "Upload error: ${e.message}", e)
+            _foodScanResult.value = Resource.Error("Terjadi kesalahan: ${e.localizedMessage}")
         }
     }
 }

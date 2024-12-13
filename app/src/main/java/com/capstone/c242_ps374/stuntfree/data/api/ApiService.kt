@@ -9,7 +9,8 @@ import com.capstone.c242_ps374.stuntfree.data.api.auth.LoginRequest
 import com.capstone.c242_ps374.stuntfree.data.api.auth.LoginResponse
 import com.capstone.c242_ps374.stuntfree.data.api.auth.RegisterRequest
 import com.capstone.c242_ps374.stuntfree.data.api.auth.RegisterResponse
-import com.capstone.c242_ps374.stuntfree.data.api.journaling.SubmitFoodLogData
+import com.capstone.c242_ps374.stuntfree.data.api.get.PredictResponse
+import com.capstone.c242_ps374.stuntfree.data.api.get.TodayResponse
 import com.capstone.c242_ps374.stuntfree.data.api.journaling.SubmitFoodLogResponse
 import com.capstone.c242_ps374.stuntfree.data.api.scan.FoodScanResponse
 import okhttp3.MultipartBody
@@ -56,7 +57,7 @@ interface ApiService {
     suspend fun submitFoodLog(
         @Header("Authorization") token: String,
         @Part file: MultipartBody.Part,
-        @Part("foods") foods: RequestBody
+        @Part ("body") foods: RequestBody
     ): Response<SubmitFoodLogResponse>
 
     @Multipart
@@ -65,4 +66,14 @@ interface ApiService {
         @Header("Authorization") authHeader: String,
         @Part file: MultipartBody.Part
     ): Response<FoodScanResponse>
+
+    @GET("journalling/food/today")
+    suspend fun todayLog(
+        @Header("Authorization") token: String
+    ): Response<TodayResponse>
+
+    @GET("journalling/your-stunting-risk")
+    suspend fun predictStunting(
+        @Header("Authorization") token: String
+    ): Response<PredictResponse>
 }

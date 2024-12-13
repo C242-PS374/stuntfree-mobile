@@ -30,6 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:textSize="16sp"
+            android:maxLines="1"
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="@id/image_event"
             app:layout_constraintStart_toEndOf="@id/image_event"
@@ -38,8 +39,8 @@
 
         <ImageView
             android:id="@+id/image_call"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/image_event"
             android:src="@drawable/ic_call_nearby" />
@@ -49,6 +50,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="12sp"
+            android:maxLines="1"
             app:layout_constraintTop_toBottomOf="@id/text_name"
             app:layout_constraintStart_toStartOf="@id/text_name"
             app:layout_constraintEnd_toStartOf="@id/image_call"
@@ -58,6 +60,7 @@
             android:id="@+id/text_distance"
             android:layout_width="0dp"
             android:textSize="12sp"
+            android:maxLines="1"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/text_spesialis"
             app:layout_constraintStart_toStartOf="@id/text_spesialis"
@@ -70,6 +73,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/primaryLight"
             android:textSize="12sp"
+            android:maxLines="1"
             app:layout_constraintTop_toBottomOf="@id/text_distance"
             app:layout_constraintStart_toStartOf="@id/text_distance"
             app:layout_constraintEnd_toStartOf="@id/image_location"

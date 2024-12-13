@@ -25,11 +25,8 @@ class RecyclerStatusAdapter(private val statusList: List<StatusItem>) : Recycler
 
     inner class StatusViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val tvTitle: TextView = itemView.findViewById(R.id.tvTitle)
-        private val ivStatus: TextView = itemView.findViewById(R.id.iv_status)
         private val tvStuntingStatus: TextView = itemView.findViewById(R.id.tv_stunting_status)
-        private val ivNutrition: TextView = itemView.findViewById(R.id.iv_nutrition)
         private val tvNutritionIntake: TextView = itemView.findViewById(R.id.tv_nutriotion_intake)
-        private val ivEnvi: TextView = itemView.findViewById(R.id.iv_envi)
         private val tvEnvironmentalConditions: TextView = itemView.findViewById(R.id.tv_environmental_conditions)
 
         fun bind(statusItem: StatusItem) {

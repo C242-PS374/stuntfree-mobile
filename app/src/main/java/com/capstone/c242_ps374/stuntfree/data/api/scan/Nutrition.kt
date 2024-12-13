@@ -39,4 +39,45 @@ data class Nutrition(
     @field:SerializedName("natrium") val natrium: Double,
     @field:SerializedName("klor") val klor: Double,
     @field:SerializedName("tembaga") val tembaga: Double
-)
+) {
+    fun toNutritionMap(): Map<String, String> {
+        return mapOf(
+            "Energi" to "$energi kkal",
+            "Protein" to "$protein g",
+            "Lemak Total" to "$lemakTotal g",
+            "Omega-3" to "$omega3 g",
+            "Omega-6" to "$omega6 g",
+            "Karbohidrat" to "$karbohidrat g",
+            "Serat" to "$serat g",
+            "Air" to "$air g",
+            "Vitamin A" to "$vitA µg",
+            "Vitamin D" to "$vitD µg",
+            "Vitamin E" to "$vitE mg",
+            "Vitamin K" to "$vitK µg",
+            "Vitamin B1" to "$vitB1 mg",
+            "Vitamin B2" to "$vitB2 mg",
+            "Vitamin B3" to "$vitB3 mg",
+            "Vitamin B5" to "$vitB5 mg",
+            "Vitamin B6" to "$vitB6 mg",
+            "Folat" to "$folat µg",
+            "Vitamin B12" to "$vitB12 µg",
+            "Biotin" to "$biotin µg",
+            "Kolin" to "$kolin mg",
+            "Vitamin C" to "$vitC mg",
+            "Kalsium" to "$kalsium mg",
+            "Fosfor" to "$fosfor mg",
+            "Magnesium" to "$magnesium mg",
+            "Besi" to "$besi mg",
+            "Iodium" to "$iodium µg",
+            "Seng (Zinc)" to "$seng mg",
+            "Selenium" to "$selenium µg",
+            "Mangan" to "$mangan mg",
+            "Fluor" to "$fluor µg",
+            "Kromium" to "$kromium µg",
+            "Kalium" to "$kalium mg",
+            "Natrium" to "$natrium mg",
+            "Klor" to "$klor mg",
+            "Tembaga" to "$tembaga mg"
+        )
+    }
+}

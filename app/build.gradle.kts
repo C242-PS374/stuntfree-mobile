@@ -65,6 +65,7 @@ dependencies {
 
     implementation(libs.play.services.location)
 
+
     implementation(libs.androidx.paging.runtime)
 
     implementation(libs.androidx.work.runtime.ktx)

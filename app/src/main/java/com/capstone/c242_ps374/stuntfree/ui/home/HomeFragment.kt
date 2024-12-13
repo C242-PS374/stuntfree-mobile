@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.c242_ps374.stuntfree.R
 import com.capstone.c242_ps374.stuntfree.databinding.FragmentHomeBinding
 import com.capstone.c242_ps374.stuntfree.ui.ArticleViewModel
+import com.capstone.c242_ps374.stuntfree.ui.AttachViewModel
 import com.capstone.c242_ps374.stuntfree.ui.adapter.HomeAdapter
 import com.capstone.c242_ps374.stuntfree.ui.adapter.WeekAdapter
 import com.capstone.c242_ps374.stuntfree.ui.AuthViewModel
@@ -31,6 +32,7 @@ class HomeFragment : Fragment() {
     private lateinit var weekAdapter: WeekAdapter
     private lateinit var homeAdapter: HomeAdapter
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,6 +49,7 @@ class HomeFragment : Fragment() {
         setupBinding()
         setupRecyclerStatus()
 
+        serviceViewModel.getTodayDate()
         serviceViewModel.fetchNews()
         serviceViewModel.generateWeekDays()
     }
@@ -118,7 +121,7 @@ class HomeFragment : Fragment() {
         }
 
         serviceViewModel.todayDate.observe(viewLifecycleOwner) { todayDate ->
-            binding.tvTodayDate.text = "Today, $todayDate"
+            binding.tvTodayDate.text = "$todayDate"
         }
     }
 

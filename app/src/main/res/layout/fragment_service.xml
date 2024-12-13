@@ -42,7 +42,7 @@
             app:layout_constraintTop_toBottomOf="@id/tvNameDokter"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:listitem="@layout/item_article"/>
+            tools:listitem="@layout/item_doctor"/>
 
         <TextView
             android:id="@+id/tvNameHealtcare"
@@ -65,7 +65,7 @@
             app:layout_constraintTop_toBottomOf="@id/tvNameHealtcare"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:listitem="@layout/item_article"/>
+            tools:listitem="@layout/item_healtcare"/>
 
         <ProgressBar
             android:id="@+id/progress_bar"

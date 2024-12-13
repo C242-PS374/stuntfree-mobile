@@ -4,5 +4,5 @@ import com.google.gson.annotations.SerializedName
 
 data class SubmitFoodLogResponse(
     @field:SerializedName("message") val message: String?,
-    @field:SerializedName("result") val result: ArrayList<SubmitFoodLog?>
+//    @field:SerializedName("result") val result: List<SubmitFoodLogResult>?
 )

@@ -23,11 +23,14 @@ class FoodGroupAdapter(private val foodData: List<FoodItem>) : RecyclerView.Adap
 
     override fun onBindViewHolder(holder: FoodGroupViewHolder, position: Int) {
         val foodItem = foodData[position]
-        holder.groupName.text = foodItem.name
+        holder.groupName.text = "${foodItem.name} (Qty: ${foodItem.qty})"
 
         val nutrientAdapter = FoodNutrientAdapter(foodItem.nutrition)
-        holder.nutrientList.layoutManager = GridLayoutManager(holder.itemView.context, 3) // Grid dengan 3 kolom
-        holder.nutrientList.adapter = nutrientAdapter
+        holder.nutrientList.apply {
+            layoutManager = GridLayoutManager(context, 4)
+            adapter = nutrientAdapter
+            setHasFixedSize(true)
+        }
     }
 
     override fun getItemCount() = foodData.size

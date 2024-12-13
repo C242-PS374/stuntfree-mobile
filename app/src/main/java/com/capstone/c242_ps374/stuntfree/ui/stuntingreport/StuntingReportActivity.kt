@@ -1,20 +1,33 @@
 package com.capstone.c242_ps374.stuntfree.ui.stuntingreport
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.CalendarView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.capstone.c242_ps374.stuntfree.R
 import com.capstone.c242_ps374.stuntfree.databinding.ActivityCameraBinding
 import com.capstone.c242_ps374.stuntfree.databinding.ActivityStuntingReportBinding
+import com.capstone.c242_ps374.stuntfree.ui.ArticleViewModel
+import com.capstone.c242_ps374.stuntfree.ui.AttachViewModel
+import com.capstone.c242_ps374.stuntfree.ui.utils.Resource
+import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
 
+@AndroidEntryPoint
 class StuntingReportActivity : AppCompatActivity() {
     private lateinit var binding: ActivityStuntingReportBinding
+
+    private val attachViewModel: AttachViewModel by viewModels()
+    private val articleViewModel: ArticleViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +56,23 @@ class StuntingReportActivity : AppCompatActivity() {
 
         binding.backButton.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
+        }
+
+        observeData()
+
+        attachViewModel.predictStunting()
+        articleViewModel.getToday()
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun observeData() {
+        attachViewModel.predictStuntingResponse.observe(this) { resource ->
+            val profile = resource.data
+            binding.tvNutriotionIntake.text = "${profile?.result}"
+        }
+
+        articleViewModel.todayDate1.observe(this) { resource ->
+            binding.tvTitle.text = "Day - $resource"
         }
     }
 }
