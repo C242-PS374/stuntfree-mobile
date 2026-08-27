@@ -17,11 +17,6 @@
         android:title="@string/title_service" />
 
     <item
-        android:id="@+id/navigation_forum"
-        android:icon="@drawable/forum"
-        android:title="@string/title_forum" />
-
-    <item
         android:id="@+id/navigation_profile"
         android:icon="@drawable/profile"
         android:title="@string/title_profile" />

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/selectTypeFragment">
+
+    <fragment
+        android:id="@+id/selectTypeFragment"
+        android:name="com.capstone.c242_ps374.stuntfree.ui.home.HomeFragment"
+        android:label="Choose The type">
+        <action
+            android:id="@+id/action_to_pregnancy"
+            app:destination="@id/pregnancyQuestionnaireFragment" />
+        <action
+            android:id="@+id/action_to_child"
+            app:destination="@id/newBornQuestionnaireFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/pregnancyQuestionnaireFragment"
+        android:name="com.capstone.c242_ps374.stuntfree.ui.home.HomeFragment"
+        android:label="Pregnancy Quiz" />
+
+    <fragment
+        android:id="@+id/newBornQuestionnaireFragment"
+        android:name="com.capstone.c242_ps374.stuntfree.ui.home.HomeFragment"
+        android:label="New Born Quiz" />
+</navigation>
